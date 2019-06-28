@@ -1,7 +1,7 @@
 import {
   ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
-} from './Interfaces.ts';
-import cloneDeep from './cloneDeep.ts';
+} from './Interfaces';
+import cloneDeep from './cloneDeep';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
@@ -13,6 +13,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   title: string;
   props: PropInt[];
   } = component;
+
+  console.log('this is the component', component);
 
   function typeSwitcher(type: string) {
     switch (type) {

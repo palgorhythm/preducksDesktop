@@ -1,4 +1,4 @@
-import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces.ts';
+import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
 
 import {
   LOAD_INIT_DATA,
