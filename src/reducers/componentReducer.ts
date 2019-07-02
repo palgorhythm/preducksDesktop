@@ -61,6 +61,8 @@ const appComponent: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
+  // selections (array of things to grab from state with useSelector) 
+  // dispatches (array of actions user wants to dispatch. these will be imported. if not empty, usedispatch will be imported and called too)
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -95,6 +97,11 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false,
 };
 
+// add into reducer:
+// ADD_SELECTORS
+// ADD_DISPATCH
+// DELETE_SELECTOR
+// DELETE_DISPATCH
 const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:

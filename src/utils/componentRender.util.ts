@@ -8,10 +8,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     childrenArray,
     title,
     props,
+    // selections,
+    // actions
   }: {
   childrenArray: ChildrenInt;
   title: string;
   props: PropInt[];
+  // selections [] (what type are these?),
+  // dispatches
   } = component;
 
   function typeSwitcher(type: string) {
@@ -108,6 +112,24 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
     }
 
+    ${/*
+      do we put this part inside of the function or outside??
+      
+      ${if selectors.length {
+        selectors.reduce((acc, selector) => {
+          return `${acc}
+          const ${name} = useSelector(state => state.${name})
+          `
+        });
+      }}
+
+      // also import the actions from the actions array at the top
+      ${if actions.length {
+        const dispatch = useDispatch();
+      }}
+
+      ${}
+    */}
     const ${title} = (props: Props) => {
       const {${props.map(el => el.key).join(',\n')}} = props
       

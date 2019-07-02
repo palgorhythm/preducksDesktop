@@ -38,6 +38,8 @@ export interface ComponentInt {
   childrenArray: ChildInt[];
   nextChildId: number;
   focusChildId: number;
+  // SELECTORS: [] what type are both of these?
+  // ACTIONS: []
 }
 
 export interface ComponentsInt extends Array<ComponentInt> {}
