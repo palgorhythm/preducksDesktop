@@ -1,10 +1,11 @@
+// add util functions for addSelector, deleteSelector, addAction, deleteAction
+
 import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
 import { getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep';
 import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './Interfaces';
 
-// ALSO CHANGE INTERFACE
 const initialComponentState: ComponentInt = {
   id: 0,
   stateful: false,
@@ -21,8 +22,8 @@ const initialComponentState: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  // selections: [], (will be filled with pieces of the store to select)
-  // dispatches: [] (will be filled with actions to import. if not empty, also import useDispatch)
+  selectors: [],
+  actions: []
 };
 
 export const addComponent = (state: ApplicationStateInt, { title }: { title: string }) => {

@@ -1,3 +1,5 @@
+// add addSelector, deleteSelector, addAction, deleteAction actions
+
 import {
   ComponentInt, ComponentsInt, PropInt, ChildInt,
 } from '../utils/Interfaces';

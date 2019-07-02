@@ -1,3 +1,5 @@
+// add new action types ADD_SELECTOR, DELETE_SELECTOR, ADD_ACTION, DELETE_ACTION
+
 export const LOAD_INIT_DATA = 'LOAD_INIT_DATA';
 export const ADD_COMPONENT = 'ADD_COMPONENT';
 export const ADD_CHILD = 'ADD_CHILD';

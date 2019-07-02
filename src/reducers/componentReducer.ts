@@ -61,8 +61,8 @@ const appComponent: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  // selections (array of things to grab from state with useSelector) 
-  // dispatches (array of actions user wants to dispatch. these will be imported. if not empty, usedispatch will be imported and called too)
+  selectors: [],
+  actions: []
 };
 
 const initialApplicationFocusChild: ChildInt = {
