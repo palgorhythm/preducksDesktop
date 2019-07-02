@@ -1,5 +1,3 @@
-// add util functions for addSelector, deleteSelector, addAction, deleteAction
-
 import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
 import { getSize } from './htmlElements.util';
@@ -545,3 +543,39 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
     focusComponent: modifiedComponent,
   };
 };
+
+export const addSelector = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let selectors = [...view.selectors, payload];
+  return {
+    ...state,
+    selectors
+  }
+}
+
+export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let selectors = [...view.selectors].filter(selector => selector !== payload);
+  return {
+    ...state,
+    selectors
+  }
+}
+
+export const addActionToComponent = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let actions = [...view.actions, payload];
+  return {
+    ...state,
+    actions
+  }
+}
+
+export const deleteActionFromComponent = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let actions = [...view.actions].filter(action => action !== 'payload');
+  return {
+    ...state,
+    actions
+  }
+}
