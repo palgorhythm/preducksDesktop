@@ -42,8 +42,8 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
-} from '../utils/componentReducer.util.ts';
-import cloneDeep from '../utils/cloneDeep.ts';
+} from '../utils/componentReducer.util';
+import cloneDeep from '../utils/cloneDeep';
 
 const appComponent: ComponentInt = {
   id: 1,

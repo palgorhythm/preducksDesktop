@@ -1,4 +1,5 @@
 import fs from 'fs';
+import { createIndexTsx, createActions, createReducers } from './createReduxSetup';
 
 function createIndexHtml(path, appName) {
   let dir = path;
@@ -24,7 +25,7 @@ function createIndexHtml(path, appName) {
 <html>
   <head>
     <meta charset="UTF-8" />
-    <title>ReacType App</title>
+    <title>preducks app</title>
   </head>
   <body>
     <div id="root"></div>
@@ -32,7 +33,7 @@ function createIndexHtml(path, appName) {
   </body>
 </html>
   `;
-  fs.writeFileSync(filePath, data, err => {
+  fs.writeFileSync(filePath, data, (err) => {
     if (err) {
       console.log('index.html error:', err.message);
     } else {
@@ -41,25 +42,7 @@ function createIndexHtml(path, appName) {
   });
 }
 
-export const createIndexTsx = (path, appName) => {
-  const filePath = `${path}/${appName}/src/index.tsx`;
-  const data = `
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './components/App';
-
-ReactDOM.render(<App />, document.getElementById('root'));
-  `;
-  fs.writeFile(filePath, data, err => {
-    if (err) {
-      console.log('index.tsx error:', err.message);
-    } else {
-      console.log('index.tsx written successfully');
-    }
-  });
-};
-
-export const createPackage = (path, appName) => {
+const createPackage = (path, appName) => {
   const filePath = `${path}/${appName}/package.json`;
   const data = `
 {
@@ -82,12 +65,16 @@ export const createPackage = (path, appName) => {
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "webpack": "^4.29.6",
     "@types/react": "^16.8.13",
     "@types/react-dom": "^16.8.4",
+    "@types/react-redux": "^7.1.0",
     "express": "^4.16.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "webpack": "^4.29.6"
+    "react-redux": "^7.1.0",
+    "redux": "^4.0.1",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.4.3",
@@ -115,7 +102,7 @@ export const createPackage = (path, appName) => {
   }
 }  
   `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('package.json error:', err.message);
     } else {
@@ -124,7 +111,7 @@ export const createPackage = (path, appName) => {
   });
 };
 
-export const createWebpack = (path, appName) => {
+const createWebpack = (path, appName) => {
   const filePath = `${path}/${appName}/webpack.config.js`;
   const data = `
 var status = process.env.NODE_ENV; //taken from script so we don't have to flip mode when using development/production
@@ -168,7 +155,7 @@ module.exports = {
   },
 };
   `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('webpack error:', err.message);
     } else {
@@ -177,14 +164,14 @@ module.exports = {
   });
 };
 
-export const createBabel = (path, appName) => {
+const createBabel = (path, appName) => {
   const filePath = `${path}/${appName}/.babelrc`;
   const data = `
 {
   "presets": ["@babel/env", "@babel/react", "@babel/typescript"]
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('babelrc error:', err.message);
     } else {
@@ -193,14 +180,14 @@ export const createBabel = (path, appName) => {
   });
 };
 
-export const createTsConfig = (path, appName) => {
+const createTsConfig = (path, appName) => {
   const filePath = `${path}/${appName}/tsconfig.json`;
   const data = `
 {
   "compilerOptions": {
     "outDir": "./dist/",
     "sourceMap": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "commonjs",
     "target": "es6",
     "jsx": "react",
@@ -209,7 +196,7 @@ export const createTsConfig = (path, appName) => {
   "include": ["./src/**/*"]
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('TSConfig error:', err.message);
     } else {
@@ -218,7 +205,7 @@ export const createTsConfig = (path, appName) => {
   });
 };
 
-export const createTsLint = (path, appName) => {
+const createTsLint = (path, appName) => {
   const filePath = `${path}/${appName}/tslint.json`;
   const data = `
 {
@@ -241,7 +228,7 @@ export const createTsLint = (path, appName) => {
   }
 }
 `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('TSLint error:', err.message);
     } else {
@@ -250,7 +237,7 @@ export const createTsLint = (path, appName) => {
   });
 };
 
-export const createServer = (path, appName) => {
+const createServer = (path, appName) => {
   const filePath = `${path}/${appName}/server/server.js`;
   const data = `
 const express = require('express');
@@ -272,7 +259,7 @@ app.listen(8080, () => {
   console.log('listening on port 8080');
 }); //listens on port 8080 -> http://localhost:8080/
 `;
-  fs.writeFile(filePath, data, err => {
+  fs.writeFile(filePath, data, (err) => {
     if (err) {
       console.log('server file error:', err.message);
     } else {
@@ -286,12 +273,13 @@ async function createApplicationUtil({
   appName,
   genOption,
 }: {
-  path: string;
-  appName: string;
-  genOption: number;
+path: string;
+appName: string;
+genOption: number;
 }) {
   if (genOption === 1) {
     await createIndexHtml(path, appName);
+    // all of the redux stuff goes here.
     await createIndexTsx(path, appName);
     await createPackage(path, appName);
     await createWebpack(path, appName);
