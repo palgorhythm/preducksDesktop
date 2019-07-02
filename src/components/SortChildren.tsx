@@ -1,9 +1,7 @@
-'use strict';
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { updateChildrenSort } from '../actions/components.ts';
-import cloneDeep from '../utils/cloneDeep.ts';
+import { updateChildrenSort } from '../actions/components';
+import cloneDeep from '../utils/cloneDeep';
 
 const mapStateToProps = store => ({
   focusComponent: store.workspace.focusComponent,
@@ -39,7 +37,7 @@ class SortChildren extends Component {
     e.dataTransfer.setDragImage(e.target.parentNode, 20, 20);
   };
 
-  onDragOver = idx => {
+  onDragOver = (idx) => {
     this.setState({ draggedOverIndex: idx });
   };
 
@@ -102,8 +100,7 @@ class SortChildren extends Component {
             draggable
             onDragStart={e => this.onDragStart(e, idx)}
             onDragOver={e => this.onDragOver(idx)}
-            onDragEnd={e => this.onDragEnd()}
-          >
+            onDragEnd={e => this.onDragEnd()}>
             {child.componentName + child.childId}
           </div>
         </li>
@@ -116,8 +113,7 @@ class SortChildren extends Component {
           float: 'left',
           marginTop: '20px',
           marginRIght: '20px',
-        }}
-      >
+        }}>
         <h3>Childrens List</h3>
         <ul style={ulStyle}>
           {cloneDeep(this.props.focusComponent.childrenArray)
@@ -129,8 +125,7 @@ class SortChildren extends Component {
                   draggable
                   onDragStart={e => this.onDragStart(e, idx)}
                   onDragOver={e => this.onDragOver(idx)}
-                  onDragEnd={e => this.onDragEnd()}
-                >
+                  onDragEnd={e => this.onDragEnd()}>
                   {child.componentName + child.childId}
                 </div>
               </li>

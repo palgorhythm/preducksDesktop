@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { format } from 'prettier';
-import componentRender from './componentRender.util.ts';
+import componentRender from './componentRender.util';
 
 const createFiles = (components: any, path: string, appName: string, exportAppBool: boolean) => {
   let dir = path;
