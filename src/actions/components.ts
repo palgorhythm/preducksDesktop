@@ -1,6 +1,6 @@
 import {
   ComponentInt, ComponentsInt, PropInt, ChildInt,
-} from '../utils/Interfaces.ts';
+} from '../utils/Interfaces';
 
 import {
   LOAD_INIT_DATA,
@@ -28,8 +28,8 @@ import {
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
-import createFiles from '../utils/createFiles.util.ts';
-import createApplicationUtil from '../utils/createApplication.util.ts';
+import createFiles from '../utils/createFiles.util';
+import createApplicationUtil from '../utils/createApplication.util';
 
 export const loadInitData = () => (dispatch: any) => {
   loadState().then((data: any) => dispatch({

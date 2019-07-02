@@ -1,8 +1,8 @@
-import getSelectable from './getSelectable.util.ts';
-import getColor from './colors.util.ts';
-import { getSize } from './htmlElements.util.ts';
-import cloneDeep from './cloneDeep.ts';
-import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './Interfaces.ts';
+import getSelectable from './getSelectable.util';
+import getColor from './colors.util';
+import { getSize } from './htmlElements.util';
+import cloneDeep from './cloneDeep';
+import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './Interfaces';
 
 // ALSO CHANGE INTERFACE
 const initialComponentState: ComponentInt = {

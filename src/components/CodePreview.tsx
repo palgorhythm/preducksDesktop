@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
-import componentRender from '../utils/componentRender.util.ts';
-import { ComponentInt, ComponentsInt } from '../utils/Interfaces.ts';
-/** **   SortCHildren will be fixed , dont XXX the file  *** */
-// import SortChildren from './SortChildren.jsx';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { hybrid } from 'react-syntax-highlighter/dist/styles/hljs/';
+import componentRender from '../utils/componentRender.util';
+import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
+/** **   SortCHildren will be fixed , dont XXX the file  *** */
+// import SortChildren from './SortChildren.jsx';
 
 type Props = {
   focusComponent: ComponentInt;
@@ -22,9 +22,8 @@ class CodePreview extends Component<Props> {
         style={{
           height: '290px',
           paddingLeft: '30px',
-          overflow: 'auto'
-        }}
-      >
+          overflow: 'auto',
+        }}>
         <SyntaxHighlighter style={hybrid}>
           {format(componentRender(focusComponent, components))}
         </SyntaxHighlighter>

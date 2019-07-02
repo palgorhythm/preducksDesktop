@@ -1,4 +1,4 @@
-import { ComponentInt, ComponentsInt, ChildInt } from './interfaces.ts';
+import { ComponentInt, ComponentsInt, ChildInt } from './interfaces';
 
 interface getSelectableInt {
   [key: string]: Array<number>;

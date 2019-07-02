@@ -1,7 +1,11 @@
+import { format } from 'prettier'; // also for testing
 import {
   ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
+
+// testing stuff
+import { dummyComponent, dummyAllComponents } from './dummyData';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
@@ -18,8 +22,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   // dispatches
   } = component;
 
-  console.log('this is the component', component);
-
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -30,12 +32,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         return 'object';
       case 'array':
         return 'any[]';
-      case 'bool':
+      case 'boolean':
         return 'boolean';
       case 'function':
         return '() => any';
-      // case 'symbol':
-      //   return 'string';
       case 'node':
         return 'string';
       case 'element':
@@ -52,6 +52,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   }
 
   function propDrillTextGenerator(child: ChildInt) {
+    // probably don't need this
     if (child.childType === 'COMP') {
       return components
         .find((c: any) => c.id === child.childComponentId)
@@ -72,7 +73,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
       .replace(/[-_\s0-9\W]+/gi, '');
   }
-
   function componentNameGenerator(child: ChildInt) {
     if (child.childType === 'HTML') {
       switch (child.componentName) {
@@ -96,58 +96,45 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
-  return `
-    import React from 'react';
-    ${childrenArray
-    .filter(child => child.childType !== 'HTML')
-    .map(child => `import ${child.componentName} from './${child.componentName}.tsx'`)
-    .reduce((acc: Array<string>, child) => {
-      if (!acc.includes(child)) {
-        acc.push(child);
-        return acc;
-      }
-      return acc;
-    }, [])
-    .join('\n')}
-    
-    type Props = {
-      ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
-    }
+  const importsText = `import React from 'react';
+  ${[
+    ...new Set(
+      childrenArray
+        .filter(child => child.childType !== 'HTML')
+        .map(child => `import ${child.componentName} from './${child.componentName}';`),
+    ),
+  ].join('\n')}\n\n`;
 
-    ${/*
-      do we put this part inside of the function or outside??
-      
-      ${if selectors.length {
-        selectors.reduce((acc, selector) => {
-          return `${acc}
-          const ${name} = useSelector(state => state.${name})
-          `
-        });
-      }}
+  const propsText = `type Props = {
+    ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
+  }\n\n`;
 
-      // also import the actions from the actions array at the top
-      ${if actions.length {
-        const dispatch = useDispatch();
-      }}
-
-      ${}
-    */}
-    const ${title} = (props: Props) => {
-      const {${props.map(el => el.key).join(',\n')}} = props
-      
-      return (
-        <div>
-        ${cloneDeep(childrenArray)
+  const childrenToRender = `<div>
+    ${cloneDeep(childrenArray)
     .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
     .map(
       (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
     )
     .join('\n')}
-        </div>
-      );
-    }
-    export default ${title};
-  `;
+    </div>`;
+
+  const functionalComponentBody = `
+  const ${title} = (props: Props) => {
+    const {${props.map(el => el.key).join(',\n')}} = props
+    return (${childrenToRender});
+  }
+  export default ${title};`;
+
+  return importsText + propsText + functionalComponentBody;
 };
 
+console.log(
+  format(componentRender(dummyComponent, dummyAllComponents), {
+    singleQuote: true,
+    trailingComma: 'es5',
+    bracketSpacing: true,
+    jsxBracketSameLine: true,
+    parser: 'typescript',
+  }),
+);
 export default componentRender;
