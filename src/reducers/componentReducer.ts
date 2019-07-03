@@ -23,6 +23,10 @@ import {
   DELETE_PROP,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
+  ADD_SELECTOR,
+  DELETE_SELECTOR,
+  ADD_ACTION_TO_COMPONENT,
+  DELETE_ACTION_FROM_COMPONENT
 } from '../actionTypes';
 
 import {
@@ -42,6 +46,10 @@ import {
   deleteProp,
   updateHtmlAttr,
   updateChildrenSort,
+  addSelector,
+  deleteSelector,
+  addActionToComponent,
+  deleteActionFromComponent
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -61,8 +69,8 @@ const appComponent: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  // selections (array of things to grab from state with useSelector) 
-  // dispatches (array of actions user wants to dispatch. these will be imported. if not empty, usedispatch will be imported and called too)
+  selectors: [],
+  actions: []
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -97,11 +105,6 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false,
 };
 
-// add into reducer:
-// ADD_SELECTORS
-// ADD_DISPATCH
-// DELETE_SELECTOR
-// DELETE_DISPATCH
 const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
@@ -151,6 +154,14 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return updateHtmlAttr(state, action.payload);
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
+    case ADD_SELECTOR:
+      return addSelector(state, action.payload);
+    case DELETE_SELECTOR:
+      return deleteSelector(state, action.payload);
+    case ADD_ACTION_TO_COMPONENT:
+      return addActionToComponent(state, action.payload);
+    case DELETE_ACTION_FROM_COMPONENT:
+      return deleteActionFromComponent(state, action.payload);
     default:
       return state;
   }

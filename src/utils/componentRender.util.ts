@@ -12,14 +12,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     childrenArray,
     title,
     props,
-    // selections,
-    // actions
+    selectors,
+    actions
   }: {
   childrenArray: ChildrenInt;
   title: string;
   props: PropInt[];
-  // selections [] (what type are these?),
-  // dispatches
+  selectors: string[],
+  actions: string[]
   } = component;
 
   function typeSwitcher(type: string) {
@@ -96,6 +96,17 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
+  let importFromReactReduxText = '';
+  if (selectors.length && actions.length) {
+    importFromReactReduxText = `import {useSelector, useDispatch} from 'react-redux';`;
+  } else if (selectors.length) {
+    importFromReactReduxText = `import {useSelector} from 'react-redux';`
+  } else if (actions.length) {
+    importFromReactReduxText = `import {useDispatch} from 'react-redux';`
+  }
+
+  const actionsToImport = actions.length ? actions.join(', ') : '';
+  
   const importsText = `import React from 'react';
   ${[
     ...new Set(
@@ -103,7 +114,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         .filter(child => child.childType !== 'HTML')
         .map(child => `import ${child.componentName} from './${child.componentName}';`),
     ),
-  ].join('\n')}\n\n`;
+  ].join('\n')}
+  ${importFromReactReduxText}
+  ${actions.length ? 
+  `import {${actionsToImport}} from '../actions';`
+  : ''
+  }
+  \n\n`;
 
   const propsText = `type Props = {
     ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
@@ -118,13 +135,21 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     .join('\n')}
     </div>`;
 
+  const useSelectorCalls = selectors.length ? 
+    selectors.map(selector => {
+      let selectorStrings = selector.split('.');
+      let variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
+      return `let ${variableName} = useSelector(state => state.${selector})`;
+    }).join('\n'): '';
+
   const functionalComponentBody = `
   const ${title} = (props: Props) => {
     const {${props.map(el => el.key).join(',\n')}} = props
+    ${useSelectorCalls}
+    ${actions.length ? `const dispatch = useDispatch();` : ``}
     return (${childrenToRender});
   }
   export default ${title};`;
-
   return importsText + propsText + functionalComponentBody;
 };
 
