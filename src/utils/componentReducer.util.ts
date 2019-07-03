@@ -4,7 +4,6 @@ import { getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep';
 import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt } from './Interfaces';
 
-// ALSO CHANGE INTERFACE
 const initialComponentState: ComponentInt = {
   id: 0,
   stateful: false,
@@ -21,8 +20,8 @@ const initialComponentState: ComponentInt = {
   childrenArray: [],
   nextChildId: 1,
   focusChildId: 0,
-  // selections: [], (will be filled with pieces of the store to select)
-  // dispatches: [] (will be filled with actions to import. if not empty, also import useDispatch)
+  selectors: [],
+  actions: []
 };
 
 export const addComponent = (state: ApplicationStateInt, { title }: { title: string }) => {
@@ -544,3 +543,39 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
     focusComponent: modifiedComponent,
   };
 };
+
+export const addSelector = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let selectors = [...view.selectors, payload];
+  return {
+    ...state,
+    selectors
+  }
+}
+
+export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let selectors = [...view.selectors].filter(selector => selector !== payload);
+  return {
+    ...state,
+    selectors
+  }
+}
+
+export const addActionToComponent = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let actions = [...view.actions, payload];
+  return {
+    ...state,
+    actions
+  }
+}
+
+export const deleteActionFromComponent = (state: ApplicationStateInt, payload: string) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  let actions = [...view.actions].filter(action => action !== 'payload');
+  return {
+    ...state,
+    actions
+  }
+}

@@ -65,6 +65,8 @@ const dummyComponent = {
     htmlElement: 'Image',
     HTMLInfo: {},
   },
+  selectors: ['reducer1.property1', 'reducer2.property2'],
+  actions: ['action1, action2']
 };
 
 const dummyAllComponents = [
@@ -133,6 +135,8 @@ const dummyAllComponents = [
       htmlElement: 'Image',
       HTMLInfo: {},
     },
+    selectors: [],
+    actions: []
   },
   {
     id: 7,
@@ -223,6 +227,8 @@ const dummyAllComponents = [
       htmlElement: null,
       HTMLInfo: {},
     },
+    selectors: [],
+    actions: []
   },
   {
     id: 8,
@@ -248,6 +254,8 @@ const dummyAllComponents = [
     childrenArray: [],
     nextChildId: 1,
     focusChildId: -1,
+    selectors: ['reducer1.property1', 'reducer2.property2', 'reducer3.property3'],
+    actions: ['delet', 'add', 'chaeng']
   },
 ];
 

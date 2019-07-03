@@ -25,6 +25,10 @@ import {
   DELETE_ALL_DATA,
   UPDATE_HTML_ATTR,
   UPDATE_CHILDREN_SORT,
+  ADD_SELECTOR,
+  DELETE_SELECTOR,
+  ADD_ACTION_TO_COMPONENT,
+  DELETE_ACTION_FROM_COMPONENT
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -251,3 +255,23 @@ export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) =>
     payload: { newSortValues },
   });
 };
+
+export const addSelector = (name: string) => ({
+  type: ADD_SELECTOR,
+  payload: name
+});
+
+export const deleteSelector = (name: string) => ({
+  type: DELETE_SELECTOR,
+  payload: name
+});
+
+export const addActionToComponent = (name: string) => ({
+  type: ADD_ACTION_TO_COMPONENT,
+  payload: name
+});
+
+export const deleteActionFromComponent = (name: string) => ({
+  type: DELETE_ACTION_FROM_COMPONENT,
+  payload: name
+});
