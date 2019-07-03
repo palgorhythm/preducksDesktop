@@ -66,7 +66,7 @@ const dummyComponent = {
     HTMLInfo: {},
   },
   selectors: ['reducer1.property1', 'reducer2.property2'],
-  actions: ['action1, action2']
+  actions: ['action1, action2'],
 };
 
 const dummyAllComponents = [
@@ -136,7 +136,7 @@ const dummyAllComponents = [
       HTMLInfo: {},
     },
     selectors: [],
-    actions: []
+    actions: [],
   },
   {
     id: 7,
@@ -228,7 +228,7 @@ const dummyAllComponents = [
       HTMLInfo: {},
     },
     selectors: [],
-    actions: []
+    actions: [],
   },
   {
     id: 8,
@@ -255,7 +255,7 @@ const dummyAllComponents = [
     nextChildId: 1,
     focusChildId: -1,
     selectors: ['reducer1.property1', 'reducer2.property2', 'reducer3.property3'],
-    actions: ['delet', 'add', 'chaeng']
+    actions: ['delet', 'add', 'chaeng'],
   },
 ];
 
@@ -269,7 +269,7 @@ const storeConfigTicTacToe: StoreConfigInterface = {
       },
       actions: {
         toggle: {
-          arg: { type: 'number', array: false },
+          parameter: { type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
@@ -291,7 +291,7 @@ const storeConfigTTTMultiReducer: StoreConfigInterface = {
       },
       actions: {
         toggleBox: {
-          arg: { type: 'number', array: false },
+          parameter: { type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
@@ -309,12 +309,12 @@ const storeConfigTTTMultiReducer: StoreConfigInterface = {
       },
       actions: {
         addPoint: {
-          arg: { type: 'none', array: false },
+          parameter: { type: 'none', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
         fetchHighScores: {
-          arg: { type: 'none', array: false },
+          parameter: { type: 'none', array: false },
           payload: { type: 'boolean', array: false },
           async: true,
         },
@@ -337,12 +337,12 @@ const storeConfigTodo: StoreConfigInterface = {
       },
       actions: {
         fetchTodos: {
-          arg: { type: 'none', array: false },
+          parameter: { type: 'none', array: false },
           payload: { type: 'todo', array: true },
           async: true,
         },
         deleteTodo: {
-          arg: { type: 'number', array: false },
+          parameter: { type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
