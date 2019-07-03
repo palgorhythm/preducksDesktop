@@ -152,5 +152,5 @@ export const createActions = (path: string, appName: string): void => {};
 //   }
 // }
 
-createSharedInterfaces(dummyFilePath, 'yeet', storeConfigTTTMultiReducer);
-createStoresAndActionsForEachReducer(dummyFilePath, 'yeet', storeConfigTTTMultiReducer);
+// createSharedInterfaces(dummyFilePath, 'yeet', storeConfigTTTMultiReducer);
+// createStoresAndActionsForEachReducer(dummyFilePath, 'yeet', storeConfigTTTMultiReducer);
