@@ -1,5 +1,5 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt,
+  ComponentInt, ComponentsInt, PropInt, ChildInt, InterfacesInterface, ReducersInterface
 } from '../utils/Interfaces';
 
 import {
@@ -28,7 +28,11 @@ import {
   ADD_SELECTOR,
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT
+  DELETE_ACTION_FROM_COMPONENT,
+  SET_REDUCER,
+  DELETE_REDUCER,
+  SET_INTERFACE,
+  DELETE_INTERFACE
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -273,5 +277,25 @@ export const addActionToComponent = (name: string) => ({
 
 export const deleteActionFromComponent = (name: string) => ({
   type: DELETE_ACTION_FROM_COMPONENT,
+  payload: name
+});
+
+export const setReducer = (reducer: ReducersInterface) => ({
+  type: SET_REDUCER,
+  payload: reducer
+});
+
+export const deleteReducer = (name: string) => ({
+  type: DELETE_REDUCER,
+  payload: name
+});
+
+export const setInterface = (userInterface: InterfacesInterface) => ({
+  type: SET_INTERFACE,
+  payload: userInterface
+});
+
+export const deleteInterface = (name: string) => ({
+  type: DELETE_INTERFACE,
   payload: name
 });
