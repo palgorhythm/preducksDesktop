@@ -269,7 +269,7 @@ const storeConfigTicTacToe: StoreConfigInterface = {
       },
       actions: {
         toggle: {
-          parameter: { type: 'number', array: false },
+          parameter: { name: 'boxId', type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
@@ -291,7 +291,7 @@ const storeConfigTTTMultiReducer: StoreConfigInterface = {
       },
       actions: {
         toggleBox: {
-          parameter: { type: 'number', array: false },
+          parameter: { name: 'boxId', type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
@@ -309,12 +309,12 @@ const storeConfigTTTMultiReducer: StoreConfigInterface = {
       },
       actions: {
         addPoint: {
-          parameter: { type: 'none', array: false },
+          parameter: { name: 'none', type: 'none', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
         fetchHighScores: {
-          parameter: { type: 'none', array: false },
+          parameter: { name: 'none', type: 'none', array: false },
           payload: { type: 'boolean', array: false },
           async: true,
         },
@@ -337,12 +337,12 @@ const storeConfigTodo: StoreConfigInterface = {
       },
       actions: {
         fetchTodos: {
-          parameter: { type: 'none', array: false },
+          parameter: { name: 'none', type: 'none', array: false },
           payload: { type: 'todo', array: true },
           async: true,
         },
         deleteTodo: {
-          parameter: { type: 'number', array: false },
+          parameter: { name: 'id', type: 'number', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },

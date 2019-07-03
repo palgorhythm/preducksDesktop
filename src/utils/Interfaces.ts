@@ -61,7 +61,7 @@ export interface ApplicationStateInt {
 }
 
 export interface ActionConfigInterface {
-  parameter: { type: string; array: boolean };
+  parameter: { name: string; type: string; array: boolean };
   payload: { type: string; array: boolean };
   async: boolean;
 }

@@ -66,22 +66,27 @@ export const createStoresAndActionsForEachReducer = (
     const actions = Object.keys(storeConfig.reducers[reducer].actions); // action names in a list
 
     let actionInterfacesText = '';
+    const actionCreatorsText = '';
     const actionNamesWithActionAppended = [];
     actions.forEach((actionName, i) => {
+      const curActionObj = storeConfig.reducers[reducer].actions[actionName];
       const interfaceName = `${actionName}Action`;
       actionNamesWithActionAppended.push(interfaceName);
 
       // add an action interface
-      const payloadType = storeConfig.reducers[reducer].actions[actionName].payload.type;
+      const payloadType = curActionObj.payload.type;
       const curActionInterface = `export interface ${interfaceName} {\n
         type: ${reducer}ActionTypes.${actionName};
         payload: ${payloadType};
       }\n\n`;
       actionInterfacesText += curActionInterface;
+
+      // add boilerplate for this action creator function
+      const curActionCreator = `export const ${actionName} = ()`;
     });
 
     // import all shared interfaces
-    const actionTypesImportText = `import {${Object.keys(
+    const interfacesImportText = `import {${Object.keys(
       storeConfig.interfaces,
     ).toString()}} from '../Interfaces';\n\n`;
     // exoirt an enum with all actions
@@ -89,7 +94,7 @@ export const createStoresAndActionsForEachReducer = (
     const typeGuardText = `export type Action = ${actionNamesWithActionAppended.join('|')};\n\n`;
     fs.writeFileSync(
       actionTypesFile,
-      format(actionTypesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText, {
+      format(interfacesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText, {
         parser: 'typescript',
       }),
     );
@@ -97,9 +102,17 @@ export const createStoresAndActionsForEachReducer = (
     // ///// ACTIONS STUFF /////////////////////////////
 
     const actionsFile: string = `${path}${appName}/src/actions/${reducer}Actions.ts`;
-    const actionsImportsText = `import {Dispatch} from 'redux';
+    // import dispatch, import the action types enum, and import ALL action interfaces
+    const actionsImportText = `import {Dispatch} from 'redux';
     import {${reducer}ActionTypes, ${actionNamesWithActionAppended.join(',')}} 
-    from ${reducer}ActionTypes.ts`;
+    from ${reducer}ActionTypes.ts\n`;
+
+    fs.writeFileSync(
+      actionsFile,
+      format(actionsImportText + interfacesImportText, {
+        parser: 'typescript',
+      }),
+    );
 
     // next, we set up interfaces for the store
     const reducerFile: string = `${path}${appName}/src/reducers/${reducer}Reducer.ts`;
