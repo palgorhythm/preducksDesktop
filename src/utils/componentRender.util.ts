@@ -116,7 +116,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ),
   ].join('\n')}
   ${importFromReactReduxText}
-  import {${actionsToImport}} from '../actions';
+  ${actions.length ? 
+  `import {${actionsToImport}} from '../actions';`
+  : ''
+  }
   \n\n`;
 
   const propsText = `type Props = {
@@ -134,7 +137,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const useSelectorCalls = selectors.length ? 
     selectors.map(selector => {
-      return `const ${selector.split('.')[1]} = useSelector(state => state.${selector})`;
+      let selectorStrings = selector.split('.');
+      let variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
+      return `let ${variableName} = useSelector(state => state.${selector})`;
     }).join('\n'): '';
 
   const functionalComponentBody = `
@@ -145,7 +150,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     return (${childrenToRender});
   }
   export default ${title};`;
-
   return importsText + propsText + functionalComponentBody;
 };
 
