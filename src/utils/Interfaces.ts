@@ -57,6 +57,7 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
+  storeConfig: StoreConfigInterface;
 }
 
 export interface ActionConfigInterface {
