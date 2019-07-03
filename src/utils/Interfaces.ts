@@ -58,3 +58,24 @@ export interface ApplicationStateInt {
   appDir: string;
   loading: boolean;
 }
+
+export interface ActionConfigInterface {
+  arg: { type: string; array: boolean };
+  payload: { type: string; array: boolean };
+  async: boolean;
+}
+
+export interface StateConfigInterface {
+  type: string;
+  array: boolean;
+  initialValue: any;
+}
+export interface StoreConfigInterface {
+  interfaces: { [key: string]: { [key: string]: string } };
+  reducers: {
+    [key: string]: {
+      store: { [key: string]: StateConfigInterface };
+      actions: { [key: string]: ActionConfigInterface };
+    };
+  };
+}

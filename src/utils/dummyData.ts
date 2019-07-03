@@ -1,3 +1,5 @@
+import { StoreConfigInterface } from './Interfaces';
+
 const dummyComponent = {
   id: 1,
   stateful: false,
@@ -257,52 +259,102 @@ const dummyAllComponents = [
   },
 ];
 
-const storeConfigTicTacToe = {
-  store: {
+const storeConfigTicTacToe: StoreConfigInterface = {
+  interfaces: {},
+  reducers: {
     game: {
-      boxVals: { type: 'string', array: true, initialValue: ['', '', '', '', '', '', '', ''] },
-      isGameOver: { type: 'boolean', array: false },
+      store: {
+        boxVals: { type: 'string', array: true, initialValue: ['', '', '', '', '', '', '', ''] },
+        isGameOver: { type: 'boolean', array: false, initialValue: false },
+      },
+      actions: {
+        toggle: {
+          arg: { type: 'number', array: false },
+          payload: { type: 'number', array: false },
+          async: false,
+        },
+      },
     },
   },
-  actions: {
+};
+
+const storeConfigTTTMultiReducer: StoreConfigInterface = {
+  interfaces: {
+    user: { name: 'string', password: 'string' },
+    userAndHiScore: { user: 'user', hiScore: 'number' },
+  },
+  reducers: {
     game: {
-      toggle: {
-        arg: { type: 'number', array: false },
-        payload: { type: 'number', array: false },
-        async: false,
+      store: {
+        boxVals: { type: 'string', array: true, initialValue: ['', '', '', '', '', '', '', ''] },
+        isGameOver: { type: 'boolean', array: false, initialValue: false },
+      },
+      actions: {
+        toggleBox: {
+          arg: { type: 'number', array: false },
+          payload: { type: 'number', array: false },
+          async: false,
+        },
+      },
+    },
+    user: {
+      store: {
+        otherUsers: {
+          type: 'user',
+          array: true,
+          initialValue: [{ name: 'bob', password: 'dole' }],
+        },
+        name: { type: 'string', array: false, initialValue: 'dan' },
+        score: { type: 'number', array: false, initialValue: 12 },
+      },
+      actions: {
+        addPoint: {
+          arg: { type: 'none', array: false },
+          payload: { type: 'number', array: false },
+          async: false,
+        },
+        fetchHighScores: {
+          arg: { type: 'none', array: false },
+          payload: { type: 'boolean', array: false },
+          async: true,
+        },
       },
     },
   },
 };
 
 // example for todo app
-const storeConfigTodo = {
+const storeConfigTodo: StoreConfigInterface = {
   // config at the global level for redux store/actions
   interfaces: {
     todo: { id: 'number', title: 'string', completed: 'boolean' },
   },
-  store: {
+  reducers: {
     todos: {
-      todoArray: { type: 'todo', array: true, initialValue: [] },
-      allCompleted: { type: 'boolean', array: false, initialValue: false },
-    },
-  },
-  actions: {
-    todos: {
-      fetchTodos: {
-        arg: { type: null, array: false },
-        payload: { type: 'todo', array: true },
-        async: true,
+      store: {
+        todoArray: { type: 'todo', array: true, initialValue: [] },
+        allCompleted: { type: 'boolean', array: false, initialValue: false },
       },
-      deleteTodo: {
-        arg: { type: 'number', array: false },
-        payload: { type: 'number', array: false },
-        async: false,
+      actions: {
+        fetchTodos: {
+          arg: { type: 'none', array: false },
+          payload: { type: 'todo', array: true },
+          async: true,
+        },
+        deleteTodo: {
+          arg: { type: 'number', array: false },
+          payload: { type: 'number', array: false },
+          async: false,
+        },
       },
     },
   },
 };
 
 module.exports = {
-  dummyComponent, dummyAllComponents, storeConfigTicTacToe, storeConfigTodo,
+  dummyComponent,
+  dummyAllComponents,
+  storeConfigTTTMultiReducer,
+  storeConfigTicTacToe,
+  storeConfigTodo,
 };
