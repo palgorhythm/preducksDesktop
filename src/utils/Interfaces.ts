@@ -57,6 +57,7 @@ export interface ApplicationStateInt {
   components: ComponentsInt;
   appDir: string;
   loading: boolean;
+  storeConfig: StoreConfigInterface;
 }
 
 export interface ActionConfigInterface {
@@ -70,12 +71,19 @@ export interface StateConfigInterface {
   array: boolean;
   initialValue: any;
 }
-export interface StoreConfigInterface {
-  interfaces: { [key: string]: { [key: string]: string } };
-  reducers: {
-    [key: string]: {
-      store: { [key: string]: StateConfigInterface };
-      actions: { [key: string]: ActionConfigInterface };
-    };
+
+export interface InterfacesInterface {
+  [key: string]: { [key: string]: string };
+}
+
+export interface ReducersInterface {
+  [key: string]: {
+    store: { [key: string]: StateConfigInterface };
+    actions: { [key: string]: ActionConfigInterface };
   };
+}
+
+export interface StoreConfigInterface {
+  interfaces: InterfacesInterface;
+  reducers: ReducersInterface;
 }

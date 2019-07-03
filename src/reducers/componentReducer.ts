@@ -26,7 +26,11 @@ import {
   ADD_SELECTOR,
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT
+  DELETE_ACTION_FROM_COMPONENT,
+  SET_REDUCER,
+  DELETE_REDUCER,
+  SET_INTERFACE,
+  DELETE_INTERFACE
 } from '../actionTypes';
 
 import {
@@ -49,7 +53,11 @@ import {
   addSelector,
   deleteSelector,
   addActionToComponent,
-  deleteActionFromComponent
+  deleteActionFromComponent,
+  setReducer,
+  deleteReducer,
+  setInterface,
+  deleteInterface
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -103,6 +111,10 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
+  storeConfig: {
+    interfaces: {},
+    reducers: {}
+  }
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -162,6 +174,14 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return addActionToComponent(state, action.payload);
     case DELETE_ACTION_FROM_COMPONENT:
       return deleteActionFromComponent(state, action.payload);
+    case SET_REDUCER:
+        return setReducer(state, action.payload);
+    case DELETE_REDUCER:
+        return deleteReducer(state, action.payload);
+    case SET_INTERFACE:
+        return setInterface(state, action.payload);
+    case DELETE_INTERFACE:
+        return deleteInterface(state, action.payload);
     default:
       return state;
   }
