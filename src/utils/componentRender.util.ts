@@ -12,9 +12,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     childrenArray,
     title,
     props,
-    // selections,
-    // actions
-  }: {
+  }: // selections,
+  // actions
+  {
   childrenArray: ChildrenInt;
   title: string;
   props: PropInt[];
