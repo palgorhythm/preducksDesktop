@@ -32,7 +32,7 @@ import {
   RENAME_REDUCER,
   SET_INTERFACE,
   DELETE_INTERFACE,
-  RENAME_INTERFACE
+  RENAME_INTERFACE,
 } from '../actionTypes';
 
 import {
@@ -61,7 +61,7 @@ import {
   renameReducer,
   setInterface,
   deleteInterface,
-  renameInterface
+  renameInterface,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -82,7 +82,7 @@ const appComponent: ComponentInt = {
   nextChildId: 1,
   focusChildId: 0,
   selectors: [],
-  actions: []
+  actions: [],
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -117,8 +117,8 @@ const initialApplicationState: ApplicationStateInt = {
   loading: false,
   storeConfig: {
     interfaces: {},
-    reducers: {}
-  }
+    reducers: {},
+  },
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {

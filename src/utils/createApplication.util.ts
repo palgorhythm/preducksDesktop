@@ -1,27 +1,29 @@
-import { createActions, createReducers } from './createReduxSetup.util';
+import { createReduxFiles } from './createReduxFiles.util';
+import { StoreConfigInterface } from './Interfaces';
 
 const fs = require('fs');
 
 function createFolders(path, appName) {
   const dir = path;
-  if (!fs.existsSync(`${dir}${appName}`)) {
-    fs.mkdirSync(`${dir}${appName}`); // make folder for whole app
-    fs.mkdirSync(`${dir}${appName}/src`); // make src folder
-    fs.mkdirSync(`${dir}${appName}/server`); // make server folder
-    fs.mkdirSync(`${dir}${appName}/src/components`); // make components folder
-    fs.mkdirSync(`${dir}${appName}/src/reducers`);
-    fs.mkdirSync(`${dir}${appName}/src/actions`);
+  console.log('this is the dir', `${dir}${appName}`);
+  if (!fs.existsSync(`${dir}/${appName}`)) {
+    fs.mkdirSync(`${dir}/${appName}`); // make folder for whole app
+    fs.mkdirSync(`${dir}/${appName}/src`); // make src folder
+    fs.mkdirSync(`${dir}/${appName}/server`); // make server folder
+    fs.mkdirSync(`${dir}/${appName}/src/components`); // make components folder
+    fs.mkdirSync(`${dir}/${appName}/src/reducers`);
+    fs.mkdirSync(`${dir}/${appName}/src/actions`);
   }
 
   // if (!dir.match(/`${appName}`|\*$/)) {
   //   dir = `${dir}/${appName}`;
   //   if (!fs.existsSync(dir)) {
   //     fs.mkdirSync(dir);
-  //     dirSrc = `${dir}/src`;
+  //     const dirSrc = `${dir}/src`;
   //     fs.mkdirSync(dirSrc);
-  //     dirServer = `${dir}/server`;
+  //     const dirServer = `${dir}/server`;
   //     fs.mkdirSync(dirServer);
-  //     dirComponent = `${dirSrc}/components`;
+  //     const dirComponent = `${dirSrc}/components`;
   //     fs.mkdirSync(dirComponent);
   //   }
   // }
@@ -29,7 +31,7 @@ function createFolders(path, appName) {
 
 function createIndexHtml(path, appName) {
   const dir = path;
-  const filePath: string = `${dir}${appName}/index.html`;
+  const filePath: string = `${dir}/${appName}/index.html`;
   const data: string = `
 <!DOCTYPE html>
 <html>
@@ -300,14 +302,17 @@ async function createApplicationUtil({
   path,
   appName,
   genOption,
+  storeConfig,
 }: {
 path: string;
 appName: string;
 genOption: number;
+storeConfig: StoreConfigInterface;
 }) {
   if (genOption === 1) {
     await createFolders(path, appName);
     await createIndexHtml(path, appName);
+    await createReduxFiles(path, appName, storeConfig);
     // all of the redux stuff goes here.
     await createIndexTsx(path, appName);
     await createPackage(path, appName);

@@ -1,7 +1,11 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt, InterfacesInterface, ReducersInterface
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  InterfacesInterface,
+  ReducersInterface,
 } from '../utils/Interfaces';
-
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -34,7 +38,7 @@ import {
   RENAME_REDUCER,
   SET_INTERFACE,
   DELETE_INTERFACE,
-  RENAME_INTERFACE
+  RENAME_INTERFACE,
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -176,14 +180,16 @@ export const createApplication = ({
   path,
   components = [],
   genOption,
-  appName = 'reactype_app',
+  appName = 'dope_exported_preducks_app',
   exportAppBool,
+  storeConfig,
 }: {
 path: string;
 components: ComponentsInt;
 genOption: number;
 appName: string;
 exportAppBool: boolean;
+storeConfig: StoreConfigInterface;
 }) => (dispatch: any) => {
   if (genOption === 0) {
     exportAppBool = false;
@@ -204,7 +210,7 @@ exportAppBool: boolean;
       path,
       appName,
       genOption,
-      // exportAppBool
+      storeConfig,
     })
       .then(() => {
         dispatch({
@@ -264,56 +270,56 @@ export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) =>
 
 export const addSelector = (name: string) => ({
   type: ADD_SELECTOR,
-  payload: name
+  payload: name,
 });
 
 export const deleteSelector = (name: string) => ({
   type: DELETE_SELECTOR,
-  payload: name
+  payload: name,
 });
 
 export const addActionToComponent = (name: string) => ({
   type: ADD_ACTION_TO_COMPONENT,
-  payload: name
+  payload: name,
 });
 
 export const deleteActionFromComponent = (name: string) => ({
   type: DELETE_ACTION_FROM_COMPONENT,
-  payload: name
+  payload: name,
 });
 
 export const setReducer = (reducer: ReducersInterface) => ({
   type: SET_REDUCER,
-  payload: reducer
+  payload: reducer,
 });
 
 export const deleteReducer = (name: string) => ({
   type: DELETE_REDUCER,
-  payload: name
+  payload: name,
 });
 
 export const renameReducer = (oldName: string, newName: string) => ({
   type: RENAME_REDUCER,
   payload: {
     oldName,
-    newName
-  }
+    newName,
+  },
 });
 
 export const setInterface = (userInterface: InterfacesInterface) => ({
   type: SET_INTERFACE,
-  payload: userInterface
+  payload: userInterface,
 });
 
 export const deleteInterface = (name: string) => ({
   type: DELETE_INTERFACE,
-  payload: name
+  payload: name,
 });
 
 export const renameInterface = (oldName: string, newName: string) => ({
   type: RENAME_INTERFACE,
   payload: {
     oldName,
-    newName
-  }
+    newName,
+  },
 });

@@ -1,11 +1,11 @@
-import { format } from 'prettier'; // also for testing
 import {
   ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
 // testing stuff
-import { dummyComponent, dummyAllComponents } from './dummyData';
+// import { format } from 'prettier'; // also for testing
+// import { dummyComponent, dummyAllComponents } from './dummyData';
 
 const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
@@ -13,13 +13,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     title,
     props,
     selectors,
-    actions
+    actions,
   }: {
   childrenArray: ChildrenInt;
   title: string;
   props: PropInt[];
-  selectors: string[],
-  actions: string[]
+  selectors: string[];
+  actions: string[];
   } = component;
 
   function typeSwitcher(type: string) {
@@ -98,15 +98,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   let importFromReactReduxText = '';
   if (selectors.length && actions.length) {
-    importFromReactReduxText = `import {useSelector, useDispatch} from 'react-redux';`;
+    importFromReactReduxText = "import {useSelector, useDispatch} from 'react-redux';";
   } else if (selectors.length) {
-    importFromReactReduxText = `import {useSelector} from 'react-redux';`
+    importFromReactReduxText = "import {useSelector} from 'react-redux';";
   } else if (actions.length) {
-    importFromReactReduxText = `import {useDispatch} from 'react-redux';`
+    importFromReactReduxText = "import {useDispatch} from 'react-redux';";
   }
 
   const actionsToImport = actions.length ? actions.join(', ') : '';
-  
+
   const importsText = `import React from 'react';
   ${[
     ...new Set(
@@ -116,10 +116,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ),
   ].join('\n')}
   ${importFromReactReduxText}
-  ${actions.length ? 
-  `import {${actionsToImport}} from '../actions';`
-  : ''
-  }
+  ${actions.length ? `import {${actionsToImport}} from '../actions';` : ''}
   \n\n`;
 
   const propsText = `type Props = {
@@ -135,31 +132,34 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     .join('\n')}
     </div>`;
 
-  const useSelectorCalls = selectors.length ? 
-    selectors.map(selector => {
-      let selectorStrings = selector.split('.');
-      let variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
-      return `let ${variableName} = useSelector(state => state.${selector})`;
-    }).join('\n'): '';
+  const useSelectorCalls = selectors.length
+    ? selectors
+      .map((selector) => {
+        const selectorStrings = selector.split('.');
+        const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
+        return `let ${variableName} = useSelector(state => state.${selector})`;
+      })
+      .join('\n')
+    : '';
 
   const functionalComponentBody = `
   const ${title} = (props: Props) => {
     const {${props.map(el => el.key).join(',\n')}} = props
     ${useSelectorCalls}
-    ${actions.length ? `const dispatch = useDispatch();` : ``}
+    ${actions.length ? 'const dispatch = useDispatch();' : ''}
     return (${childrenToRender});
   }
   export default ${title};`;
   return importsText + propsText + functionalComponentBody;
 };
 
-console.log(
-  format(componentRender(dummyComponent, dummyAllComponents), {
-    singleQuote: true,
-    trailingComma: 'es5',
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    parser: 'typescript',
-  }),
-);
+// console.log(
+//   format(componentRender(dummyComponent, dummyAllComponents), {
+//     singleQuote: true,
+//     trailingComma: 'es5',
+//     bracketSpacing: true,
+//     jsxBracketSameLine: true,
+//     parser: 'typescript',
+//   }),
+// );
 export default componentRender;

@@ -3,10 +3,10 @@ import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Tree from 'react-d3-tree';
-import Props from './Props.tsx';
-import HtmlAttr from './HtmlAttr.tsx';
-import CodePreview from './CodePreview.tsx';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import Props from './Props';
+import HtmlAttr from './HtmlAttr';
+import CodePreview from './CodePreview';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
 interface PropsInt {
   focusChild: ChildInt;
