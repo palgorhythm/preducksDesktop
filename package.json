@@ -58,7 +58,7 @@
   "scripts": {
     "prestart": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "start": "cross-env NODE_ENV=production electron .",
-    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js",
+    "dev": "cross-env NODE_ENV=development webpack --config webpack.config.development.js & cross-env NODE_ENV=development electron .",
     "electron": "cross-env NODE_ENV=development electron .",
     "build": "cross-env NODE_ENV=production webpack --config webpack.config.production.js",
     "build-bin": "electron-builder -mwl",
@@ -110,6 +110,7 @@
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
     "redux-logger": "^3.0.6",
+    "electron": "^2.0.7",
     "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
@@ -125,7 +126,6 @@
     "copy-webpack-plugin": "^4.5.2",
     "cross-env": "^5.2.0",
     "css-loader": "^0.28.11",
-    "electron": "^2.0.7",
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",

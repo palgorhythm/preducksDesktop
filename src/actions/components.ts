@@ -1,7 +1,10 @@
 import {
-  ComponentInt, ComponentsInt, PropInt, ChildInt,
+  ComponentInt,
+  ComponentsInt,
+  PropInt,
+  ChildInt,
+  StoreConfigInterface,
 } from '../utils/Interfaces';
-
 import {
   LOAD_INIT_DATA,
   ADD_COMPONENT,
@@ -28,7 +31,7 @@ import {
   ADD_SELECTOR,
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT
+  DELETE_ACTION_FROM_COMPONENT,
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -170,14 +173,16 @@ export const createApplication = ({
   path,
   components = [],
   genOption,
-  appName = 'reactype_app',
+  appName = 'dope_exported_preducks_app',
   exportAppBool,
+  storeConfig,
 }: {
 path: string;
 components: ComponentsInt;
 genOption: number;
 appName: string;
 exportAppBool: boolean;
+storeConfig: StoreConfigInterface;
 }) => (dispatch: any) => {
   if (genOption === 0) {
     exportAppBool = false;
@@ -198,7 +203,7 @@ exportAppBool: boolean;
       path,
       appName,
       genOption,
-      // exportAppBool
+      storeConfig,
     })
       .then(() => {
         dispatch({
@@ -258,20 +263,20 @@ export const updateChildrenSort = ({ newSortValues }: { newSortValues: any }) =>
 
 export const addSelector = (name: string) => ({
   type: ADD_SELECTOR,
-  payload: name
+  payload: name,
 });
 
 export const deleteSelector = (name: string) => ({
   type: DELETE_SELECTOR,
-  payload: name
+  payload: name,
 });
 
 export const addActionToComponent = (name: string) => ({
   type: ADD_ACTION_TO_COMPONENT,
-  payload: name
+  payload: name,
 });
 
 export const deleteActionFromComponent = (name: string) => ({
   type: DELETE_ACTION_FROM_COMPONENT,
-  payload: name
+  payload: name,
 });

@@ -26,7 +26,7 @@ import {
   ADD_SELECTOR,
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT
+  DELETE_ACTION_FROM_COMPONENT,
 } from '../actionTypes';
 
 import {
@@ -49,7 +49,7 @@ import {
   addSelector,
   deleteSelector,
   addActionToComponent,
-  deleteActionFromComponent
+  deleteActionFromComponent,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -70,7 +70,7 @@ const appComponent: ComponentInt = {
   nextChildId: 1,
   focusChildId: 0,
   selectors: [],
-  actions: []
+  actions: [],
 };
 
 const initialApplicationFocusChild: ChildInt = {
