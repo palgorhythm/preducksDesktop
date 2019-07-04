@@ -595,13 +595,30 @@ export const setReducer = (state: ApplicationStateInt, payload: ReducersInterfac
 };
 
 export const deleteReducer = (state: ApplicationStateInt, payload: string) => {
-  const storeConfig = {interfaces: {
-    ...state.storeConfig.interfaces
-  },
-  reducers: {
-    ...state.storeConfig.reducers
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces
+    },
+    reducers: {
+      ...state.storeConfig.reducers
   }};
   delete storeConfig.reducers[payload];
+  return {
+    ...state,
+    storeConfig
+  }
+};
+
+export const renameReducer = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces
+    },
+    reducers: {
+      ...state.storeConfig.reducers,
+      [payload.newName]: state.storeConfig.reducers[payload.oldName]
+  }};
+  delete storeConfig.reducers[payload.oldName];
   return {
     ...state,
     storeConfig
@@ -630,6 +647,22 @@ export const deleteInterface = (state: ApplicationStateInt, payload: string) => 
     ...state.storeConfig.reducers
   }};
   delete storeConfig.interfaces[payload];
+  return {
+    ...state,
+    storeConfig
+  }
+};
+
+export const renameInterface = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces,
+      [payload.newName]: state.storeConfig.interfaces[payload.oldName]
+    },
+    reducers: {
+      ...state.storeConfig.reducers,
+  }};
+  delete storeConfig.interfaces[payload.oldName];
   return {
     ...state,
     storeConfig
