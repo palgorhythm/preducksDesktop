@@ -3,15 +3,15 @@ import { StoreConfigInterface } from './Interfaces';
 
 const fs = require('fs');
 
-function createInterfaces(interfaceArray) {
+function createInterfaces(interfaceObj) {
   let data = '';
 
   // CREATE INTERFACES
-  Object.keys(interfaceArray).forEach((interfaceName) => {
+  Object.keys(interfaceObj).forEach((interfaceName) => {
     let curInterface = `export interface ${interfaceName} {\n`;
-    Object.keys(interfaceArray[interfaceName]).forEach((property) => {
+    Object.keys(interfaceObj[interfaceName]).forEach((property) => {
       // loop thru all properties of the current interface
-      const curType = interfaceArray[interfaceName][property];
+      const curType = interfaceObj[interfaceName][property];
       curInterface += `${property}: ${curType};\n`;
       // because curType needs to be flexible (can be an interface that was previously defined)
       // we need to add this UI to the frontend so that each interface that is created is now
