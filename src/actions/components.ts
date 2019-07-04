@@ -3,7 +3,8 @@ import {
   ComponentsInt,
   PropInt,
   ChildInt,
-  StoreConfigInterface,
+  InterfacesInterface,
+  ReducersInterface,
 } from '../utils/Interfaces';
 import {
   LOAD_INIT_DATA,
@@ -32,6 +33,12 @@ import {
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
   DELETE_ACTION_FROM_COMPONENT,
+  SET_REDUCER,
+  DELETE_REDUCER,
+  RENAME_REDUCER,
+  SET_INTERFACE,
+  DELETE_INTERFACE,
+  RENAME_INTERFACE,
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -279,4 +286,40 @@ export const addActionToComponent = (name: string) => ({
 export const deleteActionFromComponent = (name: string) => ({
   type: DELETE_ACTION_FROM_COMPONENT,
   payload: name,
+});
+
+export const setReducer = (reducer: ReducersInterface) => ({
+  type: SET_REDUCER,
+  payload: reducer,
+});
+
+export const deleteReducer = (name: string) => ({
+  type: DELETE_REDUCER,
+  payload: name,
+});
+
+export const renameReducer = (oldName: string, newName: string) => ({
+  type: RENAME_REDUCER,
+  payload: {
+    oldName,
+    newName,
+  },
+});
+
+export const setInterface = (userInterface: InterfacesInterface) => ({
+  type: SET_INTERFACE,
+  payload: userInterface,
+});
+
+export const deleteInterface = (name: string) => ({
+  type: DELETE_INTERFACE,
+  payload: name,
+});
+
+export const renameInterface = (oldName: string, newName: string) => ({
+  type: RENAME_INTERFACE,
+  payload: {
+    oldName,
+    newName,
+  },
 });

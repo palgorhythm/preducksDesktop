@@ -324,3 +324,5 @@ storeConfig: StoreConfigInterface;
   }
 }
 export default createApplicationUtil;
+
+// createApplicationUtil({ path: '/Users/jacobrichards/Desktop/', appName: 'yeet', genOption: 1 });
