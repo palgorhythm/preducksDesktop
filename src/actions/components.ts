@@ -31,8 +31,10 @@ import {
   DELETE_ACTION_FROM_COMPONENT,
   SET_REDUCER,
   DELETE_REDUCER,
+  RENAME_REDUCER,
   SET_INTERFACE,
-  DELETE_INTERFACE
+  DELETE_INTERFACE,
+  RENAME_INTERFACE
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -290,6 +292,14 @@ export const deleteReducer = (name: string) => ({
   payload: name
 });
 
+export const renameReducer = (oldName: string, newName: string) => ({
+  type: RENAME_REDUCER,
+  payload: {
+    oldName,
+    newName
+  }
+});
+
 export const setInterface = (userInterface: InterfacesInterface) => ({
   type: SET_INTERFACE,
   payload: userInterface
@@ -298,4 +308,12 @@ export const setInterface = (userInterface: InterfacesInterface) => ({
 export const deleteInterface = (name: string) => ({
   type: DELETE_INTERFACE,
   payload: name
+});
+
+export const renameInterface = (oldName: string, newName: string) => ({
+  type: RENAME_INTERFACE,
+  payload: {
+    oldName,
+    newName
+  }
 });
