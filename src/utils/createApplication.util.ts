@@ -320,4 +320,4 @@ genOption: number;
 }
 export default createApplicationUtil;
 
-createApplicationUtil({ path: '/Users/jacobrichards/Desktop/', appName: 'yeet', genOption: 1 });
+// createApplicationUtil({ path: '/Users/jacobrichards/Desktop/', appName: 'yeet', genOption: 1 });

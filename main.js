@@ -65,7 +65,7 @@ const createWindow = () => {
     webPreferences: {
       zoomFactor: 0.7,
       'node-Integration': false,
-      webSecurity: false,
+      webSecurity: true,
     },
     show: false,
     icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
@@ -95,20 +95,20 @@ const createWindow = () => {
         },
       ],
     },
-    // {
-    //   label: 'Edit',
-    //   submenu: [
-    //     { role: 'undo' },
-    //     { role: 'redo' },
-    //     { type: 'separator' },
-    //     { role: 'cut' },
-    //     { role: 'copy' },
-    //     { role: 'paste' },
-    //     { role: 'pasteandmatchstyle' },
-    //     { role: 'delete' },
-    //     { role: 'selectall' },
-    //   ],
-    // },
+    {
+      label: 'Edit',
+      submenu: [
+        // { role: 'undo' },
+        // { role: 'redo' },
+        // { type: 'separator' },
+        { role: 'cut' },
+        { role: 'copy' },
+        { role: 'paste' },
+        { role: 'pasteandmatchstyle' },
+        { role: 'delete' },
+        { role: 'selectall' },
+      ],
+    },
     {
       label: 'View',
       submenu: [

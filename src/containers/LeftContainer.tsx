@@ -218,8 +218,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
     return (
       <div className="column left">
-        <Grid container spacing={8} align="stretch" direction="row" alignItems="center">
-          <Grid item xs={8}>
+        <Grid container align="stretch" alignItems="center" direction="row" justify="space-around" alignItems="center">
+          <Grid item>
             <TextField
               id="title-input"
               label="Add class component"
@@ -244,7 +244,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               }}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item>
             <Fab
               size="small"
               color="secondary"
@@ -258,11 +258,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-        <HTMLComponentPanel
-          className={classes.htmlCompWrapper}
-          focusComponent={focusComponent}
-          addChild={addChild}
-        />
 
         <div
           style={{
@@ -270,15 +265,18 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             position: 'absolute',
             bottom: 0,
             left: 0,
+            display: 'flex',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            textAlign: 'center',
           }}
         >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
-          >
+          <HTMLComponentPanel
+            className={classes.htmlCompWrapper}
+            focusComponent={focusComponent}
+            addChild={addChild}
+          />
+          <div>
             <Button
               color="secondary"
               aria-label="Delete All"
@@ -292,13 +290,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               Clear Workspace
             </Button>
           </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}
-          >
+          <div>
             <Button
               color="primary"
               aria-label="Export Code"

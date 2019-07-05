@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import RightPanel from '../components/RightPanel.tsx';
 import BottomPanel from '../components/BottomPanel.tsx';
 import theme from '../components/theme.ts';
 import { handleTransform, changeFocusChild, changeComponentFocusChild, deleteChild } from '../actions/components.ts';
@@ -93,20 +94,23 @@ class MainContainer extends Component<PropsInt, StateInt> {
       <MuiThemeProvider theme={theme}>
         <div className="main-container">
           {modal}
-          <div className="main" ref={main}>
-            <KonvaStage
-              scaleX={1}
-              scaleY={1}
-              draggable={draggable}
-              components={components}
-              handleTransform={handleTransformation}
-              focusComponent={focusComponent}
-              focusChild={focusChild}
-              changeFocusChild={changeFocusChild}
-              changeComponentFocusChild={changeComponentFocusChild}
-              deleteChild={deleteChild}
-              classes={classes}
-            />
+          <div className="top-container">
+            <RightPanel />
+            <div className="main" ref={main}>
+              <KonvaStage
+                scaleX={1}
+                scaleY={1}
+                draggable={draggable}
+                components={components}
+                handleTransform={handleTransformation}
+                focusComponent={focusComponent}
+                focusChild={focusChild}
+                changeFocusChild={changeFocusChild}
+                changeComponentFocusChild={changeComponentFocusChild}
+                deleteChild={deleteChild}
+                classes={classes}
+              />
+            </div>
           </div>
           <BottomPanel focusComponent={focusComponent} />
         </div>
