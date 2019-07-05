@@ -11,7 +11,7 @@ import {
 } from '../actions/components';
 import KonvaStage from '../components/KonvaStage';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces';
-// import TreeDisplay from '../components/NewTreeDisplay';
+import TreeDisplay from '../components/NewTreeDisplay';
 
 interface PropsInt {
   components: ComponentsInt;
@@ -115,12 +115,11 @@ class MainContainer extends Component<PropsInt, StateInt> {
               deleteChild={deleteChild}
               classes={classes}
             /> */}
-            {/* <TreeDisplay
+            <TreeDisplay
               focusChild={focusChild}
               components={components}
               focusComponent={focusComponent}
-              classes={classes}
-            /> */}
+              classes={classes}></TreeDisplay>
           </div>
           <BottomPanel focusComponent={focusComponent} />
         </div>
