@@ -83,13 +83,13 @@ class BottomTabs extends Component<PropsInt> {
 
   componentDidMount() {
     // dynamically center the tree based on the div size
-    const dimensions = this.treeWrapper.getBoundingClientRect();
-    this.setState({
-      translate: {
-        x: dimensions.width / 12,
-        y: dimensions.height / 2.2,
-      },
-    });
+    // const dimensions = this.treeWrapper.getBoundingClientRect();
+    // this.setState({
+    //   translate: {
+    //     x: dimensions.width / 12,
+    //     y: dimensions.height / 2.2,
+    //   },
+    // });
   }
 
   handleChange = (event: any, value: number) => {
@@ -127,16 +127,15 @@ class BottomTabs extends Component<PropsInt> {
 
     return (
       <div className={classes.root}>
-        <Tabs
+        <Tabs 
           value={value}
           onChange={this.handleChange}
-          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}
-        >
-          <Tab
+          classes={{ root: classes.tabsRoot, indicator: classes.tabsIndicator }}>
+          {/* <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
             label="Application Tree"
-          />
+          /> */}
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -159,15 +158,14 @@ class BottomTabs extends Component<PropsInt> {
           /> */}
         </Tabs>
 
-        {value === 0 && (
+        {value === 999 && (
           <div
             id="treeWrapper"
-            style={{
+            style={{ 
               width: '100%',
               height: '100%',
             }}
-            ref={node => (this.treeWrapper = node)}
-          >
+            ref={node => (this.treeWrapper = node)}>
             <Tree
               data={[this.generateComponentTree(focusComponent.id, components)]}
               separation={{ siblings: 0.3, nonSiblings: 0.3 }}
@@ -194,12 +192,11 @@ class BottomTabs extends Component<PropsInt> {
             />
           </div>
         )}
-        {value === 1 && <CodePreview focusComponent={focusComponent} components={components} />}
-        {value === 2 && <Props />}
-        {value === 3 && focusChild.childType === 'HTML' && <HtmlAttr />}
-        {value === 3
-          && focusChild.childType !== 'HTML' && (
-            <p>Please select an HTML element to view attributes</p>
+        {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 1 && <Props />}
+        {value === 2 && focusChild.childType === 'HTML' && <HtmlAttr />}
+        {value === 2 && focusChild.childType !== 'HTML' && (
+          <p>Please select an HTML element to view attributes</p>
         )}
       </div>
     );
