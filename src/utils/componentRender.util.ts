@@ -145,7 +145,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ? selectors
       .map((selector) => {
         const selectorStrings = selector.split('.');
-        const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings.slice(1).slice(1);
+        const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
         return `const ${variableName} = useSelector(state => state.${selector})`;
       })
       .join('\n')
