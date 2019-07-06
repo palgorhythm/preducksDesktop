@@ -309,12 +309,12 @@ const storeConfigTTTMultiReducer: StoreConfigInterface = {
       },
       actions: {
         addPoint: {
-          parameter: { name: 'none', type: 'none', array: false },
+          parameter: { name: '', type: '', array: false },
           payload: { type: 'number', array: false },
           async: false,
         },
         fetchHighScores: {
-          parameter: { name: 'none', type: 'none', array: false },
+          parameter: { name: '', type: '', array: false },
           payload: { type: 'boolean', array: false },
           async: true,
         },
@@ -337,7 +337,7 @@ const storeConfigTodo: StoreConfigInterface = {
       },
       actions: {
         fetchTodos: {
-          parameter: { name: 'none', type: 'none', array: false },
+          parameter: { name: '', type: '', array: false },
           payload: { type: 'todo', array: true },
           async: true,
         },

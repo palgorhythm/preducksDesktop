@@ -26,7 +26,13 @@ import {
   ADD_SELECTOR,
   DELETE_SELECTOR,
   ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT
+  DELETE_ACTION_FROM_COMPONENT,
+  SET_REDUCER,
+  DELETE_REDUCER,
+  RENAME_REDUCER,
+  SET_INTERFACE,
+  DELETE_INTERFACE,
+  RENAME_INTERFACE,
 } from '../actionTypes';
 
 import {
@@ -49,7 +55,13 @@ import {
   addSelector,
   deleteSelector,
   addActionToComponent,
-  deleteActionFromComponent
+  deleteActionFromComponent,
+  setReducer,
+  deleteReducer,
+  renameReducer,
+  setInterface,
+  deleteInterface,
+  renameInterface,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -70,7 +82,7 @@ const appComponent: ComponentInt = {
   nextChildId: 1,
   focusChildId: 0,
   selectors: [],
-  actions: []
+  actions: [],
 };
 
 const initialApplicationFocusChild: ChildInt = {
@@ -103,6 +115,10 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
+  storeConfig: {
+    interfaces: {},
+    reducers: {},
+  },
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -162,6 +178,18 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return addActionToComponent(state, action.payload);
     case DELETE_ACTION_FROM_COMPONENT:
       return deleteActionFromComponent(state, action.payload);
+    case SET_REDUCER:
+      return setReducer(state, action.payload);
+    case DELETE_REDUCER:
+      return deleteReducer(state, action.payload);
+    case RENAME_REDUCER:
+      return renameReducer(state, action.payload);
+    case SET_INTERFACE:
+      return setInterface(state, action.payload);
+    case DELETE_INTERFACE:
+      return deleteInterface(state, action.payload);
+    case RENAME_INTERFACE:
+      return renameInterface(state, action.payload);
     default:
       return state;
   }

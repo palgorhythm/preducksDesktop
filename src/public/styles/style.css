@@ -123,6 +123,10 @@ h1 {
   color: #ccc;
 }
 
+.main-container {
+  width: 100%;
+}
+
 .top-container {
   display: flex;
   flex-flow: row nowrap;
@@ -149,8 +153,7 @@ h1 {
   /* border-left: 1px solid grey; */
   /* border-right: 1px solid grey; */
   background: #fff;
-  flex: 1;
-  width: 100%;
+  width: 75%;
   /* overflow: hidden;  */
   display: flex;
   background-color: #e4e4e4;

@@ -20,12 +20,15 @@ class CodePreview extends Component<Props> {
     return (
       <div
         style={{
-          height: '290px',
-          paddingLeft: '30px',
+          height: '300px',
+          padding: '0',
           overflow: 'auto',
+          fontSize: '20px',
         }}>
         <SyntaxHighlighter style={hybrid}>
-          {format(componentRender(focusComponent, components))}
+          {format(componentRender(focusComponent, components), {
+            parser: 'typescript',
+          })}
         </SyntaxHighlighter>
       </div>
     );

@@ -11,12 +11,24 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Fab from '@material-ui/core/Fab';
-import LeftColExpansionPanel from '../components/LeftColExpansionPanel.tsx';
-import HTMLComponentPanel from '../components/HTMLComponentPanel.tsx';
-import * as actions from '../actions/components.ts';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
-import createModal from '../utils/createModal.util.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
+import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
+import HTMLComponentPanel from '../components/HTMLComponentPanel';
+import * as actions from '../actions/components';
+import { ComponentInt, ComponentsInt, StoreConfigInterface } from '../utils/interfaces';
+import createModal from '../utils/createModal.util';
+import cloneDeep from '../utils/cloneDeep';
+
+// /////// FOR TESTING ONLY//////////////////////////
+const {
+  dummyComponent,
+  dummyAllComponents,
+  storeConfigTicTacToe,
+  storeConfigTTTMultiReducer, // USING THIS FOR TESTING ON LINE 95
+  storeConfigTodo,
+} = require('../utils/dummyData');
+
+const dummyFilePath = '/Users/jacobrichards/Desktop/';
+// ///////////////////////////////////////////////////
 
 const IPC = require('electron').ipcRenderer;
 
@@ -66,19 +78,28 @@ const mapDispatchToProps = (dispatch: any) => ({
     path,
     components,
     genOption,
+    appName,
+    exportAppBool,
+    storeConfig,
   }: {
   path: string;
   components: ComponentsInt;
   genOption: number;
-  }) => dispatch(
-    actions.createApplication({
-      path,
-      components,
-      genOption,
-      appName: 'reactype_app',
-      exportAppBool: null,
-    }),
-  ),
+  appName: string;
+  exportAppBool: boolean;
+  storeConfig: StoreConfigInterface;
+  }) => {
+    return dispatch(
+      actions.createApplication({
+        path,
+        components,
+        genOption,
+        appName,
+        exportAppBool,
+        storeConfig,
+      }),
+    );
+  },
 });
 
 class LeftContainer extends Component<PropsInt, StateInt> {
@@ -97,10 +118,15 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components } = this.props;
       const { genOption } = this.state;
+      const appName = 'dope_exported_preducks_app';
+      const exportAppBool = true;
       this.props.createApp({
         path,
         components,
         genOption,
+        appName,
+        exportAppBool,
+        storeConfig: storeConfigTTTMultiReducer,
       });
     });
   }
@@ -164,8 +190,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               border: '1px solid #3f51b5',
               marginBottom: '2%',
               marginTop: '5%',
-            }}
-          >
+            }}>
             <ListItemText primary={option} style={{ textAlign: 'center' }} />
           </ListItem>
         ))}
@@ -251,8 +276,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               className={classes.button}
               aria-label="Add"
               onClick={this.handleAddComponent}
-              disabled={!this.state.componentName}
-            >
+              disabled={!this.state.componentName}>
               <AddIcon />
             </Fab>
           </Grid>
@@ -265,18 +289,13 @@ class LeftContainer extends Component<PropsInt, StateInt> {
             position: 'absolute',
             bottom: 0,
             left: 0,
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            textAlign: 'center',
-          }}
-        >
-          <HTMLComponentPanel
-            className={classes.htmlCompWrapper}
-            focusComponent={focusComponent}
-            addChild={addChild}
-          />
-          <div>
+          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
             <Button
               color="secondary"
               aria-label="Delete All"
@@ -285,12 +304,16 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               onClick={this.clearWorkspace}
               disabled={this.props.components.length === 1}
               className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
+              style={{ borderRadius: 0 }}>
               Clear Workspace
             </Button>
           </div>
-          <div>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              flexDirection: 'column',
+            }}>
             <Button
               color="primary"
               aria-label="Export Code"
@@ -298,8 +321,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               fullWidth
               onClick={this.showGenerateAppModal}
               className={classes.clearButton}
-              style={{ borderRadius: 0 }}
-            >
+              style={{ borderRadius: 0 }}>
               <GetAppIcon style={{ paddingRight: '5px' }} />
               Export Project
             </Button>

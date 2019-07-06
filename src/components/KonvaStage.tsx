@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Stage, Layer, Line } from 'react-konva';
-import Rectangle from './Rectangle.tsx';
-import cloneDeep from '../utils/cloneDeep.ts';
-import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces.ts';
+import Rectangle from './Rectangle';
+import cloneDeep from '../utils/cloneDeep';
+import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
 interface PropsInt {
   components: ComponentsInt;
@@ -187,13 +187,11 @@ class KonvaStage extends Component<PropsInt, StateInt> {
           onMouseDown={this.handleStageMouseDown}
           width={this.state.stageWidth}
           height={this.state.stageHeight}
-          style={{ width: '100%' }}
-        >
+          style={{ width: '100%' }}>
           <Layer
             ref={(node) => {
               this.layer = node;
-            }}
-          >
+            }}>
             {this.state.grid}
             {this.getDirectChildrenCopy(focusComponent)
               .map((child: ChildInt, i: number) => (
