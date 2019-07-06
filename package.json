@@ -9,6 +9,9 @@
     "Shlomo Porges",
     "Adam Singer"
   ],
+  "engines": {
+    "node": "12.x"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/team-reactype/ReacType"
@@ -21,7 +24,7 @@
         "AppImage",
         "deb"
       ],
-      "maintainer": "spincycle01@yahoo.com"
+      "maintainer": "sjaco"
     },
     "mac": {
       "category": "public.app-category.developer-tools",
@@ -107,14 +110,17 @@
     "react-konva": "^1.7.12",
     "react-redux": "^7.1.0",
     "react-sortable-tree": "^2.2.0",
-    "react-syntax-highlighter": "^10.2.1",
+    "react-syntax-highlighter": "^11.0.1",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "webpack": "^4.35.2",
+    "acorn": "^6.0.5"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
+    "@typescript-eslint/parser": "^1.11.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",
@@ -146,7 +152,6 @@
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
     "typescript": "^3.4.4",
-    "webpack": "^4.4.0",
-    "webpack-cli": "^2.0.13"
+    "webpack-cli": "^3.3.5"
   }
 }

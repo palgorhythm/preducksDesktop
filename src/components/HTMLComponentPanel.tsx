@@ -38,7 +38,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   render() {
     const { classes } = this.props;
     return (
-      <div style={{ paddingBottom: "20px" }}>
+      <div style={{ paddingBottom: '20px' }}>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
@@ -57,8 +57,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
                 style={{
                   margin: 0,
                   padding: 0,
-                }}
-              >
+                }}>
                 <ImageIcon
                   style={{
                     color: '#e0e0e0',
@@ -91,8 +90,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               style={{
                 margin: 0,
                 padding: 0,
-              }}
-            >
+              }}>
               <FormIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
@@ -118,8 +116,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               style={{
                 margin: 0,
                 padding: 0,
-              }}
-            >
+              }}>
               <ButtonIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
@@ -145,8 +142,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               style={{
                 margin: 0,
                 padding: 0,
-              }}
-            >
+              }}>
               <LinkIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
@@ -172,8 +168,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               style={{
                 margin: 0,
                 padding: 0,
-              }}
-            >
+              }}>
               <ListIcon style={{ color: '#e0e0e0' }} />
             </IconButton>
             <Chip
@@ -195,8 +190,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
             style={{
               margin: 0,
               padding: 0,
-            }}
-          >
+            }}>
             <IconButton
               className="htmlicons"
               aria-label="Paragraph"
@@ -206,8 +200,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
               style={{
                 margin: 0,
                 padding: 0,
-              }}
-            >
+              }}>
               <ParagraphIcon
                 style={{
                   color: '#e0e0e0',

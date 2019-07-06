@@ -554,6 +554,7 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
 };
 
 export const addSelector = (state: ApplicationStateInt, payload: string) => {
+  console.log(payload);
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = {...components[index]};
@@ -575,7 +576,7 @@ export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
   view.selectors = view.selectors.filter(selector => selector !== payload);
   components.splice(index, 1, view);
   const focusComponent = {...state.focusComponent};
-  focusComponent.selectors = focusComponent.selectors.filter(selector => selector !== payload);
+  focusComponent.selectors = view.selectors.filter(selector => selector !== payload);
   return {
     ...state,
     components,
@@ -605,10 +606,11 @@ export const deleteActionFromComponent = (state: ApplicationStateInt, payload: s
   view.actions = view.actions.filter(action => action !== payload);
   components.splice(index, 1, view);
   const focusComponent = {...state.focusComponent};
-  focusComponent.actions = focusComponent.actions.filter(action => action !== payload);
+  focusComponent.actions = view.actions.filter(action => action !== payload);
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 

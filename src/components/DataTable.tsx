@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { IconButton } from '@material-ui/core';
+import uuid from 'uuid';
 
 const styles = (theme: any) => ({
   root: {
@@ -28,27 +29,42 @@ const styles = (theme: any) => ({
  * ****************************** */
 
 function dataTable(props: any) {
-  const { classes, rowData, rowHeader, deletePropHandler } = props;
+  const {
+    classes, rowData, rowHeader, deletePropHandler,
+  } = props;
 
-  const renderHeader = rowHeader.map((col: any, idx: number) => <TableCell key={`head_+${idx}`}>{col}</TableCell>);
+  const renderHeader = rowHeader.map((col: any, idx: number) => (
+    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+  ));
+  // console.log('the row data', rowData);
+
+  // function renderRowCells(row: any) {
+  //   if (!row) return;
+  //   // for some reason we must put each value in a div.
+  //   console.log('yeet', row, rowHeader);
+  //   return rowHeader.map((header: string, idx: number) => (
+  //     <TableCell align={'center'} key={`td_${idx}`}>
+  //       {typeof row[header] === 'string' ? row[header] : row[header].toString()}
+  //     </TableCell>
+  //   ));
+  // }
 
   function renderRowCells(row: any) {
     if (!row) return;
     // for some reason we must put each value in a div.
+    // console.log('yeet', row, rowHeader);
     return rowHeader.map((header: string, idx: number) => (
-      <TableCell align={'center'} key={`td_${idx}`}>
-        {/* <div  align={'center'} padding = {'none'} >{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div> */}
-        {/* {row[header]} */}
-        {typeof row[header] === 'string' ? row[header] : row[header].toString()}
+      <TableCell align={'center'} key={`${uuid.v4()}`}>
+        {row.toString()}
       </TableCell>
     ));
   }
   // style={{height: 30}}
   const renderRows = rowData.map((row: any) => (
-    <TableRow key={`row-${row.id}`}>
+    <TableRow key={`${uuid.v4()}`}>
       {renderRowCells(row)}
       <TableCell align={'center'} padding={'none'}>
-        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row.id)}>
+        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row)}>
           <DeleteIcon />
         </IconButton>
         {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}

@@ -8,9 +8,9 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import Switch from '@material-ui/core/Switch';
 import InputLabel from '@material-ui/core/InputLabel';
-import { addProp, deleteProp } from '../actions/components.ts';
-import DataTable from './DataTable.tsx';
-import { ComponentInt } from '../utils/interfaces.ts';
+import { addProp, deleteProp } from '../actions/components';
+import DataTable from './DataTable';
+import { ComponentInt, StoreInterface } from '../utils/interfaces';
 
 const styles = theme => ({
   root: {
@@ -80,8 +80,9 @@ const mapDispatchToProps = (dispatch: any) => ({
   deleteProp: (propId: number) => dispatch(deleteProp(propId)),
 });
 
-const mapStateToProps = (store: any) => ({
+const mapStateToProps = (store: StoreInterface) => ({
   focusComponent: store.workspace.focusComponent,
+  storeConfig: store.workspace.storeConfig,
 });
 
 const availablePropTypes = {
@@ -189,8 +190,7 @@ class Props extends Component {
           <Fragment>
             <div
               className="props-container"
-              style={{ marginTop: '20px', width: '90%', height: '80%' }}
-            >
+              style={{ marginTop: '20px', width: '90%', height: '80%' }}>
               <Grid container spacing={8}>
                 <Grid item xs={3}>
                   <form className="props-input" onSubmit={this.handleAddProp}>
@@ -239,8 +239,7 @@ class Props extends Component {
                             placeholder="title"
                             onChange={this.handleChange}
                             value={this.state.propType}
-                            required
-                          >
+                            required>
                             {typeOptions}
                           </Select>
                         </FormControl>
@@ -266,8 +265,7 @@ class Props extends Component {
                           type="submit"
                           // disabled={!this.state.propKey || !this.state.propType}
                           variant="contained"
-                          size="large"
-                        >
+                          size="large">
                           ADD PROP
                         </Button>
                       </Grid>

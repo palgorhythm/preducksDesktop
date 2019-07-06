@@ -67,6 +67,10 @@ export interface ApplicationStateInt {
   storeConfig: StoreConfigInterface;
 }
 
+export interface StoreInterface {
+  workspace: ApplicationStateInt;
+}
+
 export interface ActionConfigInterface {
   parameter: { name: string; type: string; array: boolean };
   payload: { type: string; array: boolean };
