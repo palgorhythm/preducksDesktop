@@ -192,7 +192,7 @@ class BottomTabs extends Component<PropsInt> {
             />
           </div>
         )}
-        {/* {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />} */}
+        {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />}
         {value === 1 && <Props />}
         {value === 2 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 2 && focusChild.childType !== 'HTML' && (
