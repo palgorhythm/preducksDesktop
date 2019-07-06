@@ -1,6 +1,6 @@
 import { StoreConfigInterface } from './Interfaces';
 
-const dummyComponent = {
+export const dummyComponent = {
   id: 1,
   stateful: false,
   title: 'App',
@@ -13,6 +13,9 @@ const dummyComponent = {
     width: 1260,
     height: 530,
   },
+  componentState: [
+    {name: 'hej', type: 'string', initialValue: 'hej'}
+  ],
   childrenArray: [
     {
       childId: 4,
@@ -69,7 +72,7 @@ const dummyComponent = {
   actions: ['action1, action2'],
 };
 
-const dummyAllComponents = [
+export const dummyAllComponents = [
   {
     id: 1,
     stateful: false,
@@ -351,10 +354,10 @@ const storeConfigTodo: StoreConfigInterface = {
   },
 };
 
-module.exports = {
-  dummyComponent,
-  dummyAllComponents,
-  storeConfigTTTMultiReducer,
-  storeConfigTicTacToe,
-  storeConfigTodo,
-};
+// module.exports = {
+//   dummyComponent,
+//   dummyAllComponents,
+//   storeConfigTTTMultiReducer,
+//   storeConfigTicTacToe,
+//   storeConfigTodo,
+// };
