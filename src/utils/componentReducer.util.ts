@@ -558,7 +558,7 @@ export const addSelector = (state: ApplicationStateInt, payload: string) => {
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = {...components[index]};
-  view.selectors = [...view.selectors, payload];
+  view.selectors = view.selectors.includes(payload) ? [...view.selectors] : [...view.selectors, payload];
   components.splice(index, 1, view);
   return {
     ...state,
@@ -582,7 +582,7 @@ export const addActionToComponent = (state: ApplicationStateInt, payload: string
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = {...components[index]};
-  view.actions = [...view.actions, payload];
+  view.actions = view.actions.includes(payload) ? [...view.actions] : [...view.actions, payload];
   components.splice(index, 1, view);
   return {
     ...state,
@@ -724,17 +724,14 @@ export const deleteState = (state: ApplicationStateInt, payload: string) => {
   };
 };
 
-// REFACTOR THIS
 export const renameState = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  const componentState = JSON.parse(JSON.stringify(view.componentState));
-  componentState.forEach((pieceOfState, i) => {
-    if (pieceOfState.name === payload.oldName) {
-      componentState[i].name = payload.newName;
-    }
-  });
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  const piecesOfState = {...view.componentState, [payload.newName]: view.componentState[payload.oldName]};
+  delete piecesOfState[payload.oldName];
   return {
     ...state,
-    componentState
+    components
   }
 };
