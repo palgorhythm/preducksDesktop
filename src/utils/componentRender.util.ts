@@ -4,12 +4,10 @@ import {
 import cloneDeep from './cloneDeep';
 
 // testing stuff
-import { format } from 'prettier'; // also for testing
-import { dummyComponent, dummyAllComponents } from './dummyData';
+// import { format } from 'prettier'; // also for testing
+// import { dummyComponent, dummyAllComponents } from './dummyData';
 
-// const componentRender = (component: ComponentInt, components: ComponentsInt) => {
-const componentRender = (component, components) => {
-  // const {
+const componentRender = (component: ComponentInt, components: ComponentsInt) => {
   const {
     childrenArray,
     title,
@@ -25,7 +23,6 @@ const componentRender = (component, components) => {
     actions: string[];
     componentState: ComponentStateInterface[];
   } = component;
-
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -100,7 +97,6 @@ const componentRender = (component, components) => {
     }
   }
 
-  // refactor to import useState too (basically figure out which things to import and online the import from 'react-redux' bits)
   let toImport = [];
   if (selectors.length) {
     toImport.push('useSelector');
@@ -170,13 +166,13 @@ const componentRender = (component, components) => {
   return importsText + propsText + functionalComponentBody;
 };
 
-console.log(
-  format(componentRender(dummyComponent, dummyAllComponents), {
-    singleQuote: true,
-    trailingComma: 'es5',
-    bracketSpacing: true,
-    jsxBracketSameLine: true,
-    parser: 'typescript',
-  }),
-);
+// console.log(
+//   format(componentRender(dummyComponent, dummyAllComponents), {
+//     singleQuote: true,
+//     trailingComma: 'es5',
+//     bracketSpacing: true,
+//     jsxBracketSameLine: true,
+//     parser: 'typescript',
+//   }),
+// );
 export default componentRender;
