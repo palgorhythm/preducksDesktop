@@ -555,6 +555,7 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
 };
 
 export const addSelector = (state: ApplicationStateInt, payload: string) => {
+  console.log(payload);
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = {...components[index]};

@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 const path = require('path');
-// const webpack = require('webpack');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -65,6 +65,7 @@ module.exports = {
 
   plugins: [
     // new CleanWebpackPlugin([BUILD_DIR]),
+    new webpack.HotModuleReplacementPlugin(),
     new HtmlWebpackPlugin({
       template: 'public/index.html',
     }),

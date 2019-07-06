@@ -31,16 +31,15 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
   const rowHeader = ['Actions', 'Store Selections'];
-  console.log(focusComponent);
-
+  // console.log(focusComponent);
   let selectorOptions = [];
   let actionOptions = [];
-  Object.keys(storeConfig.reducers).forEach((reducer) => {
-    Object.keys(storeConfig.reducers[reducer].store).forEach((storePieceName) => {
-      selectorOptions.push(storePieceName);
+  Object.keys(storeConfig.reducers).forEach((reducerName) => {
+    Object.keys(storeConfig.reducers[reducerName].store).forEach((storePieceName) => {
+      selectorOptions.push(`${reducerName}.${storePieceName}`);
     });
-    Object.keys(storeConfig.reducers[reducer].actions).forEach((actionName) => {
-      actionOptions.push(actionName);
+    Object.keys(storeConfig.reducers[reducerName].actions).forEach((actionName) => {
+      actionOptions.push(`${reducerName}.${actionName}`);
     });
   });
 
@@ -49,17 +48,18 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
 
   const handleChange = cb => e => cb(e.target.value);
 
-  const handleSubmit = (cb) => {
+  const handleSubmit = (cb, value) => {
     const callback = cb;
     return (e) => {
       e.preventDefault();
-      return dispatch(callback(e.target.value));
+      console.log(value);
+      return dispatch(callback(value));
     };
   };
 
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
     <Grid item xs={3}>
-      <form className="props-input" onSubmit={handleSubmit(onSubmit)}>
+      <form className="props-input" onSubmit={handleSubmit(onSubmit, value)}>
         <Grid container spacing={8}>
           <Grid item xs={6}>
             <FormControl required>

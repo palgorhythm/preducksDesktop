@@ -35,7 +35,7 @@ import {
   RENAME_INTERFACE,
   SET_STATE,
   DELETE_STATE,
-  RENAME_STATE
+  RENAME_STATE,
 } from '../actionTypes';
 
 import {
@@ -67,7 +67,7 @@ import {
   renameInterface,
   setState,
   deleteState,
-  renameState
+  renameState,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -155,15 +155,16 @@ const initialApplicationState: ApplicationStateInt = {
 const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
-      return {
-        ...state,
-        ...action.payload.data,
-        loading: false,
-        appDir: '',
-        successOpen: false,
-        errorOpen: false,
-        storeConfig: dummyStoreConfig,
-      };
+      return { ...state };
+    // return {
+    //   ...state,
+    //   ...action.payload.data,
+    //   loading: false,
+    //   appDir: '',
+    //   successOpen: false,
+    //   errorOpen: false,
+    //   storeConfig: dummyStoreConfig,
+    // };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case ADD_CHILD:
@@ -203,6 +204,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
     case ADD_SELECTOR:
+      console.log('adding a selector!');
       return addSelector(state, action.payload);
     case DELETE_SELECTOR:
       return deleteSelector(state, action.payload);
