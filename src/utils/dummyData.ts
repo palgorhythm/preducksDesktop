@@ -13,6 +13,9 @@ const dummyComponent = {
     width: 1260,
     height: 530,
   },
+  componentState: [
+    {name: 'hej', type: 'string', initialValue: 'hej'}
+  ],
   childrenArray: [
     {
       childId: 4,
