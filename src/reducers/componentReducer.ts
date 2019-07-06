@@ -74,6 +74,7 @@ import cloneDeep from '../utils/cloneDeep';
 const appComponent: ComponentInt = {
   id: 1,
   stateful: false,
+  componentState: [],
   title: 'App',
   color: '#FF6D00',
   props: [],

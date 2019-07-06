@@ -555,39 +555,51 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
 };
 
 export const addSelector = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let selectors = [...view.selectors, payload];
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.selectors = [...view.selectors, payload];
+  components.splice(index, 1, view);
   return {
     ...state,
-    selectors
-  }
+    components
+  };
 };
 
 export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let selectors = [...view.selectors].filter(selector => selector !== payload);
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.selectors = view.selectors.filter(selector => selector !== payload);
+  components.splice(index, 1, view);
   return {
     ...state,
-    selectors
-  }
+    components
+  };
 };
 
 export const addActionToComponent = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let actions = [...view.actions, payload];
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.actions = [...view.actions, payload];
+  components.splice(index, 1, view);
   return {
     ...state,
-    actions
-  }
+    components
+  };
 };
 
 export const deleteActionFromComponent = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let actions = [...view.actions].filter(action => action !== 'payload');
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.actions = view.actions.filter(action => action !== payload);
+  components.splice(index, 1, view);
   return {
     ...state,
-    actions
-  }
+    components
+  };
 };
 
 export const setReducer = (state: ApplicationStateInt, payload: ReducersInterface) => {
@@ -689,23 +701,30 @@ export const renameInterface = (state: ApplicationStateInt, payload: { oldName: 
 };
 
 export const setState = (state: ApplicationStateInt, payload: ComponentStateInterface) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  const componentState = [...view.componentState, payload];
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.componentState = [...view.componentState, payload];
+  components.splice(index, 1, view);
   return {
     ...state,
-    componentState
-  }
+    components
+  };
 };
 
 export const deleteState = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  const componentState = [...view.componentState].filter(pieceOfState => pieceOfState.name !== payload);
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.componentState = view.componentState.filter(pieceOfState => pieceOfState.name !== payload);
+  components.splice(index, 1, view);
   return {
     ...state,
-    componentState
-  }
+    components
+  };
 };
 
+// REFACTOR THIS
 export const renameState = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
   const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
   const componentState = JSON.parse(JSON.stringify(view.componentState));
