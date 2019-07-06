@@ -35,7 +35,7 @@ header {
   display: none;
 }
 
-.app-container {
+#app {
   display: flex;
   width: 100%;
   height: 100vh;
@@ -101,7 +101,7 @@ LEFT COLUMN
   flex-direction: column;
   display: flex;
   /* max-height: 80%; */
-  height: 60%;
+  height: auto;
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 1%;
@@ -124,9 +124,13 @@ h1 {
 }
 
 .main-container {
+  width: 100%;
+}
+
+.top-container {
   display: flex;
-  flex-direction: column;
-  flex: 1;
+  flex-flow: row nowrap;
+  height: calc(200% / 3);
   /* overflow-x: hidden; */
 }
 
@@ -149,8 +153,7 @@ h1 {
   /* border-left: 1px solid grey; */
   /* border-right: 1px solid grey; */
   background: #fff;
-  flex: 1;
-  width: 100%;
+  width: 75%;
   /* overflow: hidden;  */
   display: flex;
   background-color: #e4e4e4;
@@ -203,6 +206,13 @@ RIGHT COLUMN
 /////////////////////////////////////////////
 */
 
+.right-panel {
+  background-color: white;
+  min-width: 25%;
+  text-align: center;
+  overflow-x: scroll;
+}
+
 .export {
   border-top: 1px solid #ccc;
   display: flex;
@@ -214,7 +224,7 @@ RIGHT COLUMN
 .bottom-panel {
   transition: width 250ms ease-in-out;
   width: 100%;
-  height: 33%;
+  height: calc(100% / 3);
   /* display: flex;
   flex-direction: row; */
   background-color: #fcfcfc;
@@ -231,7 +241,7 @@ RIGHT COLUMN
 
 .props-container {
   margin-left: 10px;
-  height: 33%;
+  height: calc(100% / 3);
   width: 100%;
 }
 
@@ -277,6 +287,39 @@ div.rst__rowContents {
 
 .closeIcon:hover {
   cursor: pointer;
+}
+
+.right-panel form,
+.interfaceFields,
+.reducerFields,
+.storeItems,
+.actionItems,
+.newActionItem div {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: baseline;
+}
+
+.right-panel .interface, .right-panel .reducer {
+  background: #eee;
+  margin: 15px 0;
+  padding: 2px 0 1.3em;
+}
+
+.right-panel hr {
+  margin: 3em 0 2em;
+}
+
+.newStoreItem, .newActionItem {
+  flex-wrap: wrap;
+}
+
+#store, #actions {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 2px 0 1.3em;
+  margin: 20px 0;
 }
 
 /* @media only screen and (max-width: 560px) {

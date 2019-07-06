@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import RightPanel from '../components/RightPanel.tsx';
 import BottomPanel from '../components/BottomPanel';
 import theme from '../components/theme';
 import {
@@ -101,25 +102,29 @@ class MainContainer extends Component<PropsInt, StateInt> {
       <MuiThemeProvider theme={theme}>
         <div className="main-container">
           {modal}
-          <div className="main" ref={main}>
-            {/* <KonvaStage
-              scaleX={1}
-              scaleY={1}
-              draggable={draggable}
-              components={components}
-              handleTransform={handleTransformation}
-              focusComponent={focusComponent}
-              focusChild={focusChild}
-              changeFocusChild={changeFocusChild}
-              changeComponentFocusChild={changeComponentFocusChild}
-              deleteChild={deleteChild}
-              classes={classes}
-            /> */}
-            <TreeDisplay
-              focusChild={focusChild}
-              components={components}
-              focusComponent={focusComponent}
-              classes={classes}></TreeDisplay>
+          <div className="top-container">
+            <RightPanel />
+            <div className="main" ref={main}>
+              {/* <KonvaStage
+                scaleX={1}
+                scaleY={1}
+                draggable={draggable}
+                components={components}
+                handleTransform={handleTransformation}
+                focusComponent={focusComponent}
+                focusChild={focusChild}
+                changeFocusChild={changeFocusChild}
+                changeComponentFocusChild={changeComponentFocusChild}
+                deleteChild={deleteChild}
+                classes={classes}
+              /> */}
+              <TreeDisplay
+                focusChild={focusChild}
+                components={components}
+                focusComponent={focusComponent}
+                classes={classes}>
+              </TreeDisplay>
+          </div>
           </div>
           <BottomPanel focusComponent={focusComponent} />
         </div>

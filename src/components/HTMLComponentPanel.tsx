@@ -38,7 +38,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
   render() {
     const { classes } = this.props;
     return (
-      <div align="center">
+      <div style={{ paddingBottom: "20px" }}>
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
