@@ -537,7 +537,6 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
     const currChildId = currChild.childId;
     const newValueObj = newSortValues.find((n: any) => n.childId === currChildId);
     const newSortValue = newValueObj.childSort;
-    console.log(` currChildId  ${currChildId} currSortValue: ${currChild.childSort} newSortValue:${newSortValue}`);
     currChild.childSort = newSortValue;
   }
 
@@ -560,9 +559,12 @@ export const addSelector = (state: ApplicationStateInt, payload: string) => {
   const view = {...components[index]};
   view.selectors = view.selectors.includes(payload) ? [...view.selectors] : [...view.selectors, payload];
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.selectors = focusComponent.selectors.includes(payload) ? [...focusComponent.selectors] : [...focusComponent.selectors, payload];
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 
@@ -572,9 +574,12 @@ export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
   const view = {...components[index]};
   view.selectors = view.selectors.filter(selector => selector !== payload);
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.selectors = focusComponent.selectors.filter(selector => selector !== payload);
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 
@@ -584,9 +589,12 @@ export const addActionToComponent = (state: ApplicationStateInt, payload: string
   const view = {...components[index]};
   view.actions = view.actions.includes(payload) ? [...view.actions] : [...view.actions, payload];
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.actions = focusComponent.actions.includes(payload) ? [...focusComponent.actions] : [...focusComponent.actions, payload];
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 
@@ -596,6 +604,8 @@ export const deleteActionFromComponent = (state: ApplicationStateInt, payload: s
   const view = {...components[index]};
   view.actions = view.actions.filter(action => action !== payload);
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.actions = focusComponent.actions.filter(action => action !== payload);
   return {
     ...state,
     components
@@ -706,9 +716,12 @@ export const setState = (state: ApplicationStateInt, payload: ComponentStateInte
   const view = {...components[index]};
   view.componentState = [...view.componentState, payload];
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.componentState = [...focusComponent.componentState, payload];
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 
@@ -718,9 +731,12 @@ export const deleteState = (state: ApplicationStateInt, payload: string) => {
   const view = {...components[index]};
   view.componentState = view.componentState.filter(pieceOfState => pieceOfState.name !== payload);
   components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  focusComponent.componentState = focusComponent.componentState.filter(pieceOfState => pieceOfState.name !== payload);
   return {
     ...state,
-    components
+    components,
+    focusComponent
   };
 };
 
@@ -730,8 +746,15 @@ export const renameState = (state: ApplicationStateInt, payload: {oldName: strin
   const view = {...components[index]};
   const piecesOfState = {...view.componentState, [payload.newName]: view.componentState[payload.oldName]};
   delete piecesOfState[payload.oldName];
+  view.componentState = piecesOfState;
+  components.splice(index, 1, view);
+  const focusComponent = {...state.focusComponent};
+  const pieceOfState = {...focusComponent.componentState, [payload.newName]: focusComponent.componentState[payload.oldName]};
+  delete pieceOfState[payload.oldName];
+  focusComponent.componentState = pieceOfState;
   return {
     ...state,
-    components
+    components,
+    focusComponent
   }
 };
