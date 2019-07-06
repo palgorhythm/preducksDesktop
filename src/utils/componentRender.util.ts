@@ -1,5 +1,10 @@
 import {
-  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt, ComponentStateInterface
+  ComponentInt,
+  ComponentsInt,
+  ChildInt,
+  ChildrenInt,
+  PropInt,
+  ComponentStateInterface,
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
@@ -14,14 +19,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     props,
     selectors,
     actions,
-    componentState
+    componentState,
   }: {
-    childrenArray: ChildrenInt;
-    title: string;
-    props: PropInt[];
-    selectors: string[];
-    actions: string[];
-    componentState: ComponentStateInterface[];
+  childrenArray: ChildrenInt;
+  title: string;
+  props: PropInt[];
+  selectors: string[];
+  actions: string[];
+  componentState: ComponentStateInterface[];
   } = component;
   function typeSwitcher(type: string) {
     switch (type) {
@@ -97,18 +102,18 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
-  let toImport = [];
+  const toImport = [];
   if (selectors.length) {
     toImport.push('useSelector');
-  } 
+  }
   if (actions.length) {
     toImport.push('useDispatch');
   }
   if (componentState.length) {
     toImport.push('useState');
   }
-  let importFromReactReduxText = `import {${ toImport.join(',') }} from 'react-redux'`;
-  
+  const importFromReactReduxText = `import {${toImport.join(',')}} from 'react-redux'`;
+
   const actionsToImport = actions.length ? actions.join(', ') : '';
 
   const importsText = `import React from 'react';
@@ -123,9 +128,9 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ${actions.length ? `import {${actionsToImport}} from '../actions';` : ''}
   \n\n`;
 
-  const propsText = `type Props = {
-    ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
-  }\n\n`;
+  // const propsText = `type Props = {
+  //   ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
+  // }\n\n`;
 
   const childrenToRender = `<div>
     ${cloneDeep(childrenArray)
@@ -147,23 +152,28 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     : '';
 
   const useStateCalls = componentState.length
-      ? componentState
-          .map((pieceOfState: ComponentStateInterface) => {
-            const initialValue = pieceOfState.type === 'string' ? `'${pieceOfState.initialValue}'` : pieceOfState.initialValue;
-            return `const [${pieceOfState.name}, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState(${initialValue})`
-          })
-      : '';
+    ? componentState.map((pieceOfState: ComponentStateInterface) => {
+      const initialValue = pieceOfState.type === 'string'
+        ? `'${pieceOfState.initialValue}'`
+        : pieceOfState.initialValue;
+      return `const [${
+        pieceOfState.name
+      }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(
+        1,
+      )}] = useState(${initialValue})`;
+    })
+    : '';
 
+  const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;
   const functionalComponentBody = `
   const ${title} = (props: Props) => {
-    const {${props.map(el => el.key).join(',\n')}} = props
     ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}
     return (${childrenToRender});
   }
   export default ${title};`;
-  return importsText + propsText + functionalComponentBody;
+  return importsText + functionalComponentBody;
 };
 
 // console.log(

@@ -155,16 +155,16 @@ const initialApplicationState: ApplicationStateInt = {
 const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
-      return { ...state };
-    // return {
-    //   ...state,
-    //   ...action.payload.data,
-    //   loading: false,
-    //   appDir: '',
-    //   successOpen: false,
-    //   errorOpen: false,
-    //   storeConfig: dummyStoreConfig,
-    // };
+      // return { ...state };
+      return {
+        ...state,
+        ...action.payload.data,
+        loading: false,
+        appDir: '',
+        successOpen: false,
+        errorOpen: false,
+        storeConfig: dummyStoreConfig,
+      };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case ADD_CHILD:
@@ -204,13 +204,13 @@ const componentReducer = (state = initialApplicationState, action: any) => {
     case UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
     case ADD_SELECTOR:
-      console.log('adding a selector!');
       return addSelector(state, action.payload);
     case DELETE_SELECTOR:
       return deleteSelector(state, action.payload);
     case ADD_ACTION_TO_COMPONENT:
       return addActionToComponent(state, action.payload);
     case DELETE_ACTION_FROM_COMPONENT:
+      // console.log('yetoto', action.payload);
       return deleteActionFromComponent(state, action.payload);
     case SET_REDUCER:
       return setReducer(state, action.payload);

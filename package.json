@@ -120,6 +120,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
+    "@typescript-eslint/parser": "^1.11.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.6",

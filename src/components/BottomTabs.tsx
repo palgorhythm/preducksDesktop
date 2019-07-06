@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Props from './Props';
+// import Props from './Props';
 import HtmlAttr from './HtmlAttr';
-// import CodePreview from './CodePreview';
+import CodePreview from './CodePreview';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 import ComponentReduxSetup from './ComponentReduxSetup';
 
@@ -157,8 +157,8 @@ class BottomTabs extends Component<PropsInt> {
             label="Component State"
           /> */}
         </Tabs>
-        {/* {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />} */}
-        {value === 1 && <ComponentReduxSetup focusComponent={components.find(comp => comp.title === focusComponent.title)} />}
+        {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />}
+        {value === 1 && <ComponentReduxSetup focusComponent={focusComponent} />}
         {value === 2 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 2 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>

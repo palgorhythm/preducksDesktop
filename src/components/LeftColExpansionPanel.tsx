@@ -34,8 +34,7 @@ const LeftColExpansionPanel = (props: any) => {
       <Grid item xs={9}>
         <div
           className={classes.root}
-          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}
-        >
+          style={!isFocused() ? {} : { boxShadow: '0 10px 10px rgba(0,0,0,0.25)' }}>
           <Grid item xs={12} style={{ color: 'red' }}>
             <List style={{ color: 'red' }}>
               <ListItem
@@ -43,8 +42,7 @@ const LeftColExpansionPanel = (props: any) => {
                 style={{ color: 'red' }}
                 onClick={() => {
                   changeFocusComponent({ title });
-                }}
-              >
+                }}>
                 <ListItemText
                   disableTypography
                   className={classes.light}
@@ -79,8 +77,7 @@ const LeftColExpansionPanel = (props: any) => {
                   marginTop: '0px',
                   marginLeft: '11px',
                   padding: '0px',
-                }}
-              >
+                }}>
                 <DeleteIcon style={{ color: '#D3D3D3' }} />
                 Delete Component
               </Button>
@@ -98,8 +95,7 @@ const LeftColExpansionPanel = (props: any) => {
               aria-label="Add"
               onClick={() => {
                 addChild({ title, childType: 'COMP' });
-              }}
-            >
+              }}>
               <AddIcon style={{ color, float: 'right' }} />
             </IconButton>
           </Tooltip>

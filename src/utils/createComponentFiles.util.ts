@@ -2,7 +2,12 @@ import fs from 'fs';
 import { format } from 'prettier';
 import componentRender from './componentRender.util';
 
-const createFiles = (components: any, path: string, appName: string, exportAppBool: boolean) => {
+const createComponentFiles = (
+  components: any,
+  path: string,
+  appName: string,
+  exportAppBool: boolean,
+) => {
   let dir = path;
   if (exportAppBool === false) {
     if (!dir.match(/components|\*$/)) {
@@ -23,6 +28,7 @@ const createFiles = (components: any, path: string, appName: string, exportAppBo
   const promises: Array<any> = [];
   components.forEach((component: any) => {
     const newPromise = new Promise((resolve, reject) => {
+      console.log('about to write file ', `${dir}/${component.title}.tsx`);
       fs.writeFile(
         `${dir}/${component.title}.tsx`,
         format(componentRender(component, components), {
@@ -45,4 +51,4 @@ const createFiles = (components: any, path: string, appName: string, exportAppBo
   return Promise.all(promises);
 };
 
-export default createFiles;
+export default createComponentFiles;

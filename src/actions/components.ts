@@ -47,7 +47,7 @@ import {
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
-import createFiles from '../utils/createFiles.util';
+import createComponentFiles from '../utils/createComponentFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
 import { ComponentState } from 'react';
 
@@ -143,12 +143,12 @@ path: string;
 appName: string;
 exportAppBool: boolean;
 }) => (dispatch: any) => {
-  // this dispatch sets the global state property 'loading' to true until the createFiles call resolves below
+  // this dispatch sets the global state property 'loading' to true until the createComponentFiles call resolves below
   dispatch({
     type: EXPORT_FILES,
   });
 
-  createFiles(components, path, appName, exportAppBool)
+  createComponentFiles(components, path, appName, exportAppBool)
     .then(dir => dispatch({
       type: EXPORT_FILES_SUCCESS,
       payload: { status: true, dir: dir[0] },
@@ -222,6 +222,7 @@ storeConfig: StoreConfigInterface;
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
+        console.log('trying to export files!');
         dispatch(
           exportFiles({
             appName,

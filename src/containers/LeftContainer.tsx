@@ -14,7 +14,7 @@ import Fab from '@material-ui/core/Fab';
 import LeftColExpansionPanel from '../components/LeftColExpansionPanel';
 import HTMLComponentPanel from '../components/HTMLComponentPanel';
 import * as actions from '../actions/components';
-import { ComponentInt, ComponentsInt, StoreConfigInterface } from '../utils/interfaces';
+import { ComponentInt, ComponentsInt, StoreConfigInterface, StoreInterface } from '../utils/interfaces';
 import createModal from '../utils/createModal.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -52,6 +52,11 @@ interface StateInt {
   genOptions: Array<string>;
   genOption: number;
 }
+
+const mapStateToProps = (store: StoreInterface) => ({
+  components: store.workspace.components,
+  storeConfig: store.workspace.storeConfig
+})
 
 const mapDispatchToProps = (dispatch: any) => ({
   addComponent: ({ title }: { title: string }) => dispatch(actions.addComponent({ title })),
@@ -116,17 +121,18 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     };
 
     IPC.on('app_dir_selected', (event: any, path: string) => {
-      const { components } = this.props;
+      const { components, storeConfig } = this.props;
       const { genOption } = this.state;
       const appName = 'dope_exported_preducks_app';
       const exportAppBool = true;
+      console.log(storeConfig);
       this.props.createApp({
         path,
         components,
         genOption,
         appName,
         exportAppBool,
-        storeConfig: storeConfigTTTMultiReducer,
+        storeConfig
       });
     });
   }
@@ -200,7 +206,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       modal: createModal({
         closeModal,
         children,
-        message: 'Choose export preference:',
+        message: 'choose export preference:',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -243,12 +249,18 @@ class LeftContainer extends Component<PropsInt, StateInt> {
 
     return (
       <div className="column left">
-        <Grid container align="stretch" alignItems="center" direction="row" justify="space-around" alignItems="center">
-          <Grid item>
+        <Grid
+          container
+          spacing={8}
+          align="stretch"
+          alignItems="center"
+          direction="row"
+          justify="space-around">
+          <Grid item xs={8}>
             <TextField
               id="title-input"
-              label="Add class component"
-              placeholder="Name of component"
+              label="add component"
+              placeholder="component name"
               margin="normal"
               autoFocus
               onChange={this.handleChange}
@@ -269,7 +281,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
               }}
             />
           </Grid>
-          <Grid item>
+          <Grid item xs={4}>
             <Fab
               size="small"
               color="secondary"
@@ -282,7 +294,11 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           </Grid>
         </Grid>
         <div className="expansionPanel">{componentsExpansionPanel}</div>
-
+        <HTMLComponentPanel
+          className={classes.htmlCompWrapper}
+          focusComponent={focusComponent}
+          addChild={addChild}
+        />
         <div
           style={{
             width: '100%',
@@ -378,7 +394,7 @@ function styles(): any {
 export default compose(
   withStyles(styles),
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
   ),
 )(LeftContainer);

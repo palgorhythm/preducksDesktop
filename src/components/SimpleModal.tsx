@@ -47,16 +47,14 @@ const SimpleModal = (props: any) => {
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         onClose={closeModal}
-        open={open}
-      >
+        open={open}>
         <div
           style={{
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
           }}
-          className={classes.paper}
-        >
+          className={classes.paper}>
           <IconButton
             aria-label="Close"
             onClick={closeModal}
@@ -66,11 +64,10 @@ const SimpleModal = (props: any) => {
               right: '1%',
               fontSize: '17px',
               fontWeight: 'bold',
-            }}
-          >
+            }}>
             <CloseIcon />
           </IconButton>
-          <Typography variant="title" id="modal-title">
+          <Typography variant="h5" id="modal-title">
             {message}
           </Typography>
           <div>{children}</div>
@@ -80,8 +77,7 @@ const SimpleModal = (props: any) => {
                 variant="contained"
                 color="secondary"
                 className={classes.button}
-                onClick={secBtnAction}
-              >
+                onClick={secBtnAction}>
                 {secBtnLabel}
               </Button>
             ) : null}
@@ -90,8 +86,7 @@ const SimpleModal = (props: any) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={primBtnAction}
-              >
+                onClick={primBtnAction}>
                 {primBtnLabel}
               </Button>
             ) : null}

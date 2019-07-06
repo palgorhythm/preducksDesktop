@@ -5,7 +5,6 @@ const fs = require('fs');
 
 function createFolders(path, appName) {
   const dir = path;
-  console.log('this is the dir', `${dir}${appName}`);
   if (!fs.existsSync(`${dir}/${appName}`)) {
     fs.mkdirSync(`${dir}/${appName}`); // make folder for whole app
     fs.mkdirSync(`${dir}/${appName}/src`); // make src folder

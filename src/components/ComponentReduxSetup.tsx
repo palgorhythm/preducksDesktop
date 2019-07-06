@@ -31,7 +31,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
   const rowHeader = ['Actions', 'Store Selections'];
-  // console.log(focusComponent);
+  console.log(focusComponent);
   let selectorOptions = [];
   let actionOptions = [];
   Object.keys(storeConfig.reducers).forEach((reducerName) => {
@@ -39,7 +39,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
       selectorOptions.push(`${reducerName}.${storePieceName}`);
     });
     Object.keys(storeConfig.reducers[reducerName].actions).forEach((actionName) => {
-      actionOptions.push(`${reducerName}.${actionName}`);
+      actionOptions.push(`${actionName}`);
     });
   });
 
@@ -113,12 +113,12 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
               <DataTable
                 rowHeader={['Store Selections']}
                 rowData={focusComponent.selectors}
-                deletePropHandler={deleteSelector}
+                deletePropHandler={name => dispatch(deleteSelector(name))}
               />
               <DataTable
                 rowHeader={['Actions']}
                 rowData={focusComponent.actions}
-                deletePropHandler={deleteActionFromComponent}
+                deletePropHandler={name => dispatch(deleteActionFromComponent(name))}
               />
             </Grid>
             <Grid item xs={1} />

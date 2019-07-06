@@ -1,6 +1,7 @@
 import Tree from 'react-d3-tree';
 import React, { Component, useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import { create } from 'domain';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
 interface TreeInt {
@@ -103,8 +104,8 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
         zoomable={true}
         orientation={'vertical'}
         textLayout={{
-          textAnchor: 'center',
-          x: -20,
+          textAnchor: 'middle',
+          x: 0,
           y: 0,
           transform: undefined,
         }}
@@ -112,15 +113,15 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
           nodes: {
             node: {
               name: {
-                fill: '#D3D3D3',
-                stroke: '#D3D3D3',
+                fill: '#000000',
+                stroke: '#000000',
                 strokeWidth: 1,
               },
             },
             leafNode: {
               name: {
-                fill: '#D3D3D3',
-                stroke: '#D3D3D3',
+                fill: '#000000',
+                stroke: '#000000',
                 strokeWidth: 1,
               },
             },
@@ -135,18 +136,11 @@ export default withStyles(styles)(TreeDisplay);
 
 function generateComponentTree(componentId: number, components: ComponentsInt) {
   const component = components.find(comp => comp.id === componentId);
-  const myShape = {
-    shape: 'circle',
-    shapeProps: {
-      r: 50,
-      fill: '#007BFF',
-    },
-  };
   const tree = {
     name: component.title,
     attributes: {},
     children: [],
-    nodeSvgShape: myShape,
+    nodeSvgShape: createRandomColorShape(80, '#F00BFF'),
   };
   component.childrenArray.forEach((child) => {
     if (child.childType === 'COMP') {
@@ -156,21 +150,23 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
         name: child.componentName,
         attributes: {},
         children: [],
-        nodeSvgShape: createRandomColorShape(),
+        nodeSvgShape: createRandomColorShape(50, '#007BFF'),
       });
     }
   });
   return tree;
 }
 
-function createRandomColorShape() {
+function createRandomColorShape(size, color) {
   return {
     shape: 'circle',
     shapeProps: {
-      r: 50,
-      fill: `rgb(${Math.floor(255 * Math.random())},${Math.floor(255 * Math.random())},${Math.floor(
-        255 * Math.random(),
-      )})`,
+      r: size,
+      fill: color,
     },
   };
 }
+
+const randomColor = `rgb(${Math.floor(255 * Math.random())},${Math.floor(
+  255 * Math.random(),
+)},${Math.floor(255 * Math.random())})`;

@@ -52,7 +52,7 @@ function dataTable(props: any) {
   function renderRowCells(row: any) {
     if (!row) return;
     // for some reason we must put each value in a div.
-    console.log('yeet', row, rowHeader);
+    // console.log('yeet', row, rowHeader);
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`${uuid.v4()}`}>
         {row.toString()}
@@ -64,7 +64,7 @@ function dataTable(props: any) {
     <TableRow key={`${uuid.v4()}`}>
       {renderRowCells(row)}
       <TableCell align={'center'} padding={'none'}>
-        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row.id)}>
+        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row)}>
           <DeleteIcon />
         </IconButton>
         {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}
