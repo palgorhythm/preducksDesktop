@@ -5,6 +5,8 @@ import {
   ChildInt,
   InterfacesInterface,
   ReducersInterface,
+  StoreConfigInterface,
+  ComponentStateInterface
 } from '../utils/Interfaces';
 import {
   LOAD_INIT_DATA,
@@ -39,11 +41,15 @@ import {
   SET_INTERFACE,
   DELETE_INTERFACE,
   RENAME_INTERFACE,
+  SET_STATE,
+  DELETE_STATE,
+  RENAME_STATE
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
 import createFiles from '../utils/createFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
+import { ComponentState } from 'react';
 
 export const loadInitData = () => (dispatch: any) => {
   loadState().then((data: any) => dispatch({
@@ -321,4 +327,22 @@ export const renameInterface = (oldName: string, newName: string) => ({
     oldName,
     newName,
   },
+});
+
+export const setState = (state: ComponentStateInterface) => ({
+  type: SET_STATE,
+  payload: state
+});
+
+export const deleteState = (name: string) => ({
+  type: DELETE_STATE,
+  payload: name
+});
+
+export const renameState = (oldName: string, newName: string) => ({
+  type: RENAME_STATE,
+  payload: {
+    oldName,
+    newName
+  }
 });

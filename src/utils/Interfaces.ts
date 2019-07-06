@@ -27,9 +27,16 @@ export interface ChildInt {
 
 export interface ChildrenInt extends Array<ChildInt> {}
 
+export interface ComponentStateInterface {
+  name: string;
+  type: string;
+  initialValue: any;
+}
+
 export interface ComponentInt {
   id: number;
   stateful: boolean;
+  componentState: ComponentStateInterface[];
   title: string;
   color: string;
   props: PropInt[];

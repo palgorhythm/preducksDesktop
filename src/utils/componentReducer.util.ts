@@ -2,11 +2,21 @@ import getSelectable from './getSelectable.util';
 import getColor from './colors.util';
 import { getSize } from './htmlElements.util';
 import cloneDeep from './cloneDeep';
-import { ComponentInt, ApplicationStateInt, ChildrenInt, ChildInt, ComponentsInt, PropInt, ReducersInterface, InterfacesInterface } from './Interfaces';
+import { ComponentInt, 
+        ApplicationStateInt, 
+        ChildrenInt, 
+        ChildInt, 
+        ComponentsInt, 
+        PropInt, 
+        ReducersInterface, 
+        InterfacesInterface,
+        ComponentStateInterface
+      } from './Interfaces';
 
 const initialComponentState: ComponentInt = {
   id: 0,
   stateful: false,
+  componentState: [],
   title: '',
   color: getColor(),
   props: [],
@@ -124,17 +134,17 @@ export const addChild = (
   const newPosition =
     childType === 'COMP'
       ? {
-          x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
-          y: view.position.y + ((view.nextChildId * 16) % 150),
-          width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
-          height: parentComponent.position.height - 1,
-        }
+        x: view.position.x + ((view.nextChildId * 16) % 150), // new children are offset by some amount, map of 150px
+        y: view.position.y + ((view.nextChildId * 16) % 150),
+        width: parentComponent.position.width - 1, // new children have an initial position of their CLASS (maybe don't need 90%)
+        height: parentComponent.position.height - 1,
+      }
       : {
-          x: view.position.x + view.nextChildId * 16,
-          y: view.position.y + view.nextChildId * 16,
-          width: htmlElemPosition.width,
-          height: htmlElemPosition.height,
-        };
+        x: view.position.x + view.nextChildId * 16,
+        y: view.position.y + view.nextChildId * 16,
+        width: htmlElemPosition.width,
+        height: htmlElemPosition.height,
+      };
 
   const newChild: ChildInt = {
     childId: view.nextChildId,
@@ -220,7 +230,7 @@ export const deleteChild = (
     focusChild: calledFromDeleteComponent
       ? cloneDeep(state.initialApplicationFocusChild)
       : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1] ||
-        cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
+      cloneDeep(state.initialApplicationFocusChild), // guard in case final child is deleted
   };
 };
 
@@ -545,49 +555,63 @@ export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }
 };
 
 export const addSelector = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let selectors = [...view.selectors, payload];
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.selectors = [...view.selectors, payload];
+  components.splice(index, 1, view);
   return {
     ...state,
-    selectors
-  }
+    components
+  };
 };
 
 export const deleteSelector = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let selectors = [...view.selectors].filter(selector => selector !== payload);
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.selectors = view.selectors.filter(selector => selector !== payload);
+  components.splice(index, 1, view);
   return {
     ...state,
-    selectors
-  }
+    components
+  };
 };
 
 export const addActionToComponent = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let actions = [...view.actions, payload];
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.actions = [...view.actions, payload];
+  components.splice(index, 1, view);
   return {
     ...state,
-    actions
-  }
+    components
+  };
 };
 
 export const deleteActionFromComponent = (state: ApplicationStateInt, payload: string) => {
-  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
-  let actions = [...view.actions].filter(action => action !== 'payload');
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.actions = view.actions.filter(action => action !== payload);
+  components.splice(index, 1, view);
   return {
     ...state,
-    actions
-  }
+    components
+  };
 };
 
 export const setReducer = (state: ApplicationStateInt, payload: ReducersInterface) => {
-  const storeConfig = {interfaces: {
-    ...state.storeConfig.interfaces
-  },
-  reducers: {
-    ...state.storeConfig.reducers,
-    ...payload
-  }};
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces
+    },
+    reducers: {
+      ...state.storeConfig.reducers,
+      ...payload
+    }
+  };
   return {
     ...state,
     storeConfig
@@ -601,7 +625,8 @@ export const deleteReducer = (state: ApplicationStateInt, payload: string) => {
     },
     reducers: {
       ...state.storeConfig.reducers
-  }};
+    }
+  };
   delete storeConfig.reducers[payload];
   return {
     ...state,
@@ -609,7 +634,7 @@ export const deleteReducer = (state: ApplicationStateInt, payload: string) => {
   }
 };
 
-export const renameReducer = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
+export const renameReducer = (state: ApplicationStateInt, payload: { oldName: string, newName: string }) => {
   const storeConfig = {
     interfaces: {
       ...state.storeConfig.interfaces
@@ -617,7 +642,8 @@ export const renameReducer = (state: ApplicationStateInt, payload: {oldName: str
     reducers: {
       ...state.storeConfig.reducers,
       [payload.newName]: state.storeConfig.reducers[payload.oldName]
-  }};
+    }
+  };
   delete storeConfig.reducers[payload.oldName];
   return {
     ...state,
@@ -626,13 +652,15 @@ export const renameReducer = (state: ApplicationStateInt, payload: {oldName: str
 };
 
 export const setInterface = (state: ApplicationStateInt, payload: InterfacesInterface) => {
-  const storeConfig = {interfaces: {
-    ...state.storeConfig.interfaces,
-    ...payload
-  },
-  reducers: {
-    ...state.storeConfig.reducers
-  }};
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces,
+      ...payload
+    },
+    reducers: {
+      ...state.storeConfig.reducers
+    }
+  };
   return {
     ...state,
     storeConfig
@@ -640,12 +668,14 @@ export const setInterface = (state: ApplicationStateInt, payload: InterfacesInte
 };
 
 export const deleteInterface = (state: ApplicationStateInt, payload: string) => {
-  const storeConfig = {interfaces: {
-    ...state.storeConfig.interfaces
-  },
-  reducers: {
-    ...state.storeConfig.reducers
-  }};
+  const storeConfig = {
+    interfaces: {
+      ...state.storeConfig.interfaces
+    },
+    reducers: {
+      ...state.storeConfig.reducers
+    }
+  };
   delete storeConfig.interfaces[payload];
   return {
     ...state,
@@ -653,7 +683,7 @@ export const deleteInterface = (state: ApplicationStateInt, payload: string) => 
   }
 };
 
-export const renameInterface = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
+export const renameInterface = (state: ApplicationStateInt, payload: { oldName: string, newName: string }) => {
   const storeConfig = {
     interfaces: {
       ...state.storeConfig.interfaces,
@@ -661,10 +691,50 @@ export const renameInterface = (state: ApplicationStateInt, payload: {oldName: s
     },
     reducers: {
       ...state.storeConfig.reducers,
-  }};
+    }
+  };
   delete storeConfig.interfaces[payload.oldName];
   return {
     ...state,
     storeConfig
+  }
+};
+
+export const setState = (state: ApplicationStateInt, payload: ComponentStateInterface) => {
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.componentState = [...view.componentState, payload];
+  components.splice(index, 1, view);
+  return {
+    ...state,
+    components
+  };
+};
+
+export const deleteState = (state: ApplicationStateInt, payload: string) => {
+  const components = [...state.components];
+  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+  const view = {...components[index]};
+  view.componentState = view.componentState.filter(pieceOfState => pieceOfState.name !== payload);
+  components.splice(index, 1, view);
+  return {
+    ...state,
+    components
+  };
+};
+
+// REFACTOR THIS
+export const renameState = (state: ApplicationStateInt, payload: {oldName: string, newName: string}) => {
+  const view: ComponentInt = state.components.find(comp => comp.title === state.focusComponent.title);
+  const componentState = JSON.parse(JSON.stringify(view.componentState));
+  componentState.forEach((pieceOfState, i) => {
+    if (pieceOfState.name === payload.oldName) {
+      componentState[i].name = payload.newName;
+    }
+  });
+  return {
+    ...state,
+    componentState
   }
 };

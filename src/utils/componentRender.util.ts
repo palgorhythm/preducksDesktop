@@ -1,5 +1,5 @@
 import {
-  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt,
+  ComponentInt, ComponentsInt, ChildInt, ChildrenInt, PropInt, ComponentStateInterface
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
 
@@ -14,14 +14,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     props,
     selectors,
     actions,
+    componentState
   }: {
-  childrenArray: ChildrenInt;
-  title: string;
-  props: PropInt[];
-  selectors: string[];
-  actions: string[];
+    childrenArray: ChildrenInt;
+    title: string;
+    props: PropInt[];
+    selectors: string[];
+    actions: string[];
+    componentState: ComponentStateInterface[];
   } = component;
-
   function typeSwitcher(type: string) {
     switch (type) {
       case 'string':
@@ -96,15 +97,18 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   }
 
-  let importFromReactReduxText = '';
-  if (selectors.length && actions.length) {
-    importFromReactReduxText = "import {useSelector, useDispatch} from 'react-redux';";
-  } else if (selectors.length) {
-    importFromReactReduxText = "import {useSelector} from 'react-redux';";
-  } else if (actions.length) {
-    importFromReactReduxText = "import {useDispatch} from 'react-redux';";
+  let toImport = [];
+  if (selectors.length) {
+    toImport.push('useSelector');
+  } 
+  if (actions.length) {
+    toImport.push('useDispatch');
   }
-
+  if (componentState.length) {
+    toImport.push('useState');
+  }
+  let importFromReactReduxText = `import {${ toImport.join(',') }} from 'react-redux'`;
+  
   const actionsToImport = actions.length ? actions.join(', ') : '';
 
   const importsText = `import React from 'react';
@@ -137,14 +141,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       .map((selector) => {
         const selectorStrings = selector.split('.');
         const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
-        return `let ${variableName} = useSelector(state => state.${selector})`;
+        return `const ${variableName} = useSelector(state => state.${selector})`;
       })
       .join('\n')
     : '';
 
+  const useStateCalls = componentState.length
+      ? componentState
+          .map((pieceOfState: ComponentStateInterface) => {
+            const initialValue = pieceOfState.type === 'string' ? `'${pieceOfState.initialValue}'` : pieceOfState.initialValue;
+            return `const [${pieceOfState.name}, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState(${initialValue})`
+          })
+      : '';
+
   const functionalComponentBody = `
   const ${title} = (props: Props) => {
     const {${props.map(el => el.key).join(',\n')}} = props
+    ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}
     return (${childrenToRender});
