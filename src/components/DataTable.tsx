@@ -28,17 +28,19 @@ const styles = (theme: any) => ({
  * ****************************** */
 
 function dataTable(props: any) {
-  const { classes, rowData, rowHeader, deletePropHandler } = props;
+  const {
+    classes, rowData, rowHeader, deletePropHandler,
+  } = props;
 
-  const renderHeader = rowHeader.map((col: any, idx: number) => <TableCell key={`head_+${idx}`}>{col}</TableCell>);
+  const renderHeader = rowHeader.map((col: any, idx: number) => (
+    <TableCell key={`head_+${idx}`}>{col}</TableCell>
+  ));
 
   function renderRowCells(row: any) {
     if (!row) return;
     // for some reason we must put each value in a div.
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`td_${idx}`}>
-        {/* <div  align={'center'} padding = {'none'} >{typeof row[header] === 'string' ? row[header] : row[header].toString()}</div> */}
-        {/* {row[header]} */}
         {typeof row[header] === 'string' ? row[header] : row[header].toString()}
       </TableCell>
     ));

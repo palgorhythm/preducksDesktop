@@ -272,7 +272,6 @@ export const addSelector = (name: string) => ({
   type: ADD_SELECTOR,
   payload: name,
 });
-
 export const deleteSelector = (name: string) => ({
   type: DELETE_SELECTOR,
   payload: name,

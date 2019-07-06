@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Tree from 'react-d3-tree';
 import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
+import ComponentReduxSetup from './ComponentReduxSetup';
 
 interface PropsInt {
   focusChild: ChildInt;
@@ -17,11 +17,11 @@ interface PropsInt {
   classes: any;
 }
 
-interface TreeInt {
-  name: string;
-  attributes: { [key: string]: { value: string } };
-  children: TreeInt[];
-}
+// interface TreeInt {
+//   name: string;
+//   attributes: { [key: string]: { value: string } };
+//   children: TreeInt[];
+// }
 
 const styles = (theme: any): any => ({
   root: {
@@ -157,43 +157,8 @@ class BottomTabs extends Component<PropsInt> {
             label="Component State"
           /> */}
         </Tabs>
-
-        {value === 999 && (
-          <div
-            id="treeWrapper"
-            style={{ 
-              width: '100%',
-              height: '100%',
-            }}
-            ref={node => (this.treeWrapper = node)}>
-            <Tree
-              data={[this.generateComponentTree(focusComponent.id, components)]}
-              separation={{ siblings: 0.3, nonSiblings: 0.3 }}
-              transitionDuration={0}
-              translate={this.state.translate}
-              styles={{
-                nodes: {
-                  node: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                  leafNode: {
-                    name: {
-                      fill: '#D3D3D3',
-                      stroke: '#D3D3D3',
-                      strokeWidth: 1,
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
-        )}
         {value === 0 && <CodePreview focusComponent={focusComponent} components={components} />}
-        {value === 1 && <Props />}
+        {value === 1 && <ComponentReduxSetup focusComponent={focusComponent}/>}
         {value === 2 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 2 && focusChild.childType !== 'HTML' && (
           <p>Please select an HTML element to view attributes</p>

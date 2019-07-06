@@ -102,6 +102,33 @@ const initialApplicationFocusChild: ChildInt = {
   HTMLInfo: null,
 };
 
+const dummyStoreConfig = {
+  // config at the global level for redux store/actions
+  interfaces: {
+    todo: { id: 'number', title: 'string', completed: 'boolean' },
+  },
+  reducers: {
+    todos: {
+      store: {
+        todoArray: { type: 'todo', array: true, initialValue: [] },
+        allCompleted: { type: 'boolean', array: false, initialValue: false },
+      },
+      actions: {
+        fetchTodos: {
+          parameter: { name: '', type: '', array: false },
+          payload: { type: 'todo', array: true },
+          async: true,
+        },
+        deleteTodo: {
+          parameter: { name: 'id', type: 'number', array: false },
+          payload: { type: 'number', array: false },
+          async: false,
+        },
+      },
+    },
+  },
+};
+
 const initialApplicationState: ApplicationStateInt = {
   totalComponents: 1,
   nextId: 2,
@@ -115,10 +142,7 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
-  storeConfig: {
-    interfaces: {},
-    reducers: {},
-  },
+  storeConfig: dummyStoreConfig,
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -131,6 +155,7 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         appDir: '',
         successOpen: false,
         errorOpen: false,
+        storeConfig: dummyStoreConfig,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);

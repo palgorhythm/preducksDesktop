@@ -1,10 +1,9 @@
 /* eslint-disable linebreak-style */
 const path = require('path');
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 const BUILD_DIR = path.join(__dirname, 'build');
 const SRC_DIR = path.join(__dirname, 'src');

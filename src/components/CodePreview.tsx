@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { hybrid } from 'react-syntax-highlighter/dist/styles/hljs/';
+import { qtcreatorDark as style } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import componentRender from '../utils/componentRender.util';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
 /** **   SortCHildren will be fixed , dont XXX the file  *** */
@@ -20,12 +20,12 @@ class CodePreview extends Component<Props> {
     return (
       <div
         style={{
-          height: '300px',
+          height: '400px',
           padding: '0',
           overflow: 'auto',
           fontSize: '20px',
         }}>
-        <SyntaxHighlighter style={hybrid}>
+        <SyntaxHighlighter style={style}>
           {format(componentRender(focusComponent, components), {
             parser: 'typescript',
           })}
