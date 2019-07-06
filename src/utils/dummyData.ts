@@ -1,6 +1,6 @@
 import { StoreConfigInterface } from './Interfaces';
 
-const dummyComponent = {
+export const dummyComponent = {
   id: 1,
   stateful: false,
   title: 'App',
@@ -72,7 +72,7 @@ const dummyComponent = {
   actions: ['action1, action2'],
 };
 
-const dummyAllComponents = [
+export const dummyAllComponents = [
   {
     id: 1,
     stateful: false,
@@ -354,10 +354,10 @@ const storeConfigTodo: StoreConfigInterface = {
   },
 };
 
-module.exports = {
-  dummyComponent,
-  dummyAllComponents,
-  storeConfigTTTMultiReducer,
-  storeConfigTicTacToe,
-  storeConfigTodo,
-};
+// module.exports = {
+//   dummyComponent,
+//   dummyAllComponents,
+//   storeConfigTTTMultiReducer,
+//   storeConfigTicTacToe,
+//   storeConfigTodo,
+// };

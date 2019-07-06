@@ -4,10 +4,12 @@ import {
 import cloneDeep from './cloneDeep';
 
 // testing stuff
-// import { format } from 'prettier'; // also for testing
-// import { dummyComponent, dummyAllComponents } from './dummyData';
+import { format } from 'prettier'; // also for testing
+import { dummyComponent, dummyAllComponents } from './dummyData';
 
-const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+// const componentRender = (component: ComponentInt, components: ComponentsInt) => {
+const componentRender = (component, components) => {
+  // const {
   const {
     childrenArray,
     title,
@@ -109,7 +111,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   if (componentState.length) {
     toImport.push('useState');
   }
-  let importFromReactReduxText = `import {${ toImport.join(',') }} from react-redux`;
+  let importFromReactReduxText = `import {${ toImport.join(',') }} from 'react-redux'`;
   
   const actionsToImport = actions.length ? actions.join(', ') : '';
 
@@ -143,7 +145,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       .map((selector) => {
         const selectorStrings = selector.split('.');
         const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
-        return `let ${variableName} = useSelector(state => state.${selector})`;
+        return `const ${variableName} = useSelector(state => state.${selector})`;
       })
       .join('\n')
     : '';
@@ -151,7 +153,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   const useStateCalls = componentState.length
       ? componentState
           .map((pieceOfState: ComponentStateInterface) => {
-            return `const [${pieceOfState.name}, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState(${pieceOfState.initialValue})`
+            const initialValue = pieceOfState.type === 'string' ? `'${pieceOfState.initialValue}'` : pieceOfState.initialValue;
+            return `const [${pieceOfState.name}, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState(${initialValue})`
           })
       : '';
 
@@ -167,13 +170,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   return importsText + propsText + functionalComponentBody;
 };
 
-// console.log(
-//   format(componentRender(dummyComponent, dummyAllComponents), {
-//     singleQuote: true,
-//     trailingComma: 'es5',
-//     bracketSpacing: true,
-//     jsxBracketSameLine: true,
-//     parser: 'typescript',
-//   }),
-// );
+console.log(
+  format(componentRender(dummyComponent, dummyAllComponents), {
+    singleQuote: true,
+    trailingComma: 'es5',
+    bracketSpacing: true,
+    jsxBracketSameLine: true,
+    parser: 'typescript',
+  }),
+);
 export default componentRender;
