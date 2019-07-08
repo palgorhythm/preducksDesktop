@@ -147,7 +147,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
       .map((selector) => {
         const selectorStrings = selector.split('.');
         const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
-        return `const ${variableName} = useSelector(state => state.${selector})`;
+        return `const ${variableName} = useSelector(state => state.${selector});`;
       })
       .join('\n')
     : '';
@@ -161,8 +161,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         pieceOfState.name
       }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(
         1,
-      )}] = useState(${initialValue})`;
-    })
+      )}] = useState(${initialValue});`;
+    }).join('\n')
     : '';
 
   const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;

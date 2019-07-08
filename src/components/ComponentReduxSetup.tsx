@@ -6,11 +6,14 @@ import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
+import Input from '@material-ui/core/Input';
 import {
   addSelector,
   deleteSelector,
   addActionToComponent,
   deleteActionFromComponent,
+  setState,
+  deleteState
 } from '../actions/components';
 import DataTable from './DataTable';
 import { StoreInterface, StoreConfigInterface } from '../utils/Interfaces';
@@ -27,6 +30,9 @@ const convertToOptions = choices => [
 const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const [chosenAction, setChosenAction] = useState('');
   const [chosenSelector, setChosenSelector] = useState('');
+  const [enteredName, setEnteredName] = useState('');
+  const [enteredType, setEnteredType] = useState('');
+  const [enteredValue, setEnteredValue] = useState('');
   const storeConfig = useSelector(store => store.workspace.storeConfig);
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
@@ -48,7 +54,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
 
   const handleChange = cb => e => cb(e.target.value);
 
-  const handleSubmit = (cb, value) => {
+  const handleStoreSubmit = (cb, value) => {
     const callback = cb;
     return (e) => {
       e.preventDefault();
@@ -57,9 +63,14 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     };
   };
 
+  const handleLocalStateSubmit = e => {
+    e.preventDefault();
+    return dispatch(setState({name: enteredName, type: enteredType, initialValue: enteredValue}));
+  };
+
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
     <Grid item xs={3}>
-      <form className="props-input" onSubmit={handleSubmit(onSubmit, value)}>
+      <form className="props-input" onSubmit={handleStoreSubmit(onSubmit, value)}>
         <Grid container spacing={8}>
           <Grid item xs={6}>
             <FormControl required>
@@ -122,6 +133,31 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
               />
             </Grid>
             <Grid item xs={1} />
+          </Grid>
+          <Grid container spacing={8} direction='row'>
+            <form onSubmit={e => handleLocalStateSubmit(e)}>
+              <h3>Add local state to component</h3>
+              <FormControl required>
+                <InputLabel className={classes.light} htmlFor="localstate-name">Name:</InputLabel>
+                <Input className={classes.light} id="localstate-name" onChange={handleChange(setEnteredName)}></Input>
+              </FormControl>
+              <FormControl required>
+                <InputLabel className={classes.light} htmlFor="localstate-type">Type:</InputLabel>
+                <Input className={classes.light} id="localstate-type" onChange={handleChange(setEnteredType)}></Input>
+              </FormControl>
+              <FormControl required>
+                <InputLabel className={classes.light} htmlFor="localstate-value">Value:</InputLabel>
+                <Input className={classes.light} id="localstate-value" onChange={handleChange(setEnteredValue)}></Input>
+              </FormControl>
+              <Button color="primary" aria-label="Add" type="submit" variant="contained" size="large">
+                {`submit local state`}
+              </Button>
+            </form>
+            <DataTable
+                rowHeader={['Local State on Component']}
+                rowData={focusComponent.componentState.map(state => JSON.stringify(state))}
+                deletePropHandler={name => dispatch(deleteState(JSON.parse(name).name))}
+              />
           </Grid>
         </div>
       )}
