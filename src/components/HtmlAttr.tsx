@@ -6,9 +6,9 @@ import TextField from '@material-ui/core/TextField';
 import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
-import { updateHtmlAttr } from '../actions/components.ts';
-import { HTMLelements } from '../utils/htmlElements.util.ts';
-import { ComponentInt, ChildInt } from '../utils/interfaces.ts';
+import { updateHtmlAttr } from '../actions/components';
+import { HTMLelements } from '../utils/htmlElements.util';
+import { ComponentInt, ChildInt } from '../utils/interfaces';
 
 interface PropsInt {
   updateHtmlAttr: any;
@@ -111,8 +111,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               marginTop: '5px',
               marginBottom: '10px',
             }}
-            onClick={() => this.handleSave(attr)}
-          >
+            onClick={() => this.handleSave(attr)}>
             <SaveIcon />
             Save
           </Fab>

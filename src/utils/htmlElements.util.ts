@@ -43,7 +43,7 @@ const HTMLelements: htmlElementsInt = {
   Link: {
     width: 50,
     height: 50,
-    attributes: ['className', 'id', 'text'],
+    attributes: ['className', 'id', 'href', 'text'],
   },
 };
 

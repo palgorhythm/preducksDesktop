@@ -113,15 +113,15 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
           nodes: {
             node: {
               name: {
-                fill: '#000000',
-                stroke: '#000000',
+                fill: '#FFFFFF',
+                stroke: '#FFFFFF',
                 strokeWidth: 1,
               },
             },
             leafNode: {
               name: {
-                fill: '#000000',
-                stroke: '#000000',
+                fill: '#FFFFFF',
+                stroke: '#FFFFFF',
                 strokeWidth: 1,
               },
             },
@@ -140,7 +140,7 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
     name: component.title,
     attributes: {},
     children: [],
-    nodeSvgShape: createRandomColorShape(80, '#F00BFF'),
+    nodeSvgShape: createRandomColorShape(60, '#F00BFF'),
   };
   component.childrenArray.forEach((child) => {
     if (child.childType === 'COMP') {
@@ -150,7 +150,7 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
         name: child.componentName,
         attributes: {},
         children: [],
-        nodeSvgShape: createRandomColorShape(50, '#007BFF'),
+        nodeSvgShape: createRandomColorShape(40, '#007BFF'),
       });
     }
   });
