@@ -1,43 +1,42 @@
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { Fragment } from 'react';
+import { useDispatch } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { addChild, deleteChild } from '../actions/components';
+import { addChild, deleteChild, deleteComponent } from '../actions/components';
 // import { StoreInterface, StoreConfigInterface } from '../utils/Interfaces';
 
 const HtmlChild: React.FC = (props: any): JSX.Element => {
-  const { classes } = props;
-
-  // const deleteButton = (
-  //   <Fragment>
-  //     {/* shows the delete button */}
-  //     <Button
-  //       variant="text"
-  //       size="small"
-  //       color="default"
-  //       aria-label="Delete"
-  //       className={classes.margin}
-  //       onClick={() => deleteComponent({
-  //         componentId: id,
-  //         stateComponents: components,
-  //       })
-  //       }
-  //       style={{
-  //         color: '#D3D3D3',
-  //         marginBottom: '10px',
-  //         marginTop: '0px',
-  //         marginLeft: '11px',
-  //         padding: '0px',
-  //       }}>
-  //       <DeleteIcon style={{ color: '#D3D3D3' }} />
-  //       Delete Component
-  //     </Button>
-  //   </Fragment>
-  // );
+  const {
+    classes, focusComponentID, components, id,
+  } = props;
+  const dispatch = useDispatch();
+  console.log('these the components', components);
+  console.log(id);
+  const deleteButton = (
+    <Fragment>
+      {/* shows the delete button */}
+      <Button
+        variant="text"
+        size="small"
+        color="default"
+        aria-label="Delete"
+        className={classes.margin}
+        onClick={() => dispatch(deleteChild(id))}
+        style={{
+          color: '#D3D3D3',
+          marginBottom: '10px',
+          marginTop: '0px',
+          marginLeft: '4px',
+          padding: '0px',
+        }}>
+        <DeleteIcon style={{ color: '#D3D3D3' }} />
+      </Button>
+    </Fragment>
+  );
 
   return (
     <ListItem button onClick={() => {}}>
@@ -57,6 +56,7 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
           </Typography>
         }
       />
+      {deleteButton}
     </ListItem>
   );
 };

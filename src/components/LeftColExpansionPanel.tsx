@@ -11,6 +11,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import uuid from 'uuid';
+import Collapse from '@material-ui/core/Collapse';
 import HtmlChild from './HtmlChild';
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
@@ -26,7 +27,7 @@ const LeftColExpansionPanel = (props: any) => {
     deleteComponent,
   } = props;
   const { title, id, color } = component;
-  console.log(title, components);
+  // console.log(title, components);
   // goal: render this array as subcomponents
   // under each component in the list.
 
@@ -64,7 +65,6 @@ const LeftColExpansionPanel = (props: any) => {
 
   const deleteButton = (
     <Fragment>
-      {/* shows the delete button */}
       <Button
         variant="text"
         size="small"
@@ -107,7 +107,10 @@ const LeftColExpansionPanel = (props: any) => {
       <HtmlChild
         key={uuid()}
         HTMLInfo={htmlChild.HTMLInfo}
+        id={htmlChild.childId}
         componentName={htmlChild.componentName}
+        focusComponentID={focusComponent.id}
+        components={components}
       />
     ));
 
@@ -116,10 +119,14 @@ const LeftColExpansionPanel = (props: any) => {
       <Grid item xs={9}>
         <div className={classes.root} style={!isFocused() ? {} : focusedStyle}>
           {componentTitleDisplay}
-          <Grid item xs={12} style={{ alignSelf: 'center' }}>
-            <List>{isFocused() ? HtmlChildrenOfFocusComponent : <div />}</List>
-          </Grid>
-          {id !== 1 && isFocused() ? deleteButton : <div />}
+          <Collapse in={isFocused() === 'focused'}>
+            <Grid item xs={12} style={{ alignSelf: 'center' }}>
+              <List>{isFocused() ? HtmlChildrenOfFocusComponent : <div />}</List>
+            </Grid>
+          </Collapse>
+          <Collapse in={isFocused() === 'focused'}>
+            {id !== 1 && isFocused() ? deleteButton : <div />}
+          </Collapse>
         </div>
       </Grid>
       <Grid item xs={3}>

@@ -1,3 +1,4 @@
+import { ComponentState } from 'react';
 import {
   ComponentInt,
   ComponentsInt,
@@ -6,7 +7,7 @@ import {
   InterfacesInterface,
   ReducersInterface,
   StoreConfigInterface,
-  ComponentStateInterface
+  ComponentStateInterface,
 } from '../utils/Interfaces';
 import {
   LOAD_INIT_DATA,
@@ -43,13 +44,12 @@ import {
   RENAME_INTERFACE,
   SET_STATE,
   DELETE_STATE,
-  RENAME_STATE
+  RENAME_STATE,
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
 import createComponentFiles from '../utils/createComponentFiles.util';
 import createApplicationUtil from '../utils/createApplication.util';
-import { ComponentState } from 'react';
 
 export const loadInitData = () => (dispatch: any) => {
   loadState().then((data: any) => dispatch({
@@ -73,13 +73,13 @@ title: string;
 childType: string;
 HTMLInfo: object;
 }) => (dispatch: any) => {
-  console.log('adding a child', title, childType, HTMLInfo);
+  // console.log('adding a child', title, childType, HTMLInfo);
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
-export const deleteChild = ({}) => (dispatch: any) => {
+export const deleteChild = (childToDeleteId?: number) => (dispatch: any) => {
   // with no payload, it will delete focusd child
-  dispatch({ type: DELETE_CHILD, payload: {} });
+  dispatch({ type: DELETE_CHILD, payload: childToDeleteId });
 };
 
 export const deleteComponent = ({
@@ -333,18 +333,18 @@ export const renameInterface = (oldName: string, newName: string) => ({
 
 export const setState = (state: ComponentStateInterface) => ({
   type: SET_STATE,
-  payload: state
+  payload: state,
 });
 
 export const deleteState = (name: string) => ({
   type: DELETE_STATE,
-  payload: name
+  payload: name,
 });
 
 export const renameState = (oldName: string, newName: string) => ({
   type: RENAME_STATE,
   payload: {
     oldName,
-    newName
-  }
+    newName,
+  },
 });

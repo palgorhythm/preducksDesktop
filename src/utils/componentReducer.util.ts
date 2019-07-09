@@ -184,8 +184,11 @@ export const addChild = (
 
 export const deleteChild = (
   state: ApplicationStateInt,
-  { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
+  childId: number = state.focusChild.childId
 ) => {
+  const parentId = state.focusComponent.id;
+  const calledFromDeleteComponent = false;
+  // console.log('parent id, state focusChild', parentId, state.focusChild );
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
