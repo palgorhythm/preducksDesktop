@@ -25,7 +25,9 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
         color="default"
         aria-label="Delete"
         className={classes.margin}
-        onClick={() => dispatch(deleteChild(childId))}
+        onClick={() => {
+          dispatch(deleteChild(childId));
+        }}
         style={{
           color: '#D3D3D3',
           marginBottom: '10px',

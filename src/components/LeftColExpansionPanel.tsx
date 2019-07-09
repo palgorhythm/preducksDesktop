@@ -107,7 +107,9 @@ const LeftColExpansionPanel = (props: any) => {
     <Tooltip title="remove child" aria-label="remove child" placement="right">
       <IconButton
         aria-label="Remove"
-        onClick={() => deleteChild(id)}>
+        onClick={() => {
+          deleteChild(id);
+        }}>
         <RemoveIcon style={{ color, float: 'right' }} />
       </IconButton>
     </Tooltip>

@@ -184,22 +184,27 @@ export const addChild = (
 
 export const deleteChild = (
   state: ApplicationStateInt,
-  childId: number = state.focusChild.childId
+  opts: number | {parentId: number, childId: number, calledFromDeleteComponent: boolean}
 ) => {
-  const parentId = state.focusComponent.id;
-  console.log(state.components);
-  console.log('u just called delete child u fool', childId);
-  const calledFromDeleteComponent = false;
+  let childId;
+  let parentId;
+  let calledFromDeleteComponent;
+  if(typeof opts ==='number'){
+    childId = opts;
+    parentId = state.focusComponent.id;
+    calledFromDeleteComponent = false;
+  } else {
+    parentId = opts.parentId;
+    childId = opts.childId;
+    calledFromDeleteComponent = opts.calledFromDeleteComponent;
+  }
+  console.log('u just called delete child u fool', childId, parentId, calledFromDeleteComponent);
   // console.log('parent id, state focusChild', parentId, state.focusChild );
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
   Also when calling from DELETE components , we do not touch focusComponent.
  ************************************************************************************ */
-  if (typeof childId !== 'number') {
-    window.alert('how in frick name did u get something thats not a number in here');
-    return state;
-  } 
   if (!parentId) {
     window.alert('Cannot delete root child of a component');
     return state;
