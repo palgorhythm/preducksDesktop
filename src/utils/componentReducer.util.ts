@@ -55,7 +55,7 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
     };
   }
 
-  const componentColor = getColor();
+  const componentColor = getColor(1);
   const componentId = state.nextId;
 
   const newComponent: ComponentInt = {

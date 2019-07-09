@@ -24,6 +24,6 @@ const colors: Array<string> = [
   '#61892F',
 ];
 
-const getColor = (): string => colors[Math.floor(Math.random() * colors.length)];
+const getColor = (portion: number): string => colors[Math.floor(Math.random() * portion * colors.length)];
 
 export default getColor;

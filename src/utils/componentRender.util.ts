@@ -75,10 +75,10 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   function htmlAttrSanitizer(element: string) {
     // TODO: debug localForage unhappiness to renable image imports
     // this shouldn't be needed, but some characters make localForage unhappy
-    console.log('current thing', element);
-    return element
-      .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-      .replace(/[-_\s0-9\W]+/gi, '');
+    return `'${element}'`;
+    // return element
+    //   .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
+    //   .replace(/[-_\s0-9\W]+/gi, '');
   }
   function componentNameGenerator(child: ChildInt) {
     if (child.childType === 'HTML') {

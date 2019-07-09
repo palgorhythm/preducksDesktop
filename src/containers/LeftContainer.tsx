@@ -229,7 +229,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     } = this.props;
     const { componentName, modal } = this.state;
 
-    const componentsExpansionPanel = cloneDeep(components)
+    const leftColExpansionPanels = cloneDeep(components)
       .sort((b: ComponentInt, a: ComponentInt) => b.id - a.id) // sort by id value of comp
       .map((component: ComponentInt, i: number) => (
         <LeftColExpansionPanel
@@ -247,102 +247,103 @@ class LeftContainer extends Component<PropsInt, StateInt> {
         />
       ));
 
+    const addComponent = (<Grid
+      container
+      spacing={8}
+      align="stretch"
+      alignItems="center"
+      direction="row"
+      justify="space-around">
+      <Grid item xs={8}>
+        <TextField
+          id="title-input"
+          label="add component"
+          placeholder="component name"
+          margin="normal"
+          autoFocus
+          onChange={this.handleChange}
+          onKeyPress={(ev) => {
+            if (ev.key === 'Enter') {
+              this.handleAddComponent();
+              ev.preventDefault();
+            }
+          }}
+          value={componentName}
+          name="componentName"
+          className={classes.light}
+          InputProps={{
+            className: classes.input,
+          }}
+          InputLabelProps={{
+            className: classes.input,
+          }}
+        />
+      </Grid>
+      <Grid item xs={4}>
+        <Fab
+          size="small"
+          color="secondary"
+          className={classes.button}
+          aria-label="Add"
+          onClick={this.handleAddComponent}
+          disabled={!this.state.componentName}>
+          <AddIcon />
+        </Fab>
+      </Grid>
+    </Grid>);
+
+    const clearAndExportButtons = (<div
+      style={{
+        width: '100%',
+        alignSelf: 'flex-end'
+      }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}>
+        <Button
+          color="secondary"
+          aria-label="Delete All"
+          variant="contained"
+          fullWidth
+          onClick={this.clearWorkspace}
+          className={classes.clearButton}
+          style={{ borderRadius: 0 }}>
+          Clear Workspace
+        </Button>
+      </div>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
+        }}>
+        <Button
+          color="primary"
+          aria-label="Export Code"
+          variant="contained"
+          fullWidth
+          onClick={this.showGenerateAppModal}
+          className={classes.clearButton}
+          style={{ borderRadius: 0 }}>
+          <GetAppIcon style={{ paddingRight: '5px' }} />
+          Export Project
+        </Button>
+      </div>
+    </div>);
+
     return (
       <div className="column left">
-        <Grid
-          container
-          spacing={8}
-          align="stretch"
-          alignItems="center"
-          direction="row"
-          justify="space-around">
-          <Grid item xs={8}>
-            <TextField
-              id="title-input"
-              label="add component"
-              placeholder="component name"
-              margin="normal"
-              autoFocus
-              onChange={this.handleChange}
-              onKeyPress={(ev) => {
-                if (ev.key === 'Enter') {
-                  this.handleAddComponent();
-                  ev.preventDefault();
-                }
-              }}
-              value={componentName}
-              name="componentName"
-              className={classes.light}
-              InputProps={{
-                className: classes.input,
-              }}
-              InputLabelProps={{
-                className: classes.input,
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <Fab
-              size="small"
-              color="secondary"
-              className={classes.button}
-              aria-label="Add"
-              onClick={this.handleAddComponent}
-              disabled={!this.state.componentName}>
-              <AddIcon />
-            </Fab>
-          </Grid>
-        </Grid>
-        <div className="expansionPanel">{componentsExpansionPanel}</div>
+          {addComponent}
+          <div className="expansionPanel">{leftColExpansionPanels}</div>
         <HTMLComponentPanel
-          className={classes.htmlCompWrapper}
-          focusComponent={focusComponent}
-          addChild={addChild}
-        />
-        <div
-          style={{
-            width: '100%',
-            position: 'absolute',
-            bottom: 0,
-            left: 0,
-          }}>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}>
-            <Button
-              color="secondary"
-              aria-label="Delete All"
-              variant="contained"
-              fullWidth
-              onClick={this.clearWorkspace}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}>
-              Clear Workspace
-            </Button>
-          </div>
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              flexDirection: 'column',
-            }}>
-            <Button
-              color="primary"
-              aria-label="Export Code"
-              variant="contained"
-              fullWidth
-              onClick={this.showGenerateAppModal}
-              className={classes.clearButton}
-              style={{ borderRadius: 0 }}>
-              <GetAppIcon style={{ paddingRight: '5px' }} />
-              Export Project
-            </Button>
-          </div>
-        </div>
-
+            className={classes.htmlCompWrapper}
+            focusComponent={focusComponent}
+            addChild={addChild}
+            />
+        {clearAndExportButtons}
         {modal}
       </div>
     );

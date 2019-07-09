@@ -22,13 +22,15 @@ class CodePreview extends Component<Props> {
     return (
       <div
         style={{
-          height: '400px',
-          padding: '0',
+          height: '100%',
+          margin: '10px',
           overflow: 'auto',
-          fontSize: '20px',
+          fontSize: '18px',
         }}>
         <SyntaxHighlighter style={style}>
-          {componentRender(focusComponent, components)}
+          {format(componentRender(focusComponent, components), {
+            parser: 'typescript',
+          })}
         </SyntaxHighlighter>
       </div>
     );

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { MuiThemeProvider } from '@material-ui/core/styles';
-import RightPanel from '../components/RightPanel.tsx';
+import RightPanel from '../components/RightPanel';
 import BottomPanel from '../components/BottomPanel';
 import theme from '../components/theme';
 import {
