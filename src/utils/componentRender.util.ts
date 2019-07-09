@@ -117,6 +117,16 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const actionsToImport = actions.length ? actions.join(', ') : '';
 
+  const listOfInterfaces = componentState.reduce((interfaces, current) => {
+    if (!['string', 'boolean', 'number', 'any'].includes(current.type) && !interfaces.includes(current.type)) {
+      interfaces.push(current.type);
+    }
+    return interfaces;
+  }, []);
+  const interfacesToImport = listOfInterfaces.length ?
+    `import {${listOfInterfaces.join(', ')}} from '../Interfaces.ts'`
+    : '';
+
   const importsText = `import React from 'react';
   ${[
     ...new Set(
@@ -126,6 +136,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ),
   ].join('\n')}
   ${importFromReactReduxText}
+  ${interfacesToImport}
   ${actions.length ? `import {${actionsToImport}} from '../actions';` : ''}
   \n\n`;
 
@@ -161,7 +172,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         pieceOfState.name
       }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(
         1,
-      )}] = useState(${initialValue});`;
+      )}] = useState<${pieceOfState.type}>(${initialValue});`;
     }).join('\n')
     : '';
 
