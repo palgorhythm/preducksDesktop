@@ -18,7 +18,6 @@ class CodePreview extends Component<Props> {
     const components: ComponentsInt = this.props.components;
     // console.log(focusComponent, components);
     // TODO: NEED TO FIGURE OUT HOW TO GET FORMATTING TO WORK ON CODE PREVIEW
-
     return (
       <div
         style={{
@@ -26,8 +25,12 @@ class CodePreview extends Component<Props> {
           margin: '10px',
           overflow: 'auto',
           fontSize: '18px',
+          background: 'transparent',
         }}>
-        <SyntaxHighlighter style={style}>
+        <SyntaxHighlighter
+          style={style}
+          customStyle={{ background: 'transparent' }}
+          language={'typescript'}>
           {format(componentRender(focusComponent, components), {
             parser: 'typescript',
           })}

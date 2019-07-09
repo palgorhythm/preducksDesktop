@@ -240,6 +240,18 @@ RIGHT COLUMN
   height: 80%;
   overflow-y: auto;
   margin-left: 50px;
+  margin-top: 10px;
+  font-size: 20px;
+}
+
+.htmlattr-name {
+  font-size: 30px;
+  background: whitesmoke;
+  border-radius: 10px;
+  width: 120px;
+  margin: 5px 0px 5px 0px;
+  color: rgb(75, 75, 75);
+  text-align: center;
 }
 
 .props-container {

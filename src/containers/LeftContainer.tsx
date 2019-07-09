@@ -39,6 +39,7 @@ interface PropsInt {
   classes: any;
   addComponent: any;
   addChild: any;
+  deleteChild: any;
   changeFocusComponent: any;
   changeFocusChild: any;
   deleteComponent: any;
@@ -69,6 +70,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   childType: string;
   HTMLInfo: object;
   }) => dispatch(actions.addChild({ title, childType, HTMLInfo })),
+  deleteChild: (childId: number) => dispatch(actions.deleteChild(childId)),
   changeFocusComponent: ({ title }: { title: string }) => dispatch(actions.changeFocusComponent({ title })),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(actions.changeFocusChild({ childId })),
   deleteComponent: ({
@@ -156,11 +158,11 @@ class LeftContainer extends Component<PropsInt, StateInt> {
   clearWorkspace = () => {
     this.setState({
       modal: createModal({
-        message: 'Are you sure want to delete all data?',
+        message: 'are you sure want to delete all data?',
         closeModal: this.closeModal,
-        secBtnLabel: 'Clear Workspace',
+        secBtnLabel: 'clear workspace',
         open: true,
-        children: null,
+        children: null, 
         primBtnAction: null,
         primBtnLabel: null,
         secBtnAction: () => {
@@ -223,6 +225,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       focusComponent,
       classes,
       addChild,
+      deleteChild,
       changeFocusComponent,
       changeFocusChild,
       selectableChildren,
@@ -239,6 +242,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           component={component}
           focusComponent={focusComponent}
           addChild={addChild}
+          deleteChild={deleteChild}
           changeFocusComponent={changeFocusComponent}
           changeFocusChild={changeFocusChild}
           selectableChildren={selectableChildren}

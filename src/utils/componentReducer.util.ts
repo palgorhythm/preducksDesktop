@@ -184,8 +184,22 @@ export const addChild = (
 
 export const deleteChild = (
   state: ApplicationStateInt,
-  { parentId = state.focusComponent.id, childId = state.focusChild.childId, calledFromDeleteComponent = false },
+  opts: number | {parentId: number, childId: number, calledFromDeleteComponent: boolean}
 ) => {
+  let childId;
+  let parentId;
+  let calledFromDeleteComponent;
+  if(typeof opts ==='number'){
+    childId = opts;
+    parentId = state.focusComponent.id;
+    calledFromDeleteComponent = false;
+  } else {
+    parentId = opts.parentId;
+    childId = opts.childId;
+    calledFromDeleteComponent = opts.calledFromDeleteComponent;
+  }
+  console.log('u just called delete child u fool', childId, parentId, calledFromDeleteComponent);
+  // console.log('parent id, state focusChild', parentId, state.focusChild );
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
   however when deleting  component we wnt to delete ALL the places where it's used, so we call this function
@@ -207,9 +221,16 @@ export const deleteChild = (
   const parentComponentCopy: any = cloneDeep(state.components.find(c => c.id === parentId));
 
   // delete the  CHILD from the copied array
-  const indexToDelete = parentComponentCopy.childrenArray.findIndex((elem: ChildInt) => elem.childId === childId);
+  const indexToDelete = parentComponentCopy.childrenArray.findIndex((elem: ChildInt) => 
+  elem.childId === childId || elem.childComponentId === childId);
+  // first condition is for HTML children
+  // second condition is to find any child with component id equal to what was sent in.
+  // this is because we have no way to access the child id of a 
+  // react component when we click on the button (the button is attached to the info of just
+  // the component)
   if (indexToDelete < 0) {
-    return window.alert('No such child component found');
+    window.alert('No such child component found');
+    return state;
   }
   parentComponentCopy.childrenArray.splice(indexToDelete, 1);
 
@@ -374,6 +395,7 @@ export const changeFocusComponent = (
 
 export const changeFocusChild = (state: ApplicationStateInt, { childId }: { childId: number }) => {
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
+  console.log('child id in the reducer func', childId);
   let newFocusChild: ChildInt = focComp.childrenArray.find(child => child.childId === childId);
 
   if (!newFocusChild) {

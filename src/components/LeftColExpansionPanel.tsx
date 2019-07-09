@@ -8,9 +8,11 @@ import IconButton from '@material-ui/core/IconButton';
 import Grid from '@material-ui/core/Grid';
 import AddIcon from '@material-ui/icons/Add';
 import DeleteIcon from '@material-ui/icons/Delete';
+import RemoveIcon from '@material-ui/icons/Remove';
 import Button from '@material-ui/core/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import uuid from 'uuid';
+import Collapse from '@material-ui/core/Collapse';
 import HtmlChild from './HtmlChild';
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
@@ -20,13 +22,14 @@ const LeftColExpansionPanel = (props: any) => {
     focusComponent,
     component,
     addChild,
+    deleteChild,
     changeFocusComponent,
     selectableChildren,
     components,
     deleteComponent,
   } = props;
   const { title, id, color } = component;
-  console.log(title, components);
+  // console.log(title, components);
   // goal: render this array as subcomponents
   // under each component in the list.
 
@@ -36,7 +39,7 @@ const LeftColExpansionPanel = (props: any) => {
 
   const focusedStyle = {
     boxShadow: '2px 2px rgba(255,255,255,0.2)',
-    background: 'rgba(0,50,255,0.2)',
+    background: color,
   };
 
   // console.log('hoot hoot', HtmlChildren);
@@ -52,7 +55,7 @@ const LeftColExpansionPanel = (props: any) => {
             disableTypography
             className={classes.light}
             primary={
-              <Typography type="body2" style={{ color }}>
+              <Typography variant="h6" style={isFocused() ? { color: 'white' } : { color }}>
                 {title}
               </Typography>
             }
@@ -62,9 +65,8 @@ const LeftColExpansionPanel = (props: any) => {
     </Grid>
   );
 
-  const deleteButton = (
+  const deleteComponentButton = (
     <Fragment>
-      {/* shows the delete button */}
       <Button
         variant="text"
         size="small"
@@ -77,13 +79,13 @@ const LeftColExpansionPanel = (props: any) => {
         })
         }
         style={{
-          color: '#D3D3D3',
+          color: 'white',
           marginBottom: '10px',
           marginTop: '0px',
           marginLeft: '11px',
           padding: '0px',
         }}>
-        <DeleteIcon style={{ color: '#D3D3D3' }} />
+        <DeleteIcon style={{ color: 'white' }} />
         Delete Component
       </Button>
     </Fragment>
@@ -101,28 +103,48 @@ const LeftColExpansionPanel = (props: any) => {
     </Tooltip>
   );
 
+  const deleteChildButton = (
+    <Tooltip title="remove child" aria-label="remove child" placement="right">
+      <IconButton
+        aria-label="Remove"
+        onClick={() => {
+          deleteChild(id);
+        }}>
+        <RemoveIcon style={{ color, float: 'right' }} />
+      </IconButton>
+    </Tooltip>
+  );
+
   const HtmlChildrenOfFocusComponent = focusComponent.childrenArray
     .filter(child => child.childType === 'HTML')
     .map(htmlChild => (
       <HtmlChild
         key={uuid()}
         HTMLInfo={htmlChild.HTMLInfo}
+        childId={htmlChild.childId}
         componentName={htmlChild.componentName}
+        focusComponentID={focusComponent.id}
+        components={components}
       />
     ));
 
   return (
     <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
-      <Grid item xs={9}>
+      <Grid item xs={8}>
         <div className={classes.root} style={!isFocused() ? {} : focusedStyle}>
           {componentTitleDisplay}
-          <Grid item xs={12} style={{ alignSelf: 'center' }}>
-            <List>{isFocused() ? HtmlChildrenOfFocusComponent : <div />}</List>
-          </Grid>
-          {id !== 1 && isFocused() ? deleteButton : <div />}
+          <Collapse in={isFocused() === 'focused'}>
+            <Grid item xs={12} style={{ alignSelf: 'center' }}>
+              <List>{isFocused() ? HtmlChildrenOfFocusComponent : <div />}</List>
+            </Grid>
+          </Collapse>
+          {id !== 1 && isFocused() ? deleteComponentButton : <div />}
         </div>
       </Grid>
-      <Grid item xs={3}>
+      <Grid item xs={2}>
+        {id !== 1 && !isFocused() && selectableChildren.includes(id) ? deleteChildButton : <div />}
+      </Grid>
+      <Grid item xs={2}>
         {id !== 1 && !isFocused() && selectableChildren.includes(id) ? addAsChildButton : <div />}
       </Grid>
     </Grid>
