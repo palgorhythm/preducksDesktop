@@ -140,7 +140,7 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
     name: component.title,
     attributes: {},
     children: [],
-    nodeSvgShape: createRandomColorShape(60, '#F00BFF'),
+    nodeSvgShape: createShape(60, component.color),
   };
   component.childrenArray.forEach((child) => {
     if (child.childType === 'COMP') {
@@ -150,14 +150,14 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
         name: child.componentName,
         attributes: {},
         children: [],
-        nodeSvgShape: createRandomColorShape(40, '#007BFF'),
+        nodeSvgShape: createShape(40, '#007BFF'),
       });
     }
   });
   return tree;
 }
 
-function createRandomColorShape(size, color) {
+function createShape(size, color) {
   return {
     shape: 'circle',
     shapeProps: {

@@ -42,7 +42,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
         <Tab
           disableRipple
           classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-          label="Add HTML elements"
+          label="add HTML element as child"
           style={{ cursor: 'default' }}
         />
         <Grid container spacing={8} alignItems="baseline" align="stretch">

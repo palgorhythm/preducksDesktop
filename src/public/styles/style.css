@@ -73,8 +73,10 @@ LEFT COLUMN
 .left {
   padding: 10px;
   width: 20%;
+  max-height: 100%;
   min-width: 310px;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   position: relative;
   overflow-x: hidden;
@@ -101,8 +103,9 @@ LEFT COLUMN
   flex-direction: column;
   display: flex;
   /* max-height: 80%; */
-  height: auto;
-  overflow-y: scroll;
+  height: 800px;
+  align-self: stretch;
+  overflow-y: auto;
   overflow-x: hidden;
   padding: 1%;
 }
@@ -235,7 +238,7 @@ RIGHT COLUMN
 .htmlattr {
   /* background-size: auto; */
   height: 80%;
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-left: 50px;
 }
 
@@ -302,7 +305,8 @@ div.rst__rowContents {
   align-items: baseline;
 }
 
-.right-panel .interface, .right-panel .reducer {
+.right-panel .interface,
+.right-panel .reducer {
   background: #eee;
   margin: 15px 0;
   padding: 2px 0 1.3em;
@@ -312,11 +316,13 @@ div.rst__rowContents {
   margin: 3em 0 2em;
 }
 
-.newStoreItem, .newActionItem {
+.newStoreItem,
+.newActionItem {
   flex-wrap: wrap;
 }
 
-#store, #actions {
+#store,
+#actions {
   background: rgba(0, 0, 0, 0.1);
   padding: 2px 0 1.3em;
   margin: 20px 0;

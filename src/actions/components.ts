@@ -73,6 +73,7 @@ title: string;
 childType: string;
 HTMLInfo: object;
 }) => (dispatch: any) => {
+  console.log('adding a child', title, childType, HTMLInfo);
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
