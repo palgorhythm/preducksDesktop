@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-// import Props from './Props';
 import HtmlAttr from './HtmlAttr';
 import CodePreview from './CodePreview';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
@@ -12,8 +11,6 @@ interface PropsInt {
   focusChild: ChildInt;
   components: ComponentsInt;
   focusComponent: ComponentInt;
-  deleteProp: any;
-  addProp: any;
   classes: any;
 }
 
@@ -81,17 +78,6 @@ class BottomTabs extends Component<PropsInt> {
     value: 0,
   };
 
-  componentDidMount() {
-    // dynamically center the tree based on the div size
-    // const dimensions = this.treeWrapper.getBoundingClientRect();
-    // this.setState({
-    //   translate: {
-    //     x: dimensions.width / 12,
-    //     y: dimensions.height / 2.2,
-    //   },
-    // });
-  }
-
   handleChange = (event: any, value: number) => {
     this.setState({ value });
   };
@@ -116,7 +102,7 @@ class BottomTabs extends Component<PropsInt> {
 
   render() {
     const {
-      classes, components, focusComponent, deleteProp, addProp, focusChild,
+      classes, components, focusComponent, focusChild,
     } = this.props;
     const { value } = this.state;
 

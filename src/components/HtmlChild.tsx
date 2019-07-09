@@ -1,21 +1,21 @@
 import React, { Fragment } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
-import { addChild, deleteChild, deleteComponent } from '../actions/components';
-// import { StoreInterface, StoreConfigInterface } from '../utils/Interfaces';
+import { deleteChild, changeFocusChild } from '../actions/components';
+import { StoreInterface, StoreConfigInterface, ChildInt } from '../utils/Interfaces';
 
 const HtmlChild: React.FC = (props: any): JSX.Element => {
   const {
-    classes, focusComponentID, components, id,
+    classes, focusComponentID, components, childId,
   } = props;
   const dispatch = useDispatch();
-  console.log('these the components', components);
-  console.log(id);
+  const focusChildId = useSelector(store => store.workspace.focusChild).childId;
+  // console.log('these the components', components);
   const deleteButton = (
     <Fragment>
       {/* shows the delete button */}
@@ -25,7 +25,7 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
         color="default"
         aria-label="Delete"
         className={classes.margin}
-        onClick={() => dispatch(deleteChild(id))}
+        onClick={() => dispatch(deleteChild(childId))}
         style={{
           color: '#D3D3D3',
           marginBottom: '10px',
@@ -38,20 +38,28 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
     </Fragment>
   );
 
+  const compStyle = childId === focusChildId
+    ? {
+      textAlign: 'center',
+      borderRadius: '10px',
+      border: '1px solid white',
+      color: 'black',
+      background: 'white',
+    }
+    : {
+      textAlign: 'center',
+      borderRadius: '10px',
+      border: '1px solid white',
+      color: '#FFFFFF',
+    };
+
   return (
-    <ListItem button onClick={() => {}}>
+    <ListItem button onClick={() => dispatch(changeFocusChild({ childId }))}>
       <ListItemText
         disableTypography
         className={classes.light}
         primary={
-          <Typography
-            type="body3"
-            style={{
-              textAlign: 'center',
-              borderRadius: '10px',
-              border: '1px solid white',
-              color: '#FFFFFF',
-            }}>
+          <Typography type="body3" style={compStyle}>
             {props.componentName.toLowerCase()}
           </Typography>
         }
@@ -68,8 +76,8 @@ const styles = theme => ({
     flexWrap: 'wrap',
   },
   chip: {
-    color: '#eee',
-    backgroundColor: '#333333',
+    color: 'white',
+    backgroundColor: 'white',
   },
   column: {
     display: 'inline-flex',
@@ -77,7 +85,7 @@ const styles = theme => ({
   },
   icon: {
     fontSize: '20px',
-    color: '#eee',
+    color: 'white',
     opacity: '0.7',
     transition: 'all .2s ease',
 
@@ -93,12 +101,6 @@ const styles = theme => ({
     },
   },
   cssFocused: {},
-  input: {
-    color: '#eee',
-    marginBottom: '30px',
-    width: '50%',
-    textAlign: 'center',
-  },
   light: {
     color: '#eee',
   },

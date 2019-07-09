@@ -8,9 +8,7 @@ import {
   handleTransform,
   changeFocusChild,
   changeComponentFocusChild,
-  deleteChild,
 } from '../actions/components';
-import KonvaStage from '../components/KonvaStage';
 import { ComponentInt, ComponentsInt } from '../utils/interfaces';
 import TreeDisplay from '../components/NewTreeDisplay';
 
@@ -29,7 +27,6 @@ interface PropsInt {
   handleTransformation: any;
   focusChild: any;
   changeComponentFocusChild: any;
-  deleteChild: any;
 }
 
 interface StateInt {
@@ -61,8 +58,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   ),
   // openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
-  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) => dispatch(changeComponentFocusChild({ componentId, childId })),
-  deleteChild: ({}) => dispatch(deleteChild({})), // if u send no prms, function will delete focus child.
+  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) => dispatch(changeComponentFocusChild({ componentId, childId })),// if u send no prms, function will delete focus child.
 });
 
 const mapStateToProps = (store: any) => ({
@@ -93,7 +89,6 @@ class MainContainer extends Component<PropsInt, StateInt> {
       focusChild,
       changeFocusChild,
       changeComponentFocusChild,
-      deleteChild,
       classes,
     } = this.props;
     const { main }: { main: HTMLDivElement } = this;
@@ -105,19 +100,6 @@ class MainContainer extends Component<PropsInt, StateInt> {
           <div className="top-container">
             <RightPanel />
             <div className="main" ref={main}>
-              {/* <KonvaStage
-                scaleX={1}
-                scaleY={1}
-                draggable={draggable}
-                components={components}
-                handleTransform={handleTransformation}
-                focusComponent={focusComponent}
-                focusChild={focusChild}
-                changeFocusChild={changeFocusChild}
-                changeComponentFocusChild={changeComponentFocusChild}
-                deleteChild={deleteChild}
-                classes={classes}
-              /> */}
               <TreeDisplay
                 focusChild={focusChild}
                 components={components}

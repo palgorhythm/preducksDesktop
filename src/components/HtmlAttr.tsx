@@ -69,9 +69,9 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
   };
 
   render() {
-    const { classes, focusChild } = this.props;
-
+    const { classes, focusChild, focusComponent } = this.props;
     const focusChildType = focusChild.htmlElement;
+    // console.log('the focus Child and focus component', focusChild, focusComponent);
 
     const HtmlForm = HTMLelements[focusChildType].attributes.map((attr: string, i: number) => (
       <Grid container spacing={0} key={i} style={{ marginTop: '10px', marginRight: '20px' }}>
@@ -113,7 +113,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
             }}
             onClick={() => this.handleSave(attr)}>
             <SaveIcon />
-            Save
+            {'save'}
           </Fab>
         </Grid>
         <Grid item xs={4}>
@@ -126,7 +126,12 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
       </Grid>
     ));
 
-    return <div className={'htmlattr'}>{HtmlForm}</div>;
+    return (
+      <div className={'htmlattr'}>
+        <div className={'htmlattr-name'}>{`<${focusChildType.toLowerCase()}/>`}</div>
+        {HtmlForm}
+      </div>
+    );
   }
 }
 
