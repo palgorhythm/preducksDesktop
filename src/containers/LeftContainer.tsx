@@ -309,7 +309,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           variant="contained"
           fullWidth
           onClick={this.clearWorkspace}
-          disabled={this.props.components.length === 1}
           className={classes.clearButton}
           style={{ borderRadius: 0 }}>
           Clear Workspace
