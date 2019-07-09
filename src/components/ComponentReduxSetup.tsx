@@ -37,7 +37,6 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
   const rowHeader = ['Actions', 'Store Selections'];
-  console.log(focusComponent);
   let selectorOptions = [];
   let actionOptions = [];
   Object.keys(storeConfig.reducers).forEach((reducerName) => {
@@ -143,7 +142,9 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
               </FormControl>
               <FormControl required>
                 <InputLabel className={classes.light} htmlFor="localstate-type">Type:</InputLabel>
-                <Input className={classes.light} id="localstate-type" onChange={handleChange(setEnteredType)}></Input>
+                <Select native className={classes.light} id="localstate-type" placeholder="Type" onChange={handleChange(setEnteredType)} value={enteredType} required>
+                  {convertToOptions(['number', 'string', 'boolean', 'any', ...Object.keys(storeConfig.interfaces)])}
+                </Select>
               </FormControl>
               <FormControl required>
                 <InputLabel className={classes.light} htmlFor="localstate-value">Value:</InputLabel>
