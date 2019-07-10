@@ -7,6 +7,7 @@ import {
   ComponentStateInterface,
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
+import store from '../store';
 
 // testing stuff
 // import { format } from 'prettier'; // also for testing
@@ -123,6 +124,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
     return interfaces;
   }, []);
+
+  const state = store.getState().workspace.storeConfig.reducers;
+  const useSelectorCalls = selectors.length
+    ? selectors
+      .map((selector) => {
+        const selectorStrings = selector.split('.');
+        const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
+        const properties = selector.split('.');
+        let returnType = properties.length === 2 ? state[properties[0]].store[properties[1]].type : 'any';
+        if (!['string', 'boolean', 'number', 'any'].includes(returnType) && !listOfInterfaces.includes(returnType)) {
+          listOfInterfaces.push(returnType);
+        }
+        return `const ${variableName} = useSelector<StoreInterface, ${returnType}>(state => state.${selector});`;
+      })
+      .join('\n')
+    : '';
+
   const interfacesToImport = listOfInterfaces.length ?
     `import {${listOfInterfaces.join(', ')}} from '../Interfaces.ts'`
     : '';
@@ -137,6 +155,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
+  ${toImport.includes('useSelector') && `import {StoreInterface} from '../reducers/index.ts'`}
   ${actions.length ? `import {${actionsToImport}} from '../actions';` : ''}
   \n\n`;
 
@@ -152,16 +171,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     )
     .join('\n')}
     </div>`;
-
-  const useSelectorCalls = selectors.length
-    ? selectors
-      .map((selector) => {
-        const selectorStrings = selector.split('.');
-        const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
-        return `const ${variableName} = useSelector(state => state.${selector});`;
-      })
-      .join('\n')
-    : '';
 
   const useStateCalls = componentState.length
     ? componentState.map((pieceOfState: ComponentStateInterface) => {
