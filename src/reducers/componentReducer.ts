@@ -156,15 +156,15 @@ const componentReducer = (state = initialApplicationState, action: any) => {
   switch (action.type) {
     case LOAD_INIT_DATA:
       return { ...state };
-      // return {
-      //   ...state,
-      //   ...action.payload.data,
-      //   loading: false,
-      //   appDir: '',
-      //   successOpen: false,
-      //   errorOpen: false,
-      //   storeConfig: dummyStoreConfig,
-      // };
+    // return {
+    //   ...state,
+    //   ...action.payload.data,
+    //   loading: false,
+    //   appDir: '',
+    //   successOpen: false,
+    //   errorOpen: false,
+    //   storeConfig: dummyStoreConfig,
+    // };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
     case ADD_CHILD:

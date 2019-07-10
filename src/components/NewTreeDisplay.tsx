@@ -85,7 +85,7 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
     // dynamically center the tree based on the div size
     const dimensions = treeWrapper.getBoundingClientRect();
     setTranslation({ x: dimensions.width / 2, y: dimensions.height / 3 });
-  }, []);
+  });
 
   return (
     <div
