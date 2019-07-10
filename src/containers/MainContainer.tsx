@@ -98,7 +98,6 @@ class MainContainer extends Component<PropsInt, StateInt> {
         <div className="main-container">
           {modal}
           <div className="top-container">
-            <RightPanel />
             <div className="main" ref={main}>
               <TreeDisplay
                 focusChild={focusChild}
@@ -106,7 +105,8 @@ class MainContainer extends Component<PropsInt, StateInt> {
                 focusComponent={focusComponent}
                 classes={classes}>
               </TreeDisplay>
-          </div>
+            </div>
+            <RightPanel />
           </div>
           <BottomPanel focusComponent={focusComponent} />
         </div>

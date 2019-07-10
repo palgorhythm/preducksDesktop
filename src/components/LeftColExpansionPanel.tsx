@@ -44,7 +44,7 @@ const LeftColExpansionPanel = (props: any) => {
 
   // console.log('hoot hoot', HtmlChildren);
   const componentTitleDisplay = (
-    <Grid item xs={12}>
+    <Grid item xs={12}> 
       <List>
         <ListItem
           button
@@ -92,7 +92,7 @@ const LeftColExpansionPanel = (props: any) => {
   );
 
   const addAsChildButton = (
-    <Tooltip title="add as child" aria-label="add as child" placement="left">
+    <Tooltip title="add as child" aria-label="add as child" placement="top">
       <IconButton
         aria-label="Add"
         onClick={() => {
@@ -104,7 +104,7 @@ const LeftColExpansionPanel = (props: any) => {
   );
 
   const deleteChildButton = (
-    <Tooltip title="remove child" aria-label="remove child" placement="right">
+    <Tooltip title="remove child" aria-label="remove child" placement="top">
       <IconButton
         aria-label="Remove"
         onClick={() => {
@@ -114,19 +114,25 @@ const LeftColExpansionPanel = (props: any) => {
       </IconButton>
     </Tooltip>
   );
-
-  const HtmlChildrenOfFocusComponent = focusComponent.childrenArray
-    .filter(child => child.childType === 'HTML')
-    .map(htmlChild => (
-      <HtmlChild
-        key={uuid()}
-        HTMLInfo={htmlChild.HTMLInfo}
-        childId={htmlChild.childId}
-        componentName={htmlChild.componentName}
-        focusComponentID={focusComponent.id}
-        components={components}
-      />
-    ));
+  const HtmlChildrenOfFocusComponent = [];
+  let thisComponentIsAChildOfFocusComponent = false;
+  focusComponent.childrenArray.forEach((child) => {
+    console.log(focusComponent, child);
+    if (child.childType === 'HTML') {
+      HtmlChildrenOfFocusComponent.push(
+        <HtmlChild
+          key={uuid()}
+          HTMLInfo={child.HTMLInfo}
+          childId={child.childId}
+          componentName={child.componentName}
+          focusComponentID={focusComponent.id}
+          components={components}
+        />,
+      );
+    } else if (child.childComponentId === id) {
+      thisComponentIsAChildOfFocusComponent = true;
+    }
+  });
 
   return (
     <Grid container spacing={16} direction="row" justify="flex-start" alignItems="center">
@@ -142,11 +148,18 @@ const LeftColExpansionPanel = (props: any) => {
         </div>
       </Grid>
       <Grid item xs={2}>
-        {id !== 1 && !isFocused() && selectableChildren.includes(id) ? deleteChildButton : <div />}
-      </Grid>
-      <Grid item xs={2}>
         {id !== 1 && !isFocused() && selectableChildren.includes(id) ? addAsChildButton : <div />}
       </Grid>
+      {id !== 1
+      && !isFocused()
+      && selectableChildren.includes(id)
+      && thisComponentIsAChildOfFocusComponent ? (
+        <Grid item xs={2}>
+          {deleteChildButton}
+        </Grid>
+        ) : (
+        <div />
+        )}
     </Grid>
   );
 };

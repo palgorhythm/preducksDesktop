@@ -187,7 +187,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;
   const functionalComponentBody = `
-  const ${title} = (props: Props) => {
+  const ${title} = () => {
     ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}

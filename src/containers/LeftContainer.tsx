@@ -127,7 +127,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       const { genOption } = this.state;
       const appName = 'dope_exported_preducks_app';
       const exportAppBool = true;
-      console.log(storeConfig);
+      // console.log(storeConfig);
       this.props.createApp({
         path,
         components,
@@ -285,7 +285,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       </Grid>
       <Grid item xs={4}>
         <Fab
-          size="small"
+          size="medium"
           color="secondary"
           className={classes.button}
           aria-label="Add"
