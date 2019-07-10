@@ -114,9 +114,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   if (componentState.length) {
     toImport.push('useState');
   }
-  const importFromReactReduxText = `import {${toImport.join(',')}} from 'react-redux'`;
+  const importFromReactReduxText = toImport.length ? `import {${toImport.join(',')}} from 'react-redux'` : '';
 
-  const actionsToImport = actions.length ? actions.join(', ') : '';
+  const actionsToImport = {};
+  actions.forEach(action => {
+    console.log('ACKSHUN')
+    console.log(action)
+    const [reducer, actionName] = action.split('.');
+    if (!actionsToImport[reducer]) {
+      actionsToImport[reducer] = [actionName];
+    } else {
+      actionsToImport[reducer].push(actionName);
+    }
+  });
+
+  const actionsText = Object.keys(actionsToImport).map(reducer => {
+    return `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`
+  });
 
   const listOfInterfaces = componentState.reduce((interfaces, current) => {
     if (!['string', 'boolean', 'number', 'any'].includes(current.type) && !interfaces.includes(current.type)) {
@@ -155,8 +169,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
-  ${toImport.includes('useSelector') && `import {StoreInterface} from '../reducers/index.ts'`}
-  ${actions.length ? `import {${actionsToImport}} from '../actions';` : ''}
+  ${toImport.includes('useSelector') ? `import {StoreInterface} from '../reducers/index.ts'` : ''}
+  ${actions.length ? actionsText.join('\n') : ''}
   \n\n`;
 
   // const propsText = `type Props = {
