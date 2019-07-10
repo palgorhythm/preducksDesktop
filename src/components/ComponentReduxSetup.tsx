@@ -156,8 +156,8 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
             </form>
             <DataTable
                 rowHeader={['Local State on Component']}
-                rowData={focusComponent.componentState.map(state => JSON.stringify(state))}
-                deletePropHandler={name => dispatch(deleteState(JSON.parse(name).name))}
+                rowData={focusComponent.componentState.map(state => `Name: ${state.name}. Type: ${state.type}. Initial Value: ${state.initialValue}`)}
+                deletePropHandler={name => dispatch(deleteState(name.match(/Name: \w+/)[0].slice(6)))}
               />
           </Grid>
         </div>
