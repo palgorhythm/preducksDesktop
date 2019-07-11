@@ -348,7 +348,7 @@ export const deleteComponent = (state: ApplicationStateInt, { componentId }: { c
       ...state,
     };
   }
-
+  console.log('da cop,[penmt', state.components);
   const indexToDelete = state.components.findIndex(comp => comp.id == componentId);
 
   const componentsCopy = cloneDeep(state.components);

@@ -12,7 +12,6 @@ import uuid from 'uuid';
 
 const styles = (theme: any) => ({
   root: {
-    width: '80%',
     marginTop: theme.spacing.unit * 3,
     marginRight: '100px',
     // overflowX: "auto"
