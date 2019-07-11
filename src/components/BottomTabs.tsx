@@ -147,7 +147,7 @@ class BottomTabs extends Component<PropsInt> {
         {value === 1 && <ComponentReduxSetup focusComponent={focusComponent} />}
         {value === 2 && focusChild.childType === 'HTML' && <HtmlAttr />}
         {value === 2 && focusChild.childType !== 'HTML' && (
-          <p>Please select an HTML element to view attributes</p>
+          <p>select an HTML element to view attributes</p>
         )}
       </div>
     );
