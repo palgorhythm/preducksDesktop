@@ -44,7 +44,7 @@ const LeftColExpansionPanel = (props: any) => {
 
   // console.log('hoot hoot', HtmlChildren);
   const componentTitleDisplay = (
-    <Grid item xs={12}> 
+    <Grid item xs={12}>
       <List>
         <ListItem
           button
@@ -117,7 +117,6 @@ const LeftColExpansionPanel = (props: any) => {
   const HtmlChildrenOfFocusComponent = [];
   let thisComponentIsAChildOfFocusComponent = false;
   focusComponent.childrenArray.forEach((child) => {
-    console.log(focusComponent, child);
     if (child.childType === 'HTML') {
       HtmlChildrenOfFocusComponent.push(
         <HtmlChild

@@ -22,7 +22,7 @@ class CodePreview extends Component<Props> {
       <div
         style={{
           height: '100%',
-          margin: '10px',
+          marginBottom: '100px',
           overflow: 'auto',
           fontSize: '18px',
           background: 'transparent',

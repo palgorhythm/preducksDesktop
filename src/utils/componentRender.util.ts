@@ -112,12 +112,14 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     toImport.push('useDispatch');
   }
 
-  const importFromReactReduxText = toImport.length ? `import {${toImport.join(',')}} from 'react-redux'` : '';
+  const importFromReactReduxText = toImport.length
+    ? `import {${toImport.join(',')}} from 'react-redux'`
+    : '';
 
   const actionsToImport = {};
-  actions.forEach(action => {
-    console.log('ACKSHUN')
-    console.log(action)
+  actions.forEach((action) => {
+    console.log('ACKSHUN');
+    console.log(action);
     const [reducer, actionName] = action.split('.');
     if (!actionsToImport[reducer]) {
       actionsToImport[reducer] = [actionName];
@@ -126,12 +128,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   });
 
-  const actionsText = Object.keys(actionsToImport).map(reducer => {
-    return `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`
-  });
+  const actionsText = Object.keys(actionsToImport).map(reducer => `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`);
 
   const listOfInterfaces = componentState.reduce((interfaces, current) => {
-    if (!['string', 'boolean', 'number', 'any'].includes(current.type) && !interfaces.includes(current.type)) {
+    if (
+      !['string', 'boolean', 'number', 'any'].includes(current.type)
+      && !interfaces.includes(current.type)
+    ) {
       interfaces.push(current.type);
     }
     return interfaces;
@@ -153,20 +156,28 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         } else {
           returnType = 'any';
         }
-        if (!['string', 'boolean', 'number', 'any'].includes(returnType) && !listOfInterfaces.includes(returnType)) {
-          listOfInterfaces.push(returnType.indexOf('[') !== -1 ? returnType.slice(0, returnType.length - 2) : returnType);
+        if (
+          !['string', 'boolean', 'number', 'any'].includes(returnType)
+            && !listOfInterfaces.includes(returnType)
+        ) {
+          listOfInterfaces.push(
+            returnType.indexOf('[') !== -1
+              ? returnType.slice(0, returnType.length - 2)
+              : returnType,
+          );
         }
         return `const ${variableName} = useSelector<StoreInterface, ${returnType}>(state => state.${selector});`;
       })
       .join('\n')
     : '';
 
-  const interfacesToImport = listOfInterfaces.length ?
-    `import {${listOfInterfaces.join(', ')}} from '../Interfaces.ts'`
+  const interfacesToImport = listOfInterfaces.length
+    ? `import {${listOfInterfaces.join(', ')}} from '../Interfaces'`
     : '';
 
-
-  const importsText = `${componentState.length ? `import React, {useState} from 'react'` : `import React from 'react'`};
+  const importsText = `${
+    componentState.length ? 'import React, {useState} from \'react\'' : 'import React from \'react\''
+  };
   ${[
     ...new Set(
       childrenArray
@@ -176,7 +187,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
-  ${toImport.includes('useSelector') ? `import {StoreInterface} from '../reducers/index.ts'` : ''}
+  ${toImport.includes('useSelector') ? 'import {StoreInterface} from \'../reducers/index\'' : ''}
   ${actions.length ? actionsText.join('\n') : ''}
   \n\n`;
 
@@ -194,21 +205,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     </div>`;
 
   const useStateCalls = componentState.length
-    ? componentState.map((pieceOfState: ComponentStateInterface) => {
-      const initialValue = pieceOfState.type === 'string'
-        ? `'${pieceOfState.initialValue}'`
-        : pieceOfState.initialValue;
-      return `const [${
-        pieceOfState.name
-      }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(
-        1,
-      )}] = useState<${pieceOfState.type}>(${initialValue});`;
-    }).join('\n')
+    ? componentState
+      .map((pieceOfState: ComponentStateInterface) => {
+        const initialValue = pieceOfState.type === 'string'
+          ? `'${pieceOfState.initialValue}'`
+          : pieceOfState.initialValue;
+        return `const [${
+          pieceOfState.name
+        }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState<${
+          pieceOfState.type
+        }>(${initialValue});`;
+      })
+      .join('\n')
     : '';
 
   const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;
   const functionalComponentBody = `
-  const ${title}:React.FC = ():JSX.Element => {
+  const ${title}:React.FC = (props: any):JSX.Element => {
     ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}
