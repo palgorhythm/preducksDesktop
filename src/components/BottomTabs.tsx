@@ -130,12 +130,12 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`Component Props ${propCount ? `(${propCount})` : ''} `}
+            label={`component state & actions ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`HTML element ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
+            label={`component HTML children ${htmlAttribCount ? `(${htmlAttribCount})` : ''} `}
           />
           {/* <Tab
             disableRipple

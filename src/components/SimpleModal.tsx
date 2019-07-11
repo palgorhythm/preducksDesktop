@@ -13,11 +13,12 @@ const styles = (theme: any): any => ({
     maxWidth: '500px',
     height: 'auto',
     maxHeight: '300px',
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor: '#FFCB9A',
     boxShadow: theme.shadows[5],
     padding: '4%',
     minWidth: '500px',
     minHeight: '300px',
+    borderRadius: '10px',
   },
   button: {
     marginTop: '0%',
@@ -50,6 +51,7 @@ const SimpleModal = (props: any) => {
         open={open}>
         <div
           style={{
+            textAlign: 'center',
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
@@ -64,6 +66,7 @@ const SimpleModal = (props: any) => {
               right: '1%',
               fontSize: '17px',
               fontWeight: 'bold',
+              color: '#F64C72',
             }}>
             <CloseIcon />
           </IconButton>
@@ -73,20 +76,12 @@ const SimpleModal = (props: any) => {
           <div>{children}</div>
           <div>
             {secBtnLabel ? (
-              <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                onClick={secBtnAction}>
+              <Button style={{ borderRadius: 10, background: '#45A29E' }} onClick={secBtnAction}>
                 {secBtnLabel}
               </Button>
             ) : null}
             {primBtnLabel ? (
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={primBtnAction}>
+              <Button onClick={primBtnAction} style={{ borderRadius: 10, background: '#5CDB95' }}>
                 {primBtnLabel}
               </Button>
             ) : null}
