@@ -156,7 +156,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     : '';
 
   const interfacesToImport = listOfInterfaces.length ?
-    `import {${listOfInterfaces.join(', ')}} from '../Interfaces.ts'`
+    `import {${listOfInterfaces.join(', ')}} from '../Interfaces'`
     : '';
 
   const importsText = `import React from 'react';
@@ -169,7 +169,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
-  ${toImport.includes('useSelector') ? `import {StoreInterface} from '../reducers/index.ts'` : ''}
+  ${toImport.includes('useSelector') ? `import {StoreInterface} from '../reducers/index'` : ''}
   ${actions.length ? actionsText.join('\n') : ''}
   \n\n`;
 

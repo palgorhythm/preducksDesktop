@@ -118,7 +118,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.state = {
       componentName: '',
       modal: null,
-      genOptions: ['Export components', 'Export components with application files'],
+      genOptions: ['export components', 'export components with application files'],
       genOption: 0,
     };
 
