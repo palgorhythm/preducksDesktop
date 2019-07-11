@@ -296,7 +296,7 @@ right-panel div:before,
 .redux-connection-container {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: left;
 }
 
 .redux-selections {
@@ -305,10 +305,7 @@ right-panel div:before,
 .local-state-container {
   display: flex;
   flex-direction: column;
-}
-
-.local-state-form {
-  /* height: 200px; */
+  align-items: center;
 }
 
 .props-input {
