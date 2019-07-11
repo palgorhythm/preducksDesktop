@@ -80,12 +80,32 @@ const styles = (theme: any): any => ({
 
 const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
   const [translation, setTranslation] = useState({ x: 0, y: 0 });
+  const [zoomLevel, setZoomLevel] = useState(1);
+
   let treeWrapper;
+
+  const handleResize = () => {
+    if (treeWrapper) {
+      const treeSize = document.querySelector('g').getBBox();
+      const container = treeWrapper.getBoundingClientRect();
+      const containerToTreeWidthRatio = container.width / treeSize.width;
+      setTranslation({ x: container.width / 2, y: container.height / 2.9 });
+      setZoomLevel(containerToTreeWidthRatio);
+      // console.log(container, treeSize);
+    }
+  };
+
   useEffect(() => {
-    // dynamically center the tree based on the div size
-    const dimensions = treeWrapper.getBoundingClientRect();
-    setTranslation({ x: dimensions.width / 2, y: dimensions.height / 3 });
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
   });
+
+  useEffect(() => {
+    // have to add this in bc useEffect above can't find treeWrapper dom node on first render
+    handleResize();
+  }, [props.components]);
 
   return (
     <div
@@ -102,6 +122,7 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
         translate={translation}
         collapsible={false}
         zoomable={true}
+        zoom={zoomLevel}
         orientation={'vertical'}
         textLayout={{
           textAnchor: 'middle',
@@ -110,20 +131,28 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
           transform: undefined,
         }}
         styles={{
+          links: {
+            stroke: '#41B3A3',
+            strokeWidth: 4,
+          },
           nodes: {
             node: {
               name: {
                 fill: '#FFFFFF',
                 stroke: '#FFFFFF',
                 strokeWidth: 1,
+                fontSize: '20px',
               },
+              circle: { stroke: '#FFFFFF' },
             },
             leafNode: {
               name: {
                 fill: '#FFFFFF',
                 stroke: '#FFFFFF',
                 strokeWidth: 1,
+                fontSize: '20px',
               },
+              circle: { stroke: '#FFFFFF' },
             },
           },
         }}
@@ -140,7 +169,7 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
     name: component.title,
     attributes: {},
     children: [],
-    nodeSvgShape: createShape(60, component.color),
+    nodeSvgShape: createShape(65, component.color),
   };
   component.childrenArray.forEach((child) => {
     if (child.childType === 'COMP') {
@@ -150,7 +179,7 @@ function generateComponentTree(componentId: number, components: ComponentsInt) {
         name: child.componentName,
         attributes: {},
         children: [],
-        nodeSvgShape: createShape(40, '#007BFF'),
+        nodeSvgShape: createShape(50, '#007BFF'),
       });
     }
   });
@@ -163,6 +192,7 @@ function createShape(size, color) {
     shapeProps: {
       r: size,
       fill: color,
+      stroke: hexToHSL(color),
     },
   };
 }
@@ -170,3 +200,37 @@ function createShape(size, color) {
 const randomColor = `rgb(${Math.floor(255 * Math.random())},${Math.floor(
   255 * Math.random(),
 )},${Math.floor(255 * Math.random())})`;
+
+function hexToHSL(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  let r = parseInt(result[1], 16);
+  let g = parseInt(result[2], 16);
+  let b = parseInt(result[3], 16);
+  (r /= 255), (g /= 255), (b /= 255);
+  let max = Math.max(r, g, b),
+    min = Math.min(r, g, b);
+  let h = (max + min) / 2;
+  let s = (max + min) / 2;
+  const l = (max + min) / 2;
+
+  if (max == min) {
+    h = s = 0; // achromatic
+  } else {
+    const d = max - min;
+    s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+    switch (max) {
+      case r:
+        h = (g - b) / d + (g < b ? 6 : 0);
+        break;
+      case g:
+        h = (b - r) / d + 2;
+        break;
+      case b:
+        h = (r - g) / d + 4;
+        break;
+    }
+    h /= 6;
+  }
+  // console.log(`hsl(${h},${s},${l})`);
+  return `hsl(${h * 360},50%,50%)`;
+}
