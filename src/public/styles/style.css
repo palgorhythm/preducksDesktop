@@ -137,6 +137,7 @@ h1 {
   flex-flow: row nowrap;
   height: calc(200% / 3);
   border: 20px solid #333333;
+  border-right: none;
   border-radius: 100px;
   /* overflow-x: hidden; */
 }
@@ -208,6 +209,10 @@ h1 {
   text-align: center;
 }
 
+code {
+  font-family: 'SF Mono', 'monaco', monospace, monospace;
+}
+
 /*
 /////////////////////////////////////////// 
 RIGHT COLUMN
@@ -223,11 +228,31 @@ RIGHT COLUMN
   text-align: center;
 }
 
-.right-panel button {
+.property {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 5px 10px;
+  width: auto;
+}
+
+.property-info {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.property-info li {
+  
+}
+
+/* .right-panel button {
   color: rgba(255, 255, 255, 0.7);
   background: rgba(255, 255, 255, 0.1);
   border: none;
-}
+} */
 
 /*
 .right-panel label,
@@ -332,23 +357,21 @@ div.rst__rowContents {
 }
 
 .right-panel form,
-.interfaceField,
-.reducerField,
-.storeItem,
-.actionItem,
 .newActionItem div {
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: baseline;
+  align-items: center;
+  margin: 5px 10px;
+  width: auto;
 }
 
 .right-panel .interface,
 .right-panel .reducer {
   background: #eee;
-  margin: 15px 0;
+  margin: 15px 20px;
   padding: 2px 0 1.3em;
+  border-radius: 10px;
 }
 
 .right-panel section {
@@ -358,7 +381,7 @@ div.rst__rowContents {
 
 .right-panel .interface,
 .right-panel .reducer {
-  background: rgba(133, 85, 85, 0.07);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .newStoreItem,

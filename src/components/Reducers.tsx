@@ -1,19 +1,23 @@
 import React, { Component } from 'react';
-import { connect, useSelector } from 'react-redux';
-import { Button, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Checkbox, Input } from '@material-ui/core';
+import { connect } from 'react-redux';
+import { Button, FormControlLabel, Select, TextField, Checkbox, IconButton, Input } from '@material-ui/core';
+import Icon from '@material-ui/core/Icon';
 import * as actions from '../actions/components';
 import { ReducersInterface } from '../utils/interfaces';
+import TypeSelect from './TypeSelect';
 
 const mapDispatchToProps = (dispatch: any) => ({
   setReducer: (reducer: ReducersInterface) => dispatch(actions.setReducer(reducer)),
 });
 
 const mapStateToProps = (store: any) => ({
+  interfaces: store.workspace.storeConfig.interfaces,
   reducers: store.workspace.storeConfig.reducers,
 });
 
 interface PropsInt {
   setReducer: any,
+  interfaces: any,
   reducers: any,
 }
 
@@ -28,12 +32,7 @@ class Reducers extends Component<PropsInt> {
     const newReducerName = document.getElementById('newReducerNameInput').value;
     newReducers[newReducerName] = { store: {}, actions: {} };
     this.props.setReducer({ [newReducerName]: { store: {}, actions: {} } });
-    // this.setState({ reducers: newReducers });
     document.getElementById('newReducerNameInput').value = '';
-  };
-
-  handleSelectChange = (event: Event) => {
-    this.setState({ [event.target.name]: event.target.value });
   };
 
   handleCheckboxChange = (event: Event) => {
@@ -54,7 +53,6 @@ class Reducers extends Component<PropsInt> {
       initialValue: storeItemItitialValue
     };
     this.props.setReducer({ [reducerName]: newReducers[reducerName] });
-    // this.setState({ reducers: newReducers });
     reducerEl.querySelector('#storeItemName').value = '';
     this.setState({ ['storeItemType' + reducerName]: '' });
     this.setState({ ['storeItemIsArray' + reducerName]: false });
@@ -65,7 +63,6 @@ class Reducers extends Component<PropsInt> {
     let newReducers = this.props.reducers;
     delete newReducers[reducerName].store[itemName];
     this.props.setReducer({ [reducerName]: newReducers[reducerName] });
-    // this.setState({ reducers: newReducers });
   };
 
   addItemToActions = (reducerName: string) => {
@@ -84,7 +81,6 @@ class Reducers extends Component<PropsInt> {
       async: actionItemIsAsync,
     };
     this.props.setReducer({ [reducerName]: newReducers[reducerName] });
-    // this.setState({ reducers: newReducers });
     reducerEl.querySelector('#actionItemName').value = '';
     reducerEl.querySelector('#actionItemParameterName').value = '';
     this.setState({ ['actionItemParameterType' + reducerName]: '' });
@@ -98,7 +94,6 @@ class Reducers extends Component<PropsInt> {
     let newReducers = this.props.reducers;
     delete newReducers[reducerName].actions[itemName];
     this.props.setReducer({ [reducerName]: newReducers[reducerName] });
-    // this.setState({ reducers: newReducers });
   };
 
   render() {
@@ -113,12 +108,16 @@ class Reducers extends Component<PropsInt> {
                 <h4>Store</h4>
                 <div className="storeItems">
                   {this.props.reducers[reducer].store && Object.keys(this.props.reducers[reducer].store).map(store => (
-                    <div className="storeItem" key={"storeItem" + store}>
+                    <div className="property" key={"storeItem" + store}>
                       <span>{store}</span>
                       <span>{this.props.reducers[reducer].store[store].type}</span>
                       <span>{(this.props.reducers[reducer].store[store].array) ? '✓' : '×' }</span>
                       <span>{this.props.reducers[reducer].store[store].initialValue}</span>
-                      <Button onClick={() => this.deleteItemFromStore(reducer, store)} variant="outlined">Delete</Button>
+                      <IconButton
+                        aria-label={`delete store item "${store}"`}
+                        onClick={() => this.deleteItemFromStore(reducer, store)}>
+                        <Icon>delete</Icon>
+                      </IconButton>
                     </div>
                   ))}
                 </div>
@@ -128,20 +127,11 @@ class Reducers extends Component<PropsInt> {
                     id="storeItemName"
                     label="name"
                   />
-                  <FormControl>
-                    <InputLabel htmlFor={"storeItemType" + reducer}>type</InputLabel>
-                    <Select
-                      name={"storeItemType" + reducer}
-                      id={"storeItemType" + reducer}
-                      value={this.state['storeItemType' + reducer] || ''}
-                      onChange={this.handleSelectChange}
-                    >
-                      <MenuItem value="boolean">boolean</MenuItem>
-                      <MenuItem value="number">number</MenuItem>
-                      <MenuItem value="string">string</MenuItem>
-                      <MenuItem value="any">any</MenuItem>
-                    </Select>
-                  </FormControl>
+                  <TypeSelect
+                    selectName="storeItemType"
+                    outer={reducer}
+                    interfaces={this.props.interfaces}
+                  />
                   <FormControlLabel
                     control = {
                       <Checkbox
@@ -158,19 +148,24 @@ class Reducers extends Component<PropsInt> {
                     id="storeItemItitialValue"
                     label="initial value"
                   />
-                  <Button
+                  {/* <Button
                     variant="outlined"
                     onClick={() => this.addItemToStore(reducer)}
                     >
                     +
-                  </Button>
+                  </Button> */}
+                  <IconButton
+                    aria-label="add property to store"
+                    onClick={() => this.addItemToStore(reducer)}>
+                    <Icon>add</Icon>
+                  </IconButton>
                 </form>
               </div>
               <div id="actions">
                 <h4>Actions</h4>
                 <div className="actionItems">
                   {this.props.reducers[reducer].actions && Object.keys(this.props.reducers[reducer].actions).map(action => (
-                    <div className="actionItem" key={"action" + action}>
+                    <div className="property" key={"action" + action}>
                       <span>{action}</span>
                       <span>{this.props.reducers[reducer].actions[action].parameter.name}</span>
                       <span>{this.props.reducers[reducer].actions[action].parameter.type}</span>
@@ -178,7 +173,11 @@ class Reducers extends Component<PropsInt> {
                       <span>{this.props.reducers[reducer].actions[action].payload.type}</span>
                       <span>{(this.props.reducers[reducer].actions[action].payload.array) ? '✓' : '×' }</span>
                       <span>{(this.props.reducers[reducer].actions[action].async) ? '✓' : '×' }</span>
-                      <Button onClick={() => this.deleteItemFromActions(reducer, action)} variant="outlined">Delete</Button>
+                      <IconButton
+                        aria-label={`delete action "${action}"`}
+                        onClick={() => this.deleteItemFromActions(reducer, action)}>
+                        <Icon>delete</Icon>
+                      </IconButton>
                     </div>
                   ))}
                 </div>
@@ -194,47 +193,28 @@ class Reducers extends Component<PropsInt> {
                       id="actionItemParameterName"
                       label="parameter name"
                     />
-                    <FormControl>
-                      <InputLabel htmlFor="actionItemParameterType">parameter type</InputLabel>
-                      <Select
-                        name={"actionItemParameterType" + reducer}
-                        id={"actionItemParameterType" + reducer}
-                        value={this.state['actionItemParameterType' + reducer] || ''}
-                        onChange={this.handleSelectChange}
-                      >
-                        <MenuItem value="boolean">boolean</MenuItem>
-                        <MenuItem value="number">number</MenuItem>
-                        <MenuItem value="string">string</MenuItem>
-                        <MenuItem value="any">any</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <TypeSelect
+                      selectName="actionItemParameterType"
+                      outer={reducer}
+                      interfaces={this.props.interfaces}
+                    />
                     <FormControlLabel
                       control = {
                         <Checkbox
                           name={'actionItemParameterIsArray' + reducer}
                           id={'actionItemParameterIsArray' + reducer}
                           checked={this.state['actionItemParameterIsArray' + reducer] || false}
-                          onChange={this.handleCheckboxChange}
-                          />
+                          onChange={this.handleCheckboxChange} />
                       }
                       label="parameter array"
                     />
                   </div>
                   <div className="newActionItemPayloadFields">
-                    <FormControl>
-                      <InputLabel htmlFor="actionItemPayloadType">payload type</InputLabel>
-                      <Select
-                        name={"actionItemPayloadType" + reducer}
-                        id={"actionItemPayloadType" + reducer}
-                        value={this.state['actionItemPayloadType' + reducer] || ''}
-                        onChange={this.handleSelectChange}
-                      >
-                        <MenuItem value="boolean">boolean</MenuItem>
-                        <MenuItem value="number">number</MenuItem>
-                        <MenuItem value="string">string</MenuItem>
-                        <MenuItem value="any">any</MenuItem>
-                      </Select>
-                    </FormControl>
+                    <TypeSelect
+                      selectName="actionItemPayloadType"
+                      outer={reducer}
+                      interfaces={this.props.interfaces}
+                    />
                     <FormControlLabel
                       control = {
                         <Checkbox
@@ -258,12 +238,11 @@ class Reducers extends Component<PropsInt> {
                       label="async"
                     />
                   </div>
-                  <Button
-                    variant="outlined"
-                    onClick={() => this.addItemToActions(reducer)}
-                    >
-                    +
-                  </Button>
+                  <IconButton
+                    aria-label="add action"
+                    onClick={() => this.addItemToActions(reducer)}>
+                    <Icon>add</Icon>
+                  </IconButton>
                 </form>
               </div>
             </div>
@@ -272,9 +251,13 @@ class Reducers extends Component<PropsInt> {
         <form id="newReducer">
           <TextField
             id="newReducerNameInput"
-            label="New Reducer"
+            label="new reducer"
           />
-          <Button onClick={() => { this.createNewReducer(); }} variant="outlined">+</Button>
+          <IconButton
+            aria-label="create reducer"
+            onClick={this.createNewReducer}>
+            <Icon>add</Icon>
+          </IconButton>
         </form>
       </section>
     );
