@@ -38,7 +38,7 @@ const LeftColExpansionPanel = (props: any) => {
   }
 
   const focusedStyle = {
-    boxShadow: '2px 2px rgba(255,255,255,0.2)',
+    boxShadow: '4px 2px 4px 2px rgba(150,150,150,0.2)',
     background: color,
   };
 
@@ -168,8 +168,9 @@ function styles(): any {
     root: {
       width: '100%',
       height: '100%',
+      borderRadius: '10px',
       marginTop: 10,
-      backgroundColor: '#333333',
+      backgroundColor: '#4e4e4e',
     },
     light: {
       color: '#eee',

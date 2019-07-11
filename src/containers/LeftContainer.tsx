@@ -118,7 +118,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     this.state = {
       componentName: '',
       modal: null,
-      genOptions: ['export components', 'export components with application files'],
+      genOptions: ['export components', 'export app files & components'],
       genOption: 0,
     };
 
@@ -208,7 +208,7 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       modal: createModal({
         closeModal,
         children,
-        message: 'choose export preference:',
+        message: 'choose export preference',
         primBtnLabel: null,
         primBtnAction: null,
         secBtnAction: null,
@@ -308,14 +308,15 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           flexDirection: 'column',
         }}>
         <Button
-          color="secondary"
-          aria-label="Delete All"
+          color="primary"
+          aria-label="Export Code"
           variant="contained"
           fullWidth
-          onClick={this.clearWorkspace}
+          onClick={this.showGenerateAppModal}
           className={classes.clearButton}
-          style={{ borderRadius: 0 }}>
-          Clear Workspace
+          style={{ borderRadius: '10px', margin: '2px', color: 'black' }}>
+          <GetAppIcon style={{ paddingRight: '5px' }} />
+          Export Project
         </Button>
       </div>
       <div
@@ -325,15 +326,13 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           flexDirection: 'column',
         }}>
         <Button
-          color="primary"
-          aria-label="Export Code"
+          aria-label="Delete All"
           variant="contained"
           fullWidth
-          onClick={this.showGenerateAppModal}
+          onClick={this.clearWorkspace}
           className={classes.clearButton}
-          style={{ borderRadius: 0 }}>
-          <GetAppIcon style={{ paddingRight: '5px' }} />
-          Export Project
+          style={{  borderRadius: '10px', margin: '2px', backgroundColor: '#F64C72' }}>
+          Clear Workspace
         </Button>
       </div>
     </div>);
