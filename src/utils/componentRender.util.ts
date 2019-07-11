@@ -126,15 +126,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   });
 
-  const actionsText = Object.keys(actionsToImport).map(reducer => `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`);
+  const actionsText = Object.keys(actionsToImport).map(
+    reducer => `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`,
+  );
 
-  const reservedTypeScriptTypes = ['string', 'boolean', 'number', 'any', 'string[]', 'boolean[]', 'number[]', 'any[]'];
+  const reservedTypeScriptTypes = [
+    'string',
+    'boolean',
+    'number',
+    'any',
+    'string[]',
+    'boolean[]',
+    'number[]',
+    'any[]',
+  ];
 
   const listOfInterfaces = componentState.reduce((interfaces, current) => {
-    if (
-      !reservedTypeScriptTypes.includes(current.type)
-      && !interfaces.includes(current.type)
-    ) {
+    if (!reservedTypeScriptTypes.includes(current.type) && !interfaces.includes(current.type)) {
       interfaces.push(current.type);
     }
     return interfaces;
@@ -176,7 +184,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     : '';
 
   const importsText = `${
-    componentState.length ? 'import React, {useState} from \'react\'' : 'import React from \'react\''
+    componentState.length ? "import React, {useState} from 'react'" : "import React from 'react'"
   };
   ${[
     ...new Set(
@@ -187,7 +195,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
-  ${toImport.includes('useSelector') ? 'import {StoreInterface} from \'../reducers/index\'' : ''}
+  ${toImport.includes('useSelector') ? "import {StoreInterface} from '../reducers/index'" : ''}
   ${actions.length ? actionsText.join('\n') : ''}
   \n\n`;
 
@@ -199,7 +207,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ${cloneDeep(childrenArray)
     .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
     .map(
-      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`
+      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
     )
     .join('\n')}
     </div>`;
@@ -231,13 +239,4 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   return importsText + functionalComponentBody;
 };
 
-// console.log(
-//   format(componentRender(dummyComponent, dummyAllComponents), {
-//     singleQuote: true,
-//     trailingComma: 'es5',
-//     bracketSpacing: true,
-//     jsxBracketSameLine: true,
-//     parser: 'typescript',
-//   }),
-// );
 export default componentRender;

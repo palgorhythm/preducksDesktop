@@ -1,24 +1,23 @@
 {
-  "name": "reactype",
+  "name": "preducks",
   "version": "1.0.0",
-  "description": "Prototyping tool for React/Typescript Applications.",
+  "description": "prototyping tool for react + redux + typescript applications",
   "main": "main.js",
   "contributors": [
-    "Christian Padilla",
-    "Tolga Mizrakci",
-    "Shlomo Porges",
-    "Adam Singer"
+    "jacob richards",
+    "max gonzalez",
+    "will napier"
   ],
   "engines": {
     "node": "12.x"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/team-reactype/ReacType"
+    "url": "https://github.com/oslabs-beta/preducks"
   },
   "build": {
-    "appId": "com.team-reactype.reactype",
-    "copyright": "Copyright © 2018",
+    "appId": "com.team-preducks.preducks",
+    "copyright": "Copyright © 2019",
     "linux": {
       "target": [
         "AppImage",
@@ -70,7 +69,7 @@
     "develop": "concurrently \"yarn run dev\" \"yarn run electron\""
   },
   "bin": {
-    "reactype": "./index.js"
+    "preducks": "./index.js"
   },
   "preferGlobal": true,
   "license": "MIT",

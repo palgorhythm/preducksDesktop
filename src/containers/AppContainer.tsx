@@ -59,8 +59,7 @@ class AppContainer extends Component<Props> {
               alignSelf: 'flex-end',
               position: 'fixed',
               width: '100%',
-            }}
-          >
+            }}>
             <LinearProgress color="secondary" />
           </div>
         ) : null}

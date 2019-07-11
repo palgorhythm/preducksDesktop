@@ -1,7 +1,7 @@
 directories:
   output: dist
   buildResources: build
-appId: reactype
+appId: preducks
 copyright: Copyright © 2018
 linux:
   target:
@@ -20,7 +20,7 @@ win:
 files:
   - main.js
   - build
-productName: ReacType
+productName: preducks
 dmg:
   contents:
     - x: 110

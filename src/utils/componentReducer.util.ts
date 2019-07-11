@@ -198,7 +198,6 @@ export const deleteChild = (
     childId = opts.childId;
     calledFromDeleteComponent = opts.calledFromDeleteComponent;
   }
-  console.log('u just called delete child u fool', childId, parentId, calledFromDeleteComponent);
   // console.log('parent id, state focusChild', parentId, state.focusChild );
   /** ************************************************
   if no parameters are provided we default to delete the FOCUSED CHILD of the FOCUSED COMPONENTS
@@ -348,7 +347,6 @@ export const deleteComponent = (state: ApplicationStateInt, { componentId }: { c
       ...state,
     };
   }
-  console.log('da cop,[penmt', state.components);
   const indexToDelete = state.components.findIndex(comp => comp.id == componentId);
 
   const componentsCopy = cloneDeep(state.components);
@@ -395,7 +393,6 @@ export const changeFocusComponent = (
 
 export const changeFocusChild = (state: ApplicationStateInt, { childId }: { childId: number }) => {
   const focComp = state.components.find(comp => comp.title === state.focusComponent.title);
-  console.log('child id in the reducer func', childId);
   let newFocusChild: ChildInt = focComp.childrenArray.find(child => child.childId === childId);
 
   if (!newFocusChild) {

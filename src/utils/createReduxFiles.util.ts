@@ -210,7 +210,6 @@ export const createReduxFiles = async (
   appName: string,
   storeConfig: StoreConfigInterface,
 ): void => {
-  // console.log('it the store config!', storeConfig);
   await createSharedInterfaces(path, appName, storeConfig);
   await createActionsAndStoresForEachReducer(path, appName, storeConfig);
 };
