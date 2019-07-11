@@ -111,9 +111,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   if (actions.length) {
     toImport.push('useDispatch');
   }
-  if (componentState.length) {
-    toImport.push('useState');
-  }
+
   const importFromReactReduxText = toImport.length ? `import {${toImport.join(',')}} from 'react-redux'` : '';
 
   const actionsToImport = {};
@@ -146,9 +144,17 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         const selectorStrings = selector.split('.');
         const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
         const properties = selector.split('.');
-        let returnType = properties.length === 2 ? state[properties[0]].store[properties[1]].type : 'any';
+        let returnType;
+        if (properties.length === 2) {
+          returnType = state[properties[0]].store[properties[1]].type;
+          if (state[properties[0]].store[properties[1]].array) {
+            returnType += '[]';
+          }
+        } else {
+          returnType = 'any';
+        }
         if (!['string', 'boolean', 'number', 'any'].includes(returnType) && !listOfInterfaces.includes(returnType)) {
-          listOfInterfaces.push(returnType);
+          listOfInterfaces.push(returnType.indexOf('[') !== -1 ? returnType.slice(0, returnType.length - 2) : returnType);
         }
         return `const ${variableName} = useSelector<StoreInterface, ${returnType}>(state => state.${selector});`;
       })
@@ -159,7 +165,8 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     `import {${listOfInterfaces.join(', ')}} from '../Interfaces.ts'`
     : '';
 
-  const importsText = `import React from 'react';
+
+  const importsText = `${componentState.length ? `import React, {useState} from 'react'` : `import React from 'react'`};
   ${[
     ...new Set(
       childrenArray
@@ -201,7 +208,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;
   const functionalComponentBody = `
-  const ${title} = () => {
+  const ${title}:React.FC = ():JSX.Element => {
     ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}
