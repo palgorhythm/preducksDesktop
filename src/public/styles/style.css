@@ -159,7 +159,7 @@ h1 {
 .main {
   /* border-left: 1px solid grey; */
   /* border-right: 1px solid grey; */
-  border-radius: 10px 0px 0px 10px;
+  border-radius: 10px;
   background: #fff;
   width: 75%;
   /* overflow: hidden;  */

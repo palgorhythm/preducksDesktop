@@ -92,7 +92,11 @@ class Interfaces extends Component<PropsInt> {
                     ))}
                 </div>
                 <form className="newInterfaceField">
-                  <TextField name="interfaceFieldName" id="interfaceFieldName" label="name" />
+                  <TextField
+                    name="interfaceFieldName"
+                    id="interfaceFieldName"
+                    label="property name"
+                  />
                   <FormControl>
                     <InputLabel htmlFor={`interfaceFieldType${elInterface}`}>type</InputLabel>
                     <Select
