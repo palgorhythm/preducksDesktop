@@ -118,8 +118,6 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const actionsToImport = {};
   actions.forEach((action) => {
-    console.log('ACKSHUN');
-    console.log(action);
     const [reducer, actionName] = action.split('.');
     if (!actionsToImport[reducer]) {
       actionsToImport[reducer] = [actionName];
@@ -130,9 +128,11 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
 
   const actionsText = Object.keys(actionsToImport).map(reducer => `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`);
 
+  const reservedTypeScriptTypes = ['string', 'boolean', 'number', 'any', 'string[]', 'boolean[]', 'number[]', 'any[]'];
+
   const listOfInterfaces = componentState.reduce((interfaces, current) => {
     if (
-      !['string', 'boolean', 'number', 'any'].includes(current.type)
+      !reservedTypeScriptTypes.includes(current.type)
       && !interfaces.includes(current.type)
     ) {
       interfaces.push(current.type);
@@ -157,7 +157,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
           returnType = 'any';
         }
         if (
-          !['string', 'boolean', 'number', 'any'].includes(returnType)
+          !reservedTypeScriptTypes.includes(returnType)
             && !listOfInterfaces.includes(returnType)
         ) {
           listOfInterfaces.push(
