@@ -182,7 +182,6 @@ const componentReducer = (state = initialApplicationState, action: any) => {
     case ADD_ACTION_TO_COMPONENT:
       return addActionToComponent(state, action.payload);
     case DELETE_ACTION_FROM_COMPONENT:
-      // console.log('yetoto', action.payload);
       return deleteActionFromComponent(state, action.payload);
     case SET_REDUCER:
       return setReducer(state, action.payload);

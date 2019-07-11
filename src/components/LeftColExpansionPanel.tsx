@@ -29,9 +29,6 @@ const LeftColExpansionPanel = (props: any) => {
     deleteComponent,
   } = props;
   const { title, id, color } = component;
-  // console.log(title, components);
-  // goal: render this array as subcomponents
-  // under each component in the list.
 
   function isFocused() {
     return focusComponent.id === id ? 'focused' : '';
@@ -42,7 +39,6 @@ const LeftColExpansionPanel = (props: any) => {
     background: color,
   };
 
-  // console.log('hoot hoot', HtmlChildren);
   const componentTitleDisplay = (
     <Grid item xs={12}>
       <List>

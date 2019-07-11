@@ -37,23 +37,9 @@ function dataTable(props: any) {
   const renderHeader = rowHeader.map((col: any, idx: number) => (
     <TableCell key={`head_+${idx}`}>{col}</TableCell>
   ));
-  // console.log('the row data', rowData);
-
-  // function renderRowCells(row: any) {
-  //   if (!row) return;
-  //   // for some reason we must put each value in a div.
-  //   console.log('yeet', row, rowHeader);
-  //   return rowHeader.map((header: string, idx: number) => (
-  //     <TableCell align={'center'} key={`td_${idx}`}>
-  //       {typeof row[header] === 'string' ? row[header] : row[header].toString()}
-  //     </TableCell>
-  //   ));
-  // }
 
   function renderRowCells(row: any) {
     if (!row) return;
-    // for some reason we must put each value in a div.
-    // console.log('yeet', row, rowHeader);
     return rowHeader.map((header: string, idx: number) => (
       <TableCell align={'center'} key={`${uuid.v4()}`}>
         {row.toString()}

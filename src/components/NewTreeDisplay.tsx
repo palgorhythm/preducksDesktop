@@ -80,10 +80,8 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
       const treeSize = document.querySelector('g').getBBox();
       const container = treeWrapper.getBoundingClientRect();
       const containerToTreeWidthRatio = container.width / treeSize.width;
-      console.log('handling resize', container.width, container.height);
       setTranslation({ x: container.width / 2, y: container.height / 2.9 });
       setZoomLevel(containerToTreeWidthRatio);
-      // console.log(container, treeSize);
     }
   };
 
@@ -95,7 +93,7 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
   });
 
   useEffect(() => {
-    // console.log('using effect bc focusComp or components changed');
+    // ('using effect bc focusComp or components changed');
     // have to add this in bc useEffect above can't find treeWrapper dom node on first render
     handleResize();
   }, [props.components, props.focusComponent]);
@@ -224,6 +222,5 @@ function hexToHSL(hex) {
     }
     h /= 6;
   }
-  // console.log(`hsl(${h},${s},${l})`);
   return `hsl(${h * 360},50%,50%)`;
 }

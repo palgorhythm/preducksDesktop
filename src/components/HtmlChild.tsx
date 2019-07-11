@@ -15,7 +15,6 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
   } = props;
   const dispatch = useDispatch();
   const focusChildId = useSelector(store => store.workspace.focusChild).childId;
-  // console.log('these the components', components);
   const deleteButton = (
     <Fragment>
       {/* shows the delete button */}

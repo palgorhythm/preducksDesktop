@@ -127,7 +127,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
       const { genOption } = this.state;
       const appName = 'dope_exported_preducks_app';
       const exportAppBool = true;
-      // console.log(storeConfig);
       this.props.createApp({
         path,
         components,

@@ -57,7 +57,6 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     const callback = cb;
     return (e) => {
       e.preventDefault();
-      console.log(value);
       return dispatch(callback(value));
     };
   };
@@ -97,8 +96,6 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
       </form>
     </Grid>
   );
-
-  console.log('ok this is local component state selections', focusComponent.componentState);
   return (
     <div className={'htmlattr'}>
       {' '}
