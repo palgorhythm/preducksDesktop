@@ -101,9 +101,9 @@ LEFT COLUMN
   bottom: 2.8%;
 }
 
-div:focus {
+/* div:focus {
   background-color: inherit !important;
-}
+} */
 
 .expansionPanel {
   /* flex-direction: column; */
