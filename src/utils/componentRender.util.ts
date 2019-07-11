@@ -199,7 +199,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     ${cloneDeep(childrenArray)
     .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
     .map(
-      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
+      (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`
     )
     .join('\n')}
     </div>`;
