@@ -48,6 +48,7 @@ const LeftColExpansionPanel = (props: any) => {
       <List>
         <ListItem
           button
+          disableRipple={true}
           onClick={() => {
             changeFocusComponent({ title });
           }}>
@@ -83,9 +84,12 @@ const LeftColExpansionPanel = (props: any) => {
           marginBottom: '10px',
           marginTop: '0px',
           marginLeft: '11px',
-          padding: '0px',
+          padding: '4px',
+          fontSize: '12px',
+          borderRadius: '10px',
+          border: '2px solid white',
         }}>
-        <DeleteIcon style={{ color: 'white' }} />
+        {/* <DeleteIcon style={{ color: 'white' }} /> */}
         Delete Component
       </Button>
     </Fragment>

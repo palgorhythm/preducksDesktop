@@ -1,7 +1,6 @@
 import Tree from 'react-d3-tree';
-import React, { Component, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
-import { create } from 'domain';
 import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
 interface TreeInt {
@@ -70,14 +69,6 @@ const styles = (theme: any): any => ({
   },
 });
 
-// const svgShape = {
-//   shape: 'circle',
-//   shapeProps: {
-//     r: 50,
-//     fill: '#007BFF',
-//   },
-// };
-
 const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
   const [translation, setTranslation] = useState({ x: 0, y: 0 });
   const [zoomLevel, setZoomLevel] = useState(1);
@@ -89,6 +80,7 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
       const treeSize = document.querySelector('g').getBBox();
       const container = treeWrapper.getBoundingClientRect();
       const containerToTreeWidthRatio = container.width / treeSize.width;
+      console.log('handling resize', container.width, container.height);
       setTranslation({ x: container.width / 2, y: container.height / 2.9 });
       setZoomLevel(containerToTreeWidthRatio);
       // console.log(container, treeSize);
@@ -103,6 +95,7 @@ const TreeDisplay: React.FC<PropsInt> = (props): JSX.Element => {
   });
 
   useEffect(() => {
+    // console.log('using effect bc focusComp or components changed');
     // have to add this in bc useEffect above can't find treeWrapper dom node on first render
     handleResize();
   }, [props.components, props.focusComponent]);

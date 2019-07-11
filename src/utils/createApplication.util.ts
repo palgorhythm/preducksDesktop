@@ -75,7 +75,7 @@ const createPackage = (path, appName) => {
   const filePath = `${path}/${appName}/package.json`;
   const data = `
 {
-  "name": "reactype",
+  "name": "preducks",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

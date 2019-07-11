@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import SaveIcon from '@material-ui/icons/Save';
 import Paper from '@material-ui/core/Paper';
 import Fab from '@material-ui/core/Fab';
 import { updateHtmlAttr } from '../actions/components';
@@ -26,15 +25,19 @@ const styles = (theme: any): any => ({
     display: 'flex',
     justifyContent: 'center',
     flexWrap: 'wrap',
+    background: '#007BFF',
+    color: 'white',
+    borderRadius: '15px',
+    border: '2px solid white',
   },
   cssLabel: {
     color: 'white',
   },
   cssFocused: {
-    color: 'green',
+    color: '#5CDB95',
   },
   input: {
-    color: '#fff',
+    color: 'white',
     opacity: '0.7',
     marginBottom: '15px',
   },
@@ -81,18 +84,16 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               classes: {
                 root: classes.cssLabel,
                 focused: classes.cssFocused,
-                input: classes.input,
               },
             }}
             InputProps={{
               classes: {
-                root: classes.cssOutlinedInput,
+                root: classes.cssFocused,
                 focused: classes.cssFocused,
                 notchedOutline: classes.notchedOutline,
-                input: classes.input,
               },
             }}
-            style={{ background: '#424242', height: '70%' }}
+            style={{ background: '#4e4e4e', height: '70%', borderRadius: '10px' }}
             label={attr}
             variant="outlined"
             id={attr}
@@ -112,15 +113,14 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
               marginBottom: '10px',
             }}
             onClick={() => this.handleSave(attr)}>
-            <SaveIcon />
             {'save'}
           </Fab>
         </Grid>
         <Grid item xs={4}>
           <Paper className={classes.root} style={{ height: '70%' }}>
-            <p style={{ color: 'black' }}>
+            <h4 style={{ padding: '-10px 0px 0px 0px', alignSelf: 'center' }}>
               {focusChild.HTMLInfo[attr] ? focusChild.HTMLInfo[attr] : ' no attribute assigned'}
-            </p>
+            </h4>
           </Paper>
         </Grid>
       </Grid>
@@ -128,7 +128,7 @@ class HtmlAttr extends Component<PropsInt, StateInt> {
 
     return (
       <div className={'htmlattr'}>
-        <div className={'htmlattr-name'}>{`<${focusChildType.toLowerCase()}/>`}</div>
+        <div className={'htmlattr-name'}>{`${focusChildType.toLowerCase()}`}</div>
         {HtmlForm}
       </div>
     );

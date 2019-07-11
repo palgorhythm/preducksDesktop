@@ -314,9 +314,9 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           fullWidth
           onClick={this.showGenerateAppModal}
           className={classes.clearButton}
-          style={{ borderRadius: '10px', margin: '2px', color: 'black' }}>
+          style={{ borderRadius: '10px', margin: '2px', color: 'black', backgroundColor: '#5CDB95' }}>
           <GetAppIcon style={{ paddingRight: '5px' }} />
-          Export Project
+          export project
         </Button>
       </div>
       <div
@@ -331,8 +331,8 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           fullWidth
           onClick={this.clearWorkspace}
           className={classes.clearButton}
-          style={{  borderRadius: '10px', margin: '2px', backgroundColor: '#F64C72' }}>
-          Clear Workspace
+          style={{  borderRadius: '10px', margin: '2px', color: 'white', backgroundColor: '#F64C72' }}>
+          clear workspace
         </Button>
       </div>
     </div>);
