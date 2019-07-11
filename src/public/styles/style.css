@@ -144,6 +144,7 @@ h1 {
   flex-flow: row nowrap;
   height: calc(200% / 3);
   border: 20px solid #333333;
+  border-right: none;
   border-radius: 100px;
   /* overflow-x: hidden; */
 }
@@ -215,6 +216,11 @@ h1 {
   text-align: center;
 }
 
+code,
+.property.code {
+  font-family: 'SF Mono', 'monaco', monospace, monospace;
+}
+
 /*
 /////////////////////////////////////////// 
 RIGHT COLUMN
@@ -224,17 +230,74 @@ RIGHT COLUMN
 .right-panel {
   background: #333;
   color: rgba(255, 255, 255, 0.7);
-  min-width: 25%;
+  width: 500px;
   height: 100%;
   overflow-y: hidden;
   text-align: center;
 }
 
-.right-panel button {
+.right-panel h3 {
+  margin: 1em auto;
+}
+
+.property {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 95%;
+}
+
+.property-info {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+}
+
+.property-info li {
+  display: flex;
+  font-weight: bold;
+  width: 50%;
+}
+
+.reducer .property-info li {
+  text-align: center;
+  width: auto;
+}
+
+.property .property-controls {
+  visibility: hidden;
+}
+
+.reducer .property:first-of-type {
+  width: 346px;
+  margin-right: 47px;
+}
+
+.actionItems .property:first-of-type li {
+  /* transform: rotate(-40deg); */
+}
+
+.property:hover .property-controls {
+  visibility: visible;
+}
+
+.info-title {
+  margin-right: 10px;
+  font-weight: lighter;
+  width: 40%;
+  text-align: right;
+}
+
+/* .right-panel button {
   color: rgba(255, 255, 255, 0.7);
   background: rgba(255, 255, 255, 0.1);
   border: none;
-}
+} */
 
 /*
 .right-panel label,
@@ -357,23 +420,21 @@ div.rst__rowContents {
 }
 
 .right-panel form,
-.interfaceField,
-.reducerField,
-.storeItem,
-.actionItem,
 .newActionItem div {
-  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: baseline;
+  align-items: center;
+  margin: 5px 10px;
+  width: auto;
 }
 
 .right-panel .interface,
 .right-panel .reducer {
   background: #eee;
-  margin: 15px 0;
+  margin: 15px 20px;
   padding: 2px 0 1.3em;
+  border-radius: 10px;
 }
 
 .right-panel section {
@@ -383,7 +444,7 @@ div.rst__rowContents {
 
 .right-panel .interface,
 .right-panel .reducer {
-  background: rgba(133, 85, 85, 0.07);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 .newStoreItem,
@@ -396,4 +457,8 @@ div.rst__rowContents {
   background: rgba(255, 255, 255, 0.05);
   padding: 2px 0 1.3em;
   margin: 20px 0;
+}
+
+.newActionItem {
+  align-items: flex-end;
 }
