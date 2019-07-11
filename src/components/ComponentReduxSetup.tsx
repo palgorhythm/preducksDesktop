@@ -57,7 +57,6 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     const callback = cb;
     return (e) => {
       e.preventDefault();
-      console.log(value);
       return dispatch(callback(value));
     };
   };
@@ -97,8 +96,6 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
       </form>
     </Grid>
   );
-
-  console.log('ok this is local component state selections', focusComponent.componentState);
   return (
     <div className={'htmlattr'}>
       {' '}
@@ -110,7 +107,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
         <div className="props-container" style={{ marginTop: '20px' }}>
           <Grid container spacing={8}>
             <div className="redux-connection-container">
-              <h3 style={{ flex: 1 }}>add redux connections</h3>
+              <h3 style={{ flex: 1, color: '#e0e0e0' }}>add redux connections</h3>
               <Grid item xs={12}>
                 <div className="redux-selections">
                   {submitValueUsingAction(
@@ -148,7 +145,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
           <Grid container spacing={8} direction="row">
             <div className="local-state-container">
               <form className="local-state-form" onSubmit={e => handleLocalStateSubmit(e)}>
-                <h3>add local state</h3>
+                <h3 style={{ color: '#e0e0e0' }}>add local state</h3>
                 <FormControl>
                   <InputLabel className={classes.light} htmlFor="localstate-name">
                     Name:
@@ -194,7 +191,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
                   type="submit"
                   variant="contained"
                   size="large">
-                  {'submit local state'}
+                  {'submit'}
                 </Button>
               </form>
             </div>

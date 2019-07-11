@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 import { format } from 'prettier';
 import SyntaxHighlighter from 'react-syntax-highlighter';
-import { qtcreatorDark as style } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
+import { rainbow as style } from 'react-syntax-highlighter/dist/cjs/styles/hljs';
 import componentRender from '../utils/componentRender.util';
 import { ComponentInt, ComponentsInt } from '../utils/Interfaces';
-/** **   SortCHildren will be fixed , dont XXX the file  *** */
-// import SortChildren from './SortChildren.jsx';
 
 type Props = {
   focusComponent: ComponentInt;
@@ -16,21 +14,19 @@ class CodePreview extends Component<Props> {
   render(): JSX.Element {
     const focusComponent: ComponentInt = this.props.focusComponent;
     const components: ComponentsInt = this.props.components;
-    // console.log(focusComponent, components);
     // TODO: NEED TO FIGURE OUT HOW TO GET FORMATTING TO WORK ON CODE PREVIEW
     return (
       <div
         style={{
-          height: '100%',
           marginBottom: '100px',
           overflow: 'auto',
           fontSize: '18px',
-          background: 'transparent',
+          backgroundColor: '#262626',
+          border: '2px solid #e0e0e0',
+          borderRadius: '20px',
+          margin: '20px',
         }}>
-        <SyntaxHighlighter
-          style={style}
-          customStyle={{ background: 'transparent' }}
-          language={'typescript'}>
+        <SyntaxHighlighter style={style} customStyle={{ background: 'transparent' }}>
           {format(componentRender(focusComponent, components), {
             parser: 'typescript',
           })}

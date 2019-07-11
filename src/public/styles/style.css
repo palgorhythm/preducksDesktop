@@ -101,6 +101,10 @@ LEFT COLUMN
   bottom: 2.8%;
 }
 
+div:focus {
+  background-color: inherit !important;
+}
+
 .expansionPanel {
   /* flex-direction: column; */
   /* display: flex; */
@@ -342,12 +346,10 @@ right-panel div:before,
 
 .htmlattr-name {
   font-size: 30px;
-  background: whitesmoke;
   border-radius: 10px;
   width: 120px;
   margin: 5px 0px 5px 0px;
-  color: rgb(75, 75, 75);
-  text-align: center;
+  color: whitesmoke;
 }
 
 .props-container {

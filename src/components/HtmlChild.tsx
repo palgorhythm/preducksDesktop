@@ -15,7 +15,6 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
   } = props;
   const dispatch = useDispatch();
   const focusChildId = useSelector(store => store.workspace.focusChild).childId;
-  // console.log('these the components', components);
   const deleteButton = (
     <Fragment>
       {/* shows the delete button */}
@@ -29,30 +28,30 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
           dispatch(deleteChild(childId));
         }}
         style={{
-          color: '#D3D3D3',
+          color: 'white',
           marginBottom: '10px',
           marginTop: '0px',
-          marginLeft: '4px',
-          padding: '0px',
         }}>
-        <DeleteIcon style={{ color: '#D3D3D3' }} />
+        <DeleteIcon style={{ color: 'white' }} />
       </Button>
     </Fragment>
   );
-
   const compStyle = childId === focusChildId
     ? {
       textAlign: 'center',
       borderRadius: '10px',
       border: '1px solid white',
       color: 'black',
+      fontWeight: 600,
       background: 'white',
+      width: '80px',
     }
     : {
       textAlign: 'center',
       borderRadius: '10px',
       border: '1px solid white',
       color: '#FFFFFF',
+      width: '80px',
     };
 
   return (

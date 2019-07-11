@@ -73,7 +73,6 @@ title: string;
 childType: string;
 HTMLInfo: object;
 }) => (dispatch: any) => {
-  // console.log('adding a child', title, childType, HTMLInfo);
   dispatch({ type: ADD_CHILD, payload: { title, childType, HTMLInfo } });
 };
 
@@ -223,7 +222,6 @@ storeConfig: StoreConfigInterface;
         dispatch({
           type: CREATE_APPLICATION_SUCCESS,
         });
-        console.log('trying to export files!');
         dispatch(
           exportFiles({
             appName,
