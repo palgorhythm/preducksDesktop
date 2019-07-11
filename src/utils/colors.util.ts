@@ -23,7 +23,6 @@ const colors: Array<string> = [
   '#84CEEB',
   '#61892F',
 ];
-
 const getColor = (portion: number): string => colors[Math.floor(Math.random() * portion * colors.length)];
 
 export default getColor;
