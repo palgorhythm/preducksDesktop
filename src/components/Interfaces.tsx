@@ -94,7 +94,11 @@ class Interfaces extends Component<PropsInt> {
                     name="interfaceFieldName"
                     id="interfaceFieldName"
                     label="property name"
-                  />
+                    onKeyPress={event => {
+                      if (event.key === 'Enter')
+                        event.preventDefault();
+                    }}
+                    />
                   <TypeSelect
                     selectName="interfaceFieldType"
                     outer={elInterface}
@@ -110,7 +114,16 @@ class Interfaces extends Component<PropsInt> {
             ))}
         </div>
         <form id="newInterface">
-          <TextField id="newInterfaceNameInput" label="new interface" />
+          <TextField
+            id="newInterfaceNameInput"
+            label="new interface"
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                this.createNewInterface();
+                event.preventDefault();
+              }
+            }}
+            />
           <IconButton
             aria-label="create interface"
             onClick={this.createNewInterface}>

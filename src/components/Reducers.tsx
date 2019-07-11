@@ -107,17 +107,45 @@ class Reducers extends Component<PropsInt> {
               <div id="store">
                 <h4>Store</h4>
                 <div className="storeItems">
+                  <div className="property">
+                    <ul className="property-info">
+                      <li>
+                        <div className="info-title">name</div>
+                      </li>
+                      <li>
+                        <div className="info-title">type</div>
+                      </li>
+                      <li>
+                        <div className="info-title">array</div>
+                      </li>
+                      <li>
+                        <div className="info-title">initial</div>
+                      </li>
+                    </ul>
+                  </div>
                   {this.props.reducers[reducer].store && Object.keys(this.props.reducers[reducer].store).map(store => (
                     <div className="property" key={"storeItem" + store}>
-                      <span>{store}</span>
-                      <span>{this.props.reducers[reducer].store[store].type}</span>
-                      <span>{(this.props.reducers[reducer].store[store].array) ? '✓' : '×' }</span>
-                      <span>{this.props.reducers[reducer].store[store].initialValue}</span>
-                      <IconButton
-                        aria-label={`delete store item "${store}"`}
-                        onClick={() => this.deleteItemFromStore(reducer, store)}>
-                        <Icon>delete</Icon>
-                      </IconButton>
+                      <ul className="property-info">
+                        <li>
+                          <div>{store}</div>
+                        </li>
+                        <li>
+                          <div>{this.props.reducers[reducer].store[store].type}</div>
+                        </li>
+                        <li>
+                          <div>{(this.props.reducers[reducer].store[store].array) ? '✓' : '×' }</div>
+                        </li>
+                        <li>
+                          <div className="code">{this.props.reducers[reducer].store[store].initialValue}</div>
+                        </li>
+                      </ul>
+                      <div className="property-controls">
+                        <IconButton
+                          aria-label={`delete store item "${store}"`}
+                          onClick={() => this.deleteItemFromStore(reducer, store)}>
+                          <Icon>delete</Icon>
+                        </IconButton>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -147,13 +175,13 @@ class Reducers extends Component<PropsInt> {
                     name="storeItemItitialValue"
                     id="storeItemItitialValue"
                     label="initial value"
+                    onKeyPress={event => {
+                      if (event.key === 'Enter') {
+                        this.addItemToStore(reducer);
+                        event.preventDefault();
+                      }
+                    }}
                   />
-                  {/* <Button
-                    variant="outlined"
-                    onClick={() => this.addItemToStore(reducer)}
-                    >
-                    +
-                  </Button> */}
                   <IconButton
                     aria-label="add property to store"
                     onClick={() => this.addItemToStore(reducer)}>
@@ -164,20 +192,63 @@ class Reducers extends Component<PropsInt> {
               <div id="actions">
                 <h4>Actions</h4>
                 <div className="actionItems">
+                  <div className="property">
+                    <ul className="property-info">
+                      <li>
+                        <div className="info-title">name</div>
+                      </li>
+                      <li>
+                        <div className="info-title">param</div>
+                      </li>
+                      <li>
+                        <div className="info-title">prm type</div>
+                      </li>
+                      <li>
+                        <div className="info-title">prm arr</div>
+                      </li>
+                      <li>
+                        <div className="info-title">pyld type</div>
+                      </li>
+                      <li>
+                        <div className="info-title">pyld arr</div>
+                      </li>
+                      <li>
+                        <div className="info-title">async</div>
+                      </li>
+                    </ul>
+                  </div>
                   {this.props.reducers[reducer].actions && Object.keys(this.props.reducers[reducer].actions).map(action => (
                     <div className="property" key={"action" + action}>
-                      <span>{action}</span>
-                      <span>{this.props.reducers[reducer].actions[action].parameter.name}</span>
-                      <span>{this.props.reducers[reducer].actions[action].parameter.type}</span>
-                      <span>{(this.props.reducers[reducer].actions[action].parameter.array) ? '✓' : '×' }</span>
-                      <span>{this.props.reducers[reducer].actions[action].payload.type}</span>
-                      <span>{(this.props.reducers[reducer].actions[action].payload.array) ? '✓' : '×' }</span>
-                      <span>{(this.props.reducers[reducer].actions[action].async) ? '✓' : '×' }</span>
-                      <IconButton
-                        aria-label={`delete action "${action}"`}
-                        onClick={() => this.deleteItemFromActions(reducer, action)}>
-                        <Icon>delete</Icon>
-                      </IconButton>
+                      <ul className="property-info">
+                        <li>
+                          <div>{action}</div>
+                        </li>
+                        <li>
+                          <div>{this.props.reducers[reducer].actions[action].parameter.name}</div>
+                        </li>
+                        <li>
+                          <div>{this.props.reducers[reducer].actions[action].parameter.type}</div>
+                        </li>
+                        <li>
+                          <div>{(this.props.reducers[reducer].actions[action].parameter.array) ? '✓' : '×' }</div>
+                        </li>
+                        <li>
+                          <div>{this.props.reducers[reducer].actions[action].payload.type}</div>
+                        </li>
+                        <li>
+                          <div>{(this.props.reducers[reducer].actions[action].payload.array) ? '✓' : '×' }</div>
+                        </li>
+                        <li>
+                          <div>{(this.props.reducers[reducer].actions[action].async) ? '✓' : '×' }</div>
+                        </li>
+                      </ul>
+                      <div className="property-controls">
+                        <IconButton
+                          aria-label={`delete action "${action}"`}
+                          onClick={() => this.deleteItemFromActions(reducer, action)}>
+                          <Icon>delete</Icon>
+                        </IconButton>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -252,6 +323,12 @@ class Reducers extends Component<PropsInt> {
           <TextField
             id="newReducerNameInput"
             label="new reducer"
+            onKeyPress={event => {
+              if (event.key === 'Enter') {
+                this.createNewReducer();
+                event.preventDefault();
+              }
+            }}
           />
           <IconButton
             aria-label="create reducer"
