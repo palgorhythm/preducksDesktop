@@ -111,15 +111,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   if (actions.length) {
     toImport.push('useDispatch');
   }
-  if (componentState.length) {
-    toImport.push('useState');
-  }
-  const importFromReactReduxText = toImport.length ? `import {${toImport.join(',')}} from 'react-redux'` : '';
+
+  const importFromReactReduxText = toImport.length
+    ? `import {${toImport.join(',')}} from 'react-redux'`
+    : '';
 
   const actionsToImport = {};
-  actions.forEach(action => {
-    console.log('ACKSHUN')
-    console.log(action)
+  actions.forEach((action) => {
+    console.log('ACKSHUN');
+    console.log(action);
     const [reducer, actionName] = action.split('.');
     if (!actionsToImport[reducer]) {
       actionsToImport[reducer] = [actionName];
@@ -128,12 +128,13 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     }
   });
 
-  const actionsText = Object.keys(actionsToImport).map(reducer => {
-    return `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`
-  });
+  const actionsText = Object.keys(actionsToImport).map(reducer => `import {${actionsToImport[reducer].join(',')}} from '../actions/${reducer}Actions';`);
 
   const listOfInterfaces = componentState.reduce((interfaces, current) => {
-    if (!['string', 'boolean', 'number', 'any'].includes(current.type) && !interfaces.includes(current.type)) {
+    if (
+      !['string', 'boolean', 'number', 'any'].includes(current.type)
+      && !interfaces.includes(current.type)
+    ) {
       interfaces.push(current.type);
     }
     return interfaces;
@@ -146,20 +147,37 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
         const selectorStrings = selector.split('.');
         const variableName = selectorStrings[0] + selectorStrings[1][0].toUpperCase() + selectorStrings[1].slice(1);
         const properties = selector.split('.');
-        let returnType = properties.length === 2 ? state[properties[0]].store[properties[1]].type : 'any';
-        if (!['string', 'boolean', 'number', 'any'].includes(returnType) && !listOfInterfaces.includes(returnType)) {
-          listOfInterfaces.push(returnType);
+        let returnType;
+        if (properties.length === 2) {
+          returnType = state[properties[0]].store[properties[1]].type;
+          if (state[properties[0]].store[properties[1]].array) {
+            returnType += '[]';
+          }
+        } else {
+          returnType = 'any';
+        }
+        if (
+          !['string', 'boolean', 'number', 'any'].includes(returnType)
+            && !listOfInterfaces.includes(returnType)
+        ) {
+          listOfInterfaces.push(
+            returnType.indexOf('[') !== -1
+              ? returnType.slice(0, returnType.length - 2)
+              : returnType,
+          );
         }
         return `const ${variableName} = useSelector<StoreInterface, ${returnType}>(state => state.${selector});`;
       })
       .join('\n')
     : '';
 
-  const interfacesToImport = listOfInterfaces.length ?
-    `import {${listOfInterfaces.join(', ')}} from '../Interfaces'`
+  const interfacesToImport = listOfInterfaces.length
+    ? `import {${listOfInterfaces.join(', ')}} from '../Interfaces'`
     : '';
 
-  const importsText = `import React from 'react';
+  const importsText = `${
+    componentState.length ? 'import React, {useState} from \'react\'' : 'import React from \'react\''
+  };
   ${[
     ...new Set(
       childrenArray
@@ -169,7 +187,7 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   ].join('\n')}
   ${importFromReactReduxText}
   ${interfacesToImport}
-  ${toImport.includes('useSelector') ? `import {StoreInterface} from '../reducers/index'` : ''}
+  ${toImport.includes('useSelector') ? 'import {StoreInterface} from \'../reducers/index\'' : ''}
   ${actions.length ? actionsText.join('\n') : ''}
   \n\n`;
 
@@ -187,21 +205,23 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
     </div>`;
 
   const useStateCalls = componentState.length
-    ? componentState.map((pieceOfState: ComponentStateInterface) => {
-      const initialValue = pieceOfState.type === 'string'
-        ? `'${pieceOfState.initialValue}'`
-        : pieceOfState.initialValue;
-      return `const [${
-        pieceOfState.name
-      }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(
-        1,
-      )}] = useState<${pieceOfState.type}>(${initialValue});`;
-    }).join('\n')
+    ? componentState
+      .map((pieceOfState: ComponentStateInterface) => {
+        const initialValue = pieceOfState.type === 'string'
+          ? `'${pieceOfState.initialValue}'`
+          : pieceOfState.initialValue;
+        return `const [${
+          pieceOfState.name
+        }, set${pieceOfState.name[0].toUpperCase()}${pieceOfState.name.slice(1)}] = useState<${
+          pieceOfState.type
+        }>(${initialValue});`;
+      })
+      .join('\n')
     : '';
 
   const propDestructuringText = `const {${props.map(el => el.key).join(',\n')}} = props`;
   const functionalComponentBody = `
-  const ${title} = (props: any) => {
+  const ${title}:React.FC = (props: any):JSX.Element => {
     ${useStateCalls}
     ${useSelectorCalls}
     ${actions.length ? 'const dispatch = useDispatch();' : ''}
