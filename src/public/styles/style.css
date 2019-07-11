@@ -15,6 +15,7 @@ body {
   font-family: 'Open sans', sans-serif;
   font-weight: 400;
   overflow: hidden;
+  background: #333;
 }
 
 /*
@@ -214,12 +215,36 @@ RIGHT COLUMN
 */
 
 .right-panel {
-  background-color: white;
+  background: #333;
+  color: rgba(255, 255, 255, 0.7);
   min-width: 25%;
   height: 100%;
   overflow-y: hidden;
   text-align: center;
-  border-radius: 0px 10px 10px 0px;
+}
+
+.right-panel button {
+  color: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+}
+
+/*
+.right-panel label,
+.right-panel span,
+.MuiCheckbox-root-477,
+right-panel div:before,
+.MuiInput-underline-351:before
+*/
+
+.right-panel * {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+right-panel div:before,
+.MuiInput-underline-351:before {
+  border-bottom-color: rgba(255, 255, 255, 0.7) !important;
+  /* border-radius: 0px 10px 10px 0px; */
 }
 
 .export {
@@ -302,16 +327,15 @@ div.rst__rowContents {
 .rst__rowLabel {
   padding-right: 5px;
 }
-
 .closeIcon:hover {
   cursor: pointer;
 }
 
 .right-panel form,
-.interfaceFields,
-.reducerFields,
-.storeItems,
-.actionItems,
+.interfaceField,
+.reducerField,
+.storeItem,
+.actionItem,
 .newActionItem div {
   width: 100%;
   display: flex;
@@ -327,8 +351,14 @@ div.rst__rowContents {
   padding: 2px 0 1.3em;
 }
 
-.right-panel hr {
-  margin: 3em 0 2em;
+.right-panel section {
+  height: 50%;
+  overflow-y: scroll;
+}
+
+.right-panel .interface,
+.right-panel .reducer {
+  background: rgba(133, 85, 85, 0.07);
 }
 
 .newStoreItem,
@@ -338,13 +368,7 @@ div.rst__rowContents {
 
 #store,
 #actions {
-  background: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.05);
   padding: 2px 0 1.3em;
   margin: 20px 0;
 }
-
-/* @media only screen and (max-width: 560px) {
-  .app-container {
-    width: 80%;
-  }
-} */

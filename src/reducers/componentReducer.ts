@@ -149,7 +149,7 @@ const initialApplicationState: ApplicationStateInt = {
   components: [appComponent],
   appDir: '',
   loading: false,
-  storeConfig: dummyStoreConfig,
+  storeConfig: { interfaces: {}, reducers: {} },
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
@@ -163,7 +163,6 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         appDir: '',
         successOpen: false,
         errorOpen: false,
-        storeConfig: dummyStoreConfig,
       };
     case ADD_COMPONENT:
       return addComponent(state, action.payload);
