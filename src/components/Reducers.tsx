@@ -268,6 +268,7 @@ class Reducers extends Component<PropsInt> {
                       selectName="actionItemParameterType"
                       outer={reducer}
                       interfaces={this.props.interfaces}
+                      labelName="parameter type"
                     />
                     <FormControlLabel
                       control = {
@@ -285,6 +286,7 @@ class Reducers extends Component<PropsInt> {
                       selectName="actionItemPayloadType"
                       outer={reducer}
                       interfaces={this.props.interfaces}
+                      labelName="payload type"
                     />
                     <FormControlLabel
                       control = {
