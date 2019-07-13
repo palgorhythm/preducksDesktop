@@ -63,7 +63,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
 
   const handleLocalStateSubmit = (e) => {
     e.preventDefault();
-    return dispatch(setState({ name: enteredName, type: enteredType, initialValue: enteredValue }));
+    return dispatch(setState({ name: enteredName.trim(), type: enteredType, initialValue: enteredValue }));
   };
 
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
@@ -146,7 +146,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
             <div className="local-state-container">
               <form className="local-state-form" onSubmit={e => handleLocalStateSubmit(e)}>
                 <h3 style={{ color: '#e0e0e0' }}>add local state</h3>
-                <FormControl>
+                <FormControl required>
                   <InputLabel className={classes.light} htmlFor="localstate-name">
                     Name:
                   </InputLabel>
@@ -155,7 +155,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
                     id="localstate-name"
                     onChange={handleChange(setEnteredName)}></Input>
                 </FormControl>
-                <FormControl>
+                <FormControl required>
                   <InputLabel className={classes.light} htmlFor="localstate-type">
                     Type:
                   </InputLabel>
