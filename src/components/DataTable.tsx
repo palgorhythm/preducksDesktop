@@ -7,6 +7,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
 import { IconButton } from '@material-ui/core';
 import uuid from 'uuid';
 
@@ -51,8 +52,11 @@ function dataTable(props: any) {
     <TableRow key={`${uuid.v4()}`}>
       {renderRowCells(row)}
       <TableCell align={'center'} padding={'none'}>
-        <IconButton color="default" fontSize="small" onClick={() => deletePropHandler(row)}>
+        <IconButton color="default" onClick={() => deletePropHandler(row)}>
           <DeleteIcon />
+        </IconButton>
+        <IconButton color="default" onClick={() => deletePropHandler(row)}>
+          <CreateIcon />
         </IconButton>
         {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}
       </TableCell>

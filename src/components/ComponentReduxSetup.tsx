@@ -16,7 +16,7 @@ import {
   deleteState,
 } from '../actions/components';
 import DataTable from './DataTable';
-import { StoreInterface, StoreConfigInterface } from '../utils/Interfaces';
+import {StoreInterface} from '../utils/Interfaces';
 
 const convertToOptions = choices => [
   <option value="" key="" />,
@@ -33,7 +33,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredType, setEnteredType] = useState('');
   const [enteredValue, setEnteredValue] = useState('');
-  const storeConfig = useSelector(store => store.workspace.storeConfig);
+  const storeConfig = useSelector((store: StoreInterface) => store.workspace.storeConfig);
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
   const rowHeader = ['Actions', 'Store Selections'];
@@ -63,7 +63,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
 
   const handleLocalStateSubmit = (e) => {
     e.preventDefault();
-    return dispatch(setState({ name: enteredName.trim(), type: enteredType, initialValue: enteredValue }));
+    return dispatch(setState({ name: enteredName, type: enteredType, initialValue: enteredValue }));
   };
 
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
@@ -144,18 +144,25 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
           </Grid>
           <Grid container spacing={8} direction="row">
             <div className="local-state-container">
-              <form className="local-state-form" onSubmit={e => handleLocalStateSubmit(e)}>
+              <form className="local-state-form" onSubmit={e => {
+                  handleLocalStateSubmit(e);
+                  setEnteredName('');
+                  setEnteredType('');
+                  setEnteredValue('');
+                }}>
                 <h3 style={{ color: '#e0e0e0' }}>add local state</h3>
-                <FormControl required>
+                <FormControl>
                   <InputLabel className={classes.light} htmlFor="localstate-name">
                     Name:
                   </InputLabel>
                   <Input
                     className={classes.light}
                     id="localstate-name"
-                    onChange={handleChange(setEnteredName)}></Input>
+                    onChange={handleChange(setEnteredName)}
+                    value={enteredName}
+                  />    
                 </FormControl>
-                <FormControl required>
+                <FormControl>
                   <InputLabel className={classes.light} htmlFor="localstate-type">
                     Type:
                   </InputLabel>
@@ -183,7 +190,9 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
                   <Input
                     className={classes.light}
                     id="localstate-value"
-                    onChange={handleChange(setEnteredValue)}></Input>
+                    onChange={handleChange(setEnteredValue)} 
+                    value={enteredValue}
+                  />
                 </FormControl>
                 <Button
                   color="primary"
