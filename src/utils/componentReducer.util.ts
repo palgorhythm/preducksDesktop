@@ -735,10 +735,20 @@ export const setState = (state: ApplicationStateInt, payload: ComponentStateInte
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = {...components[index]};
-  view.componentState = [...view.componentState, payload];
+  const stateIndex = view.componentState.findIndex(state => state.name === payload.name);
+  if (stateIndex !== -1) {
+    view.componentState.splice(stateIndex, 1, payload);
+  } else {
+    view.componentState = [...view.componentState, payload];
+  }
   components.splice(index, 1, view);
   const focusComponent = {...state.focusComponent};
-  focusComponent.componentState = [...focusComponent.componentState, payload];
+  const stateIndexFocus = focusComponent.componentState.findIndex(state => state.name === payload.name);
+  if (stateIndexFocus !== -1) {
+    focusComponent.componentState.splice(stateIndexFocus, 1, payload);
+  } else {
+    focusComponent.componentState = [...focusComponent.componentState, payload];
+  }
   return {
     ...state,
     components,

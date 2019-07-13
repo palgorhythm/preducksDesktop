@@ -16,7 +16,12 @@ import {
   deleteState,
 } from '../actions/components';
 import DataTable from './DataTable';
-import { StoreInterface, StoreConfigInterface } from '../utils/Interfaces';
+import {StoreInterface} from '../utils/Interfaces';
+import {dialog}  from 'electron';
+
+const numbersAsStrings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+const reservedWords = ['break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'do', 'else', 'export', 'extends', 'finally', 'for', 'function', 'if', 'import', 'in', 'instanceof', 'new', 'return', 'super', 'switch', 'this', 'throw', 'try', 'typeof', 'var', 'void', 'while', 'with', 'yield', 'enum'];
 
 const convertToOptions = choices => [
   <option value="" key="" />,
@@ -33,7 +38,7 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
   const [enteredName, setEnteredName] = useState('');
   const [enteredType, setEnteredType] = useState('');
   const [enteredValue, setEnteredValue] = useState('');
-  const storeConfig = useSelector(store => store.workspace.storeConfig);
+  const storeConfig = useSelector((store: StoreInterface) => store.workspace.storeConfig);
   const { focusComponent, classes } = props;
   const dispatch = useDispatch();
   const rowHeader = ['Actions', 'Store Selections'];
@@ -61,10 +66,30 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     };
   };
 
+  const transformIntoVariableName = (string: string): string => {
+    return string.replace(/[^ _$A-Za-z0-9]/g, '').replace(/\s+(\w)/g, (match, $1) => $1.toUpperCase()).replace(/\s/g, '');
+  }
+
   const handleLocalStateSubmit = (e) => {
     e.preventDefault();
-    return dispatch(setState({ name: enteredName, type: enteredType, initialValue: enteredValue }));
+    if (numbersAsStrings.includes(enteredName[0])) {
+      return;
+    }
+    if (reservedWords.includes(transformIntoVariableName(enteredName))) {
+      return;
+    }
+    return dispatch(setState({ name: transformIntoVariableName(enteredName), type: enteredType, initialValue: enteredValue }));
   };
+
+  const editHandler = row => {
+    const name = row.match(/Name: \w+/)[0].slice(6);
+    const type = row.match(/Type: \w+/)[0].slice(6);
+    const initialValue = row.match(/Initial Value: \w+/)[0].slice(15);
+    dispatch(deleteState(name));
+    setEnteredName(name);
+    setEnteredType(type);
+    setEnteredValue(initialValue);
+  }
 
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
     <Grid item xs={3}>
@@ -144,7 +169,12 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
           </Grid>
           <Grid container spacing={8} direction="row">
             <div className="local-state-container">
-              <form className="local-state-form" onSubmit={e => handleLocalStateSubmit(e)}>
+              <form className="local-state-form" onSubmit={e => {
+                  handleLocalStateSubmit(e);
+                  setEnteredName('');
+                  setEnteredType('');
+                  setEnteredValue('');
+                }}>
                 <h3 style={{ color: '#e0e0e0' }}>add local state</h3>
                 <FormControl>
                   <InputLabel className={classes.light} htmlFor="localstate-name">
@@ -153,7 +183,9 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
                   <Input
                     className={classes.light}
                     id="localstate-name"
-                    onChange={handleChange(setEnteredName)}></Input>
+                    onChange={handleChange(setEnteredName)}
+                    value={enteredName}
+                  />    
                 </FormControl>
                 <FormControl>
                   <InputLabel className={classes.light} htmlFor="localstate-type">
@@ -183,7 +215,9 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
                   <Input
                     className={classes.light}
                     id="localstate-value"
-                    onChange={handleChange(setEnteredValue)}></Input>
+                    onChange={handleChange(setEnteredValue)} 
+                    value={enteredValue}
+                  />
                 </FormControl>
                 <Button
                   color="primary"
@@ -198,9 +232,10 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
             <DataTable
               rowHeader={['local state selections']}
               rowData={focusComponent.componentState.map(
-                state => `name: ${state.name}      type: ${state.type}      initial value: ${state.initialValue}`,
+                state => `Name: ${state.name}.      Type: ${state.type}.      Initial Value: ${state.initialValue}`,
               )}
-              deletePropHandler={name => dispatch(deleteState(name.match(/name: \w+/)[0].slice(6)))}
+              deletePropHandler={name => dispatch(deleteState(name.match(/Name: \w+/)[0].slice(6)))}
+              editHandler={row => editHandler(row)}
             />
           </Grid>
         </div>
