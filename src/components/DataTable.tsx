@@ -32,7 +32,7 @@ const styles = (theme: any) => ({
 
 function dataTable(props: any) {
   const {
-    classes, rowData, rowHeader, deletePropHandler,
+    classes, rowData, rowHeader, deletePropHandler, editHandler
   } = props;
 
   const renderHeader = rowHeader.map((col: any, idx: number) => (
@@ -55,17 +55,16 @@ function dataTable(props: any) {
         <IconButton color="default" onClick={() => deletePropHandler(row)}>
           <DeleteIcon />
         </IconButton>
-        <IconButton color="default" onClick={() => deletePropHandler(row)}>
+        <IconButton color="default" onClick={() => editHandler(row)}>
           <CreateIcon />
         </IconButton>
-        {/* <Button style={{height: 20}} onClick={() => deletePropHandler(row.id)}>Delete</Button> */}
       </TableCell>
     </TableRow>
   ));
 
   return (
     <Paper className={classes.root}>
-      <Table className={classes.table} selectable={'true'}>
+      <Table className={classes.table}>
         <TableHead>
           <TableRow>{renderHeader}</TableRow>
         </TableHead>

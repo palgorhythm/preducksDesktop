@@ -66,6 +66,16 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     return dispatch(setState({ name: enteredName, type: enteredType, initialValue: enteredValue }));
   };
 
+  const editHandler = row => {
+    const name = row.match(/Name: \w+/)[0].slice(6);
+    const type = row.match(/Type: \w+/)[0].slice(6);
+    const initialValue = row.match(/Initial Value: \w+/)[0].slice(15);
+    dispatch(deleteState(name));
+    setEnteredName(name);
+    setEnteredType(type);
+    setEnteredValue(initialValue);
+  }
+
   const submitValueUsingAction = (title, value, onChange, onSubmit, choices) => (
     <Grid item xs={3}>
       <form className="props-input" onSubmit={handleStoreSubmit(onSubmit, value)}>
@@ -207,9 +217,10 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
             <DataTable
               rowHeader={['local state selections']}
               rowData={focusComponent.componentState.map(
-                state => `name: ${state.name}      type: ${state.type}      initial value: ${state.initialValue}`,
+                state => `Name: ${state.name}.      Type: ${state.type}.      Initial Value: ${state.initialValue}`,
               )}
-              deletePropHandler={name => dispatch(deleteState(name.match(/name: \w+/)[0].slice(6)))}
+              deletePropHandler={name => dispatch(deleteState(name.match(/Name: \w+/)[0].slice(6)))}
+              editHandler={row => editHandler(row)}
             />
           </Grid>
         </div>
