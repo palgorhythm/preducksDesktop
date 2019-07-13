@@ -18,7 +18,7 @@ const initialComponentState: ComponentInt = {
   stateful: false,
   componentState: [],
   title: '',
-  color: getColor(),
+  color: getColor(1),
   props: [],
   nextPropId: 1,
   position: {
@@ -146,7 +146,7 @@ export const addChild = (
         height: htmlElemPosition.height,
       };
 
-  const newChild: ChildInt = {
+  const newChild: any = {
     childId: view.nextChildId,
     childSort: view.nextChildId,
     childType,
@@ -549,7 +549,7 @@ export const updateHtmlAttr = (state: ApplicationStateInt, { attr, value }: { at
 };
 
 export const updateChildrenSort = (state: ApplicationStateInt, { newSortValues }: { newSortValues: any }) => {
-  const modifiedChildrenArray: ChildrenInt = cloneDeep(state.focusComponent.childrenArray);
+  const modifiedChildrenArray: any = cloneDeep(state.focusComponent.childrenArray);
 
   for (let i = 0; i < modifiedChildrenArray.length; i += 1) {
     const currChild = modifiedChildrenArray[i];

@@ -118,7 +118,7 @@ const initialApplicationState: ApplicationStateInt = {
   selectableChildren: [],
   ancestors: [],
   initialApplicationFocusChild,
-  focusChild: cloneDeep(initialApplicationFocusChild),
+  focusChild: cloneDeep<ChildInt>(initialApplicationFocusChild),
   components: [appComponent],
   appDir: '',
   loading: false,

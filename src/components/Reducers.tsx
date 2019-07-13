@@ -35,7 +35,7 @@ class Reducers extends Component<PropsInt> {
     document.getElementById('newReducerNameInput').value = '';
   };
 
-  handleCheckboxChange = (event: Event) => {
+  handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const flippedBool = (this.state[event.target.name]) ? false : true;
     this.setState({ [event.target.name]: flippedBool });
   };
@@ -44,7 +44,7 @@ class Reducers extends Component<PropsInt> {
     let newReducers = this.props.reducers;
     const reducerEl = document.getElementById('reducer' + reducerName);
     const storeItemName = reducerEl.querySelector('#storeItemName').value;
-    const storeItemType = reducerEl.querySelector('#storeItemType' + reducerName).value;
+    const storeItemType =reducerEl.querySelector('#storeItemType' + reducerName).value;
     const storeItemIsArray = reducerEl.querySelector('#storeItemIsArray' + reducerName).checked;
     const storeItemItitialValue = reducerEl.querySelector('#storeItemItitialValue').value;
     newReducers[reducerName].store[storeItemName] = {
@@ -70,7 +70,7 @@ class Reducers extends Component<PropsInt> {
     const reducerEl = document.getElementById('reducer' + reducerName);
     const actionItemName = reducerEl.querySelector('#actionItemName').value;
     const actionItemParameterName = reducerEl.querySelector('#actionItemParameterName').value;
-    const actionItemParameterType = reducerEl.querySelector('#actionItemParameterType' + reducerName).value;
+    const actionItemParameterType = reducerEl.querySelector('#actionItemParameterType' + reducerName) .value;
     const actionItemParameterIsArray = reducerEl.querySelector('#actionItemParameterIsArray' + reducerName).checked;
     const actionItemPayloadType = reducerEl.querySelector('#actionItemPayloadType' + reducerName).value;
     const actionItemPayloadIsArray = reducerEl.querySelector('#actionItemPayloadIsArray' + reducerName).checked;

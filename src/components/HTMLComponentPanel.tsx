@@ -13,6 +13,7 @@ import Chip from '@material-ui/core/Chip';
 
 interface PropsInt {
   classes: any;
+  focusComponent: any;
   addChild: any;
 }
 
@@ -45,7 +46,7 @@ class HTMLComponentPanel extends Component<PropsInt, StateInt> {
           label="add HTML element as child"
           style={{ cursor: 'default' }}
         />
-        <Grid container spacing={8} alignItems="baseline" align="stretch">
+        <Grid container spacing={8} alignItems="baseline">
           <Grid item xs={4}>
             <div className="htmliconwrapper">
               <IconButton
