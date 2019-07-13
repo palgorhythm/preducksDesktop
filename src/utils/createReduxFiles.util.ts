@@ -6,7 +6,7 @@ const fs = require('fs');
 function createInterfaces(interfaceObj) {
   let data = '';
 
-  // CREATE INTERFACES
+  // CREATE INTERFACESddddd
   Object.keys(interfaceObj).forEach((interfaceName) => {
     let curInterface = `export interface ${interfaceName} {\n`;
     Object.keys(interfaceObj[interfaceName]).forEach((property) => {
