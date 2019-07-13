@@ -17,6 +17,11 @@ import {
 } from '../actions/components';
 import DataTable from './DataTable';
 import {StoreInterface} from '../utils/Interfaces';
+import {dialog}  from 'electron';
+
+const numbersAsStrings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+const reservedWords = ['break', 'case', 'catch', 'class', 'const', 'continue', 'debugger', 'default', 'delete', 'do', 'else', 'export', 'extends', 'finally', 'for', 'function', 'if', 'import', 'in', 'instanceof', 'new', 'return', 'super', 'switch', 'this', 'throw', 'try', 'typeof', 'var', 'void', 'while', 'with', 'yield', 'enum'];
 
 const convertToOptions = choices => [
   <option value="" key="" />,
@@ -61,9 +66,19 @@ const ComponentReduxSetup: React.FC = (props: any): JSX.Element => {
     };
   };
 
+  const transformIntoVariableName = (string: string): string => {
+    return string.replace(/[^ _$A-Za-z0-9]/g, '').replace(/\s+(\w)/g, (match, $1) => $1.toUpperCase()).replace(/\s/g, '');
+  }
+
   const handleLocalStateSubmit = (e) => {
     e.preventDefault();
-    return dispatch(setState({ name: enteredName, type: enteredType, initialValue: enteredValue }));
+    if (numbersAsStrings.includes(enteredName[0])) {
+      return;
+    }
+    if (reservedWords.includes(transformIntoVariableName(enteredName))) {
+      return;
+    }
+    return dispatch(setState({ name: transformIntoVariableName(enteredName), type: enteredType, initialValue: enteredValue }));
   };
 
   const editHandler = row => {
