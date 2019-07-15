@@ -52,7 +52,7 @@ class AppContainer extends Component<Props> {
           focusComponent={focusComponent}
           selectableChildren={selectableChildren}
         />
-        <MainContainer components={components} />
+        <MainContainer />
         {loading ? (
           <div
             style={{

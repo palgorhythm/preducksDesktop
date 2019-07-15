@@ -22,10 +22,10 @@ const mapStateToProps = (store: any) => ({
 });
 
 interface PropsInt {
-  setInterface: any;
-  deleteInterface: any;
-  interfaces: any;
-  classes: any;
+  setInterface?: any;
+  deleteInterface?: any;
+  interfaces?: any;
+  classes?: any;
 }
 
 class Interfaces extends Component<PropsInt> {
