@@ -14,8 +14,8 @@ function getSelectable(newFocusComponent: ComponentInt, components: ComponentsIn
 
 function findAncestors(
   components: ComponentsInt,
-  currentCompArr: ComponentsInt,
-  componentsToCheck: ComponentsInt,
+  currentCompArr: number[],
+  componentsToCheck: number[],
   ancestors: Array<number> = [],
 ): getSelectableInt {
   if (!currentCompArr.length) {
@@ -25,7 +25,7 @@ function findAncestors(
     };
   }
 
-  const newAncestors: Array<Number> = [];
+  const newAncestors: Array<number> = [];
 
   for (let i = 0; i < components.length; i++) {
     if (componentsToCheck.includes(components[i].id)) {
@@ -33,13 +33,13 @@ function findAncestors(
         (child: ChildInt) => child.childComponentId,
       );
 
-      const found = currentCompArr.filter((comp: ComponentInt) => myChildren.includes(comp));
+      const found = currentCompArr.filter((comp: any) => myChildren.includes(comp));
 
       if (found.length) {
         ancestors.push(components[i].id);
         newAncestors.push(components[i].id);
 
-        const indexToDelete = componentsToCheck.findIndex((c: Number) => c === components[i].id);
+        const indexToDelete = componentsToCheck.findIndex((c: number) => c === components[i].id);
 
         componentsToCheck.splice(indexToDelete, 1);
       }

@@ -73,22 +73,15 @@
   },
   "preferGlobal": true,
   "license": "MIT",
-  "jest": {
-    "moduleNameMapper": {
-      "^.+\\.(css|scss|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "identity-obj-proxy",
-      "electron": "<rootDir>/__mocks__/electron.js"
-    },
-    "setupFiles": [
-      "./src/setupTests.js"
-    ]
-  },
   "dependencies": {
     "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^2.0.0",
     "@types/react": "^16.8.14",
     "@types/react-dom": "^16.8.4",
     "@types/react-redux": "^7.0.8",
+    "acorn": "^6.0.5",
     "autoprefixer": "^9.0.1",
+    "babel-jest": "^24.8.0",
     "babel-polyfill": "^6.26.0",
     "classnames": "^2.2.6",
     "cli-spinner": "^0.2.8",
@@ -96,7 +89,6 @@
     "d3": "^5.9.2",
     "electron": "^2.0.7",
     "electron-reload": "^1.4.0",
-    "enzyme": "^3.4.1",
     "localforage": "^1.7.2",
     "lodash.throttle": "^4.1.1",
     "prettier": "^1.18.2",
@@ -112,11 +104,12 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.3.0",
-    "webpack": "^4.35.2",
-    "acorn": "^6.0.5"
+    "webpack": "^4.35.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.3.3",
+    "@types/enzyme": "^3.10.2",
+    "@types/jest": "^24.0.15",
     "@typescript-eslint/parser": "^1.11.0",
     "awesome-typescript-loader": "^5.2.1",
     "babel-core": "^6.26.3",
@@ -132,7 +125,9 @@
     "electron-builder": "^20.28.1",
     "electron-devtools-installer": "^2.2.4",
     "electron-installer-dmg": "^2.0.0",
-    "enzyme-adapter-react-16": "^1.2.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
+    "enzyme-to-json": "^3.3.5",
     "eslint": "^4.19.1",
     "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-babel": "^5.1.0",
@@ -143,11 +138,12 @@
     "extract-text-webpack-plugin": "^4.0.0-beta.0",
     "html-webpack-plugin": "^3.1.0",
     "identity-obj-proxy": "^3.0.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "node-sass": "^4.12.0",
     "postcss-loader": "^2.1.6",
     "sass-loader": "^7.0.3",
     "style-loader": "^0.20.3",
+    "ts-jest": "^24.0.2",
     "typescript": "^3.4.4",
     "webpack-cli": "^3.3.5"
   }

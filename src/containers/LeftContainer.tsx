@@ -36,6 +36,7 @@ interface PropsInt {
   components: ComponentsInt;
   focusComponent: ComponentInt;
   selectableChildren: Array<number>;
+  storeConfig: StoreConfigInterface;
   classes: any;
   addComponent: any;
   addChild: any;
@@ -253,7 +254,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
     const addComponent = (<Grid
       container
       spacing={8}
-      align="stretch"
       alignItems="center"
       direction="row"
       justify="space-around">
@@ -341,7 +341,6 @@ class LeftContainer extends Component<PropsInt, StateInt> {
           {addComponent}
           <div className="expansionPanel">{leftColExpansionPanels}</div>
         <HTMLComponentPanel
-            className={classes.htmlCompWrapper}
             focusComponent={focusComponent}
             addChild={addChild}
             />

@@ -1,13 +1,22 @@
 import React from 'react';
-// import '../../setupTests';
 import { shallow } from 'enzyme';
-import App from '../App';
-import AppContainer from '../../containers/AppContainer';
+import AppContainer from '../../containers/AppContainer.tsx';
+import { App } from '../App.tsx';
 
-it('contains a AppContainer', () => {
+it('App renders AppContainer as a child', () => {
   // wrapped version of react component
   // component comes with additional functionality
   const wrapped = shallow(<App />);
   // look inside wrapped component and find every instance of commentBox inside of it
   expect(wrapped.find(AppContainer).length).toEqual(1);
 });
+
+// const sum = (...a) => a.reduce((acc, val) => acc + val, 0);
+
+// test('basic', () => {
+//   expect(sum()).toBe(0);
+// });
+
+// test('basic again', () => {
+//   expect(sum(1, 2)).toBe(3);
+// });

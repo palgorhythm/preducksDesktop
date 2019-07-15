@@ -60,7 +60,7 @@ export interface ApplicationStateInt {
   selectableChildren: number[];
   ancestors: number[];
   initialApplicationFocusChild: ChildInt;
-  focusChild: ChildInt;
+  focusChild: ChildInt | ChildInt[] | { [key: string]: ChildInt };
   components: ComponentsInt;
   appDir: string;
   loading: boolean;

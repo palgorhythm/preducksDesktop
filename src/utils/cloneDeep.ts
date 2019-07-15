@@ -1,5 +1,5 @@
 // index signatures
-function cloneDeep(value: { [key: string]: any } | any[]): { [key: string]: any } | any[] {
+function cloneDeep<T>(value: { [key: string]: T } | T[] | T): { [key: string]: T } | T[] | T {
   if (Array.isArray(value)) {
     const result: any[] = [];
     value.forEach((el) => {
