@@ -10,9 +10,7 @@ import { deleteChild, changeFocusChild } from '../actions/components';
 import { StoreInterface } from '../utils/Interfaces';
 
 const HtmlChild: React.FC = (props: any): JSX.Element => {
-  const {
-    classes, focusComponentID, components, childId,
-  } = props;
+  const { classes, childId } = props;
   const dispatch = useDispatch();
   const focusChildId = useSelector((store: StoreInterface) => store.workspace.focusChild).childId;
   const deleteButton = (
