@@ -7,8 +7,8 @@ import {
 } from '../__mocks__/appStateMocks';
 import * as types from '../src/actionTypes';
 
-describe('load init data', () => {
-  it('should return the initial state', () => {
+describe('initialization stuff', () => {
+  it('should return the initial state if no recognized action argument is given', () => {
     expect(componentReducer(undefined, {})).toEqual(initialAppStateMock);
   });
 });

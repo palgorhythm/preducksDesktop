@@ -44,7 +44,13 @@ function createIndexHtml(path, appName) {
   </body>
 </html>
   `;
-  fs.writeFileSync(filePath, data);
+  fs.writeFileSync(filePath, data, (err) => {
+    if (err) {
+      console.log('index.html error:', err.message);
+    } else {
+      console.log('index.html written successfully');
+    }
+  });
 }
 
 export const createIndexTsx = (path: string, appName: string): void => {
