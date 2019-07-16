@@ -32,8 +32,7 @@ export const addComponent = (state: ApplicationStateInt, { title }: { title: str
   // remove whitespace and digits, capitalize first char
   const strippedTitle = title
     .replace(/[a-z]+/gi, word => word[0].toUpperCase() + word.slice(1))
-    .replace(/[-_\s0-9\W]+/gi, '');
-
+    .replace(/[^a-zA-Z]+/gi, '');
   // duplicate component names not allowed
   if (state.components.find((comp: ComponentInt) => comp.title === strippedTitle)) {
     window.alert(
@@ -216,7 +215,7 @@ export const deleteChild = (
   return {
     ...state,
     components: modifiedComponentArray,
-    focusComponent: calledFromDeleteComponent ? state.focusComponent : parentComponentCopy, // when called from delete component we dont need want to touch the focus
+    focusComponent: parentComponentCopy, // when called from delete component we dont need want to touch the focus
     focusChild: calledFromDeleteComponent
       ? cloneDeep(state.initialApplicationFocusChild)
       : parentComponentCopy.childrenArray[parentComponentCopy.childrenArray.length - 1]
@@ -550,7 +549,6 @@ export const updateChildrenSort = (
 };
 
 export const addSelector = (state: ApplicationStateInt, payload: string) => {
-  console.log(payload);
   const components = [...state.components];
   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
   const view = { ...components[index] };
