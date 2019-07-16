@@ -110,7 +110,7 @@ const mapDispatchToProps = (dispatch: any) => ({
   },
 });
 
-class LeftContainer extends Component<PropsInt, StateInt> {
+export class LeftContainer extends Component<PropsInt, StateInt> {
   state: StateInt;
 
   constructor(props: PropsInt) {
