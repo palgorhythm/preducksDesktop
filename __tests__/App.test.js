@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import AppContainer from '../../containers/AppContainer.tsx';
-import { App } from '../App.tsx';
+import AppContainer from '../src/containers/AppContainer.tsx';
+import { App } from '../src/components/App.tsx';
 
 it('App renders AppContainer as a child', () => {
   // wrapped version of react component
