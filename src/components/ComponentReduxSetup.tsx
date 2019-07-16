@@ -17,7 +17,7 @@ import {
 } from '../actions/components';
 import DataTable from './DataTable';
 import {StoreInterface} from '../utils/Interfaces';
-import {dialog}  from 'electron';
+// console.log(dialog.showOpenDialog({ properties: ['openFile', 'openDirectory', 'multiSelections'] }))
 
 const numbersAsStrings = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 
