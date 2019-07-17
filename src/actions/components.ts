@@ -38,13 +38,13 @@ import {
   DELETE_ACTION_FROM_COMPONENT,
   SET_REDUCER,
   DELETE_REDUCER,
-  RENAME_REDUCER,
+  // RENAME_REDUCER,
   SET_INTERFACE,
   DELETE_INTERFACE,
-  RENAME_INTERFACE,
+  // RENAME_INTERFACE,
   SET_STATE,
   DELETE_STATE,
-  RENAME_STATE,
+  // RENAME_STATE,
 } from '../actionTypes/index.js';
 
 import { loadState } from '../localStorage';
@@ -303,13 +303,13 @@ export const deleteReducer = (name: string) => ({
   payload: name,
 });
 
-export const renameReducer = (oldName: string, newName: string) => ({
-  type: RENAME_REDUCER,
-  payload: {
-    oldName,
-    newName,
-  },
-});
+// export const renameReducer = (oldName: string, newName: string) => ({
+//   type: RENAME_REDUCER,
+//   payload: {
+//     oldName,
+//     newName,
+//   },
+// });
 
 export const setInterface = (userInterface: InterfacesInterface) => ({
   type: SET_INTERFACE,
@@ -321,13 +321,13 @@ export const deleteInterface = (name: string) => ({
   payload: name,
 });
 
-export const renameInterface = (oldName: string, newName: string) => ({
-  type: RENAME_INTERFACE,
-  payload: {
-    oldName,
-    newName,
-  },
-});
+// export const renameInterface = (oldName: string, newName: string) => ({
+//   type: RENAME_INTERFACE,
+//   payload: {
+//     oldName,
+//     newName,
+//   },
+// });
 
 export const setState = (state: ComponentStateInterface) => ({
   type: SET_STATE,
@@ -339,10 +339,10 @@ export const deleteState = (name: string) => ({
   payload: name,
 });
 
-export const renameState = (oldName: string, newName: string) => ({
-  type: RENAME_STATE,
-  payload: {
-    oldName,
-    newName,
-  },
-});
+// export const renameState = (oldName: string, newName: string) => ({
+//   type: RENAME_STATE,
+//   payload: {
+//     oldName,
+//     newName,
+//   },
+// });
