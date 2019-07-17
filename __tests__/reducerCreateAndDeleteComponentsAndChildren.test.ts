@@ -7,7 +7,7 @@ import {
 } from '../__mocks__/appStateMocks';
 import * as types from '../src/actionTypes';
 
-describe('load init data', () => {
+describe('loadInitData', () => {
   it('should return the initial state', () => {
     expect(componentReducer(undefined, {})).toEqual(initialAppStateMock);
   });
@@ -72,7 +72,7 @@ describe('addComponent', () => {
   });
 });
 
-describe('add child', () => {
+describe('addChild', () => {
   it('should add a component child correctly', () => {
     const addChildResult = componentReducer(aboutToAddChildMock, {
       type: types.ADD_CHILD,
@@ -106,7 +106,7 @@ describe('add child', () => {
   });
 });
 
-describe('delete child', () => {
+describe('deleteChild', () => {
   it('should delete a component child correctly', () => {
     const addChildResult = componentReducer(aboutToAddChildMock, {
       type: types.ADD_CHILD,
@@ -160,7 +160,7 @@ describe('delete child', () => {
   });
 });
 
-describe('delete component', () => {
+describe('deleteComponent', () => {
   it('should delete a component correctly', () => {
     const deleteComponentResult = componentReducer(aboutToDeleteComponentMock, {
       type: types.DELETE_COMPONENT,

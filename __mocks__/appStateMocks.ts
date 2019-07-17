@@ -15,6 +15,23 @@ const appComponent = {
   actions: [],
 };
 
+const appComponent2 = {
+  id: 1,
+  stateful: false,
+  componentState: [
+    {name: 'test', type: 'string', initialValue: 'test'}
+  ],
+  title: 'App',
+  color: '#FF6D00',
+  props: [],
+  nextPropId: 1,
+  childrenArray: [],
+  nextChildId: 1,
+  focusChildId: 0,
+  selectors: ['test.selector'],
+  actions: ['test.action'],
+};
+
 const initialApplicationFocusChild = {
   childId: 0,
   componentName: null,
@@ -41,6 +58,27 @@ export const initialAppStateMock = {
   loading: false,
   storeConfig: { interfaces: {}, reducers: {} },
 };
+
+export const initialAppStateMock2 = {
+  totalComponents: 1,
+  nextId: 2,
+  successOpen: false,
+  errorOpen: false,
+  focusComponent: appComponent2,
+  selectableChildren: [],
+  ancestors: [],
+  initialApplicationFocusChild,
+  focusChild: cloneDeep(initialApplicationFocusChild),
+  components: [appComponent2],
+  appDir: '',
+  loading: false,
+  storeConfig: { interfaces: {
+    test: { type1: 'string', type2: 'number' }
+  }, reducers: {
+    test: { store: {}, actions: {} }
+  } },
+};
+
 
 export const aboutToAddChildMock = {
   totalComponents: 2,
