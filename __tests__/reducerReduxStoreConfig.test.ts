@@ -1,5 +1,5 @@
 import componentReducer from '../src/reducers/componentReducer';
-import { initialAppStateMock } from '../__mocks__/appStateMocks';
+import { initialAppStateMock, initialAppStateMock2 } from '../__mocks__/appStateMocks';
 import * as types from '../src/actionTypes';
 import {ReducersInterface, InterfacesInterface, ComponentStateInterface} from '../src/utils/Interfaces';
 
@@ -13,18 +13,19 @@ describe('tests for redux store config', () => {
 
   describe('Each Redux action should return a new state object instead of mutating the original state', () => {
     const testCases : [string, string | ReducersInterface | InterfacesInterface | ComponentStateInterface][] = [
-      [types.ADD_SELECTOR, 'test.selector'],
+      [types.ADD_SELECTOR, 'test.selector1'],
       [types.DELETE_SELECTOR, 'test.selector'],
-      [types.ADD_ACTION_TO_COMPONENT, 'test.action'],
+      [types.ADD_ACTION_TO_COMPONENT, 'test.action1'],
       [types.DELETE_ACTION_FROM_COMPONENT, 'test.action'],
-      [types.SET_REDUCER, { test: { store: {}, actions: {} } }],
+      [types.SET_REDUCER, { test1: { store: {}, actions: {} } }],
       [types.DELETE_REDUCER, 'test'],
-      [types.SET_INTERFACE, { test: { type1: 'string', type2: 'number' } }],
+      [types.SET_INTERFACE, { test1: { type1: 'string', type2: 'number' } }],
       [types.DELETE_INTERFACE, 'test'],
       [types.SET_STATE, {name: 'test1', type: 'string', initialValue: 'test'}],
-      [types.DELETE_STATE, 'test1']
+      [types.DELETE_STATE, 'test']
     ] ;
     testCases.forEach(([type, payload]) => {
+      const mockState = initialAppStateMock2;
       it(`${type} should return a new state object instead of the original`, () => {
         const newState = componentReducer(initialState, {
           type, 
@@ -34,12 +35,12 @@ describe('tests for redux store config', () => {
       });
       
       it(`${type} should not mutate the original state`, () => {
-        const initialStateCopy = JSON.parse(JSON.stringify(initialState));
-        componentReducer(initialState, {
+        const initialStateCopy = JSON.parse(JSON.stringify(mockState));
+        componentReducer(mockState, {
           type, 
           payload
         });
-        expect(initialState).toEqual(initialStateCopy);
+        expect(mockState).toEqual(initialStateCopy);
       })
     });
   });
