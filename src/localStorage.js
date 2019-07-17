@@ -6,14 +6,12 @@ const resetLocalForage = () => {
 };
 
 export const saveState = (state) => {
-  try {
-    localforage.setItem('state-v1.0.1', state, (err) => {
-      if (err) {
-        console.log(`error saving state: ${err}`);
-        resetLocalForage();
-      }
-    });
-  } catch {}
+  localforage.setItem('state-v1.0.1', state, (err) => {
+    if (err) {
+      console.log(`error saving state: ${err}`);
+      resetLocalForage();
+    }
+  });
   // resetLocalForage();
 };
 export const loadState = () => localforage.getItem('state-v1.0.1', (err) => {

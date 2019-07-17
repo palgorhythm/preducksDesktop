@@ -9,7 +9,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteChild, changeFocusChild } from '../actions/components';
 import { StoreInterface } from '../utils/Interfaces';
 
-const HtmlChild: React.FC = (props: any): JSX.Element => {
+export const HtmlChild: React.FC = (props: any): JSX.Element => {
   const { classes, childId } = props;
   const dispatch = useDispatch();
   const focusChildId = useSelector((store: StoreInterface) => store.workspace.focusChild).childId;
