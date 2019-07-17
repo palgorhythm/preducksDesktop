@@ -12,7 +12,7 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Open sans', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
   overflow: hidden;
   background: #333;
@@ -30,10 +30,6 @@ Remove focus styling
 
 :disabled {
   cursor: not-allowed;
-}
-
-header {
-  display: none;
 }
 
 #app {
@@ -217,8 +213,9 @@ h1 {
 }
 
 code,
-.property.code {
-  font-family: 'SF Mono', 'monaco', monospace, monospace;
+.code,
+.code input {
+  font-family: 'SF Mono', 'monaco', 'Segoe UI Mono', monospace, monospace;
 }
 
 /*
@@ -240,6 +237,45 @@ RIGHT COLUMN
   margin: 1em auto;
 }
 
+.right-panel header {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.right-panel header h3 {
+  width: 322.54px;
+  margin-left: 54px;
+}
+
+.right-panel header .delete-store-item {
+  visibility: hidden;
+  margin-right: 6px;
+}
+
+.right-panel .interface:hover .delete-store-item,
+.right-panel .reducer:hover .delete-store-item {
+  visibility: visible;
+}
+
+.right-panel .table-wrapper {
+  width: auto;
+  overflow-x: scroll;
+}
+
+.right-panel table {
+  min-width: 100%;
+}
+
+.right-panel td, .right-panel th {
+  padding: 0 20px;
+  white-space: nowrap;
+}
+
+.right-panel tr:only-child {
+  display: none;
+}
+
 .property {
   display: flex;
   flex-direction: row;
@@ -258,6 +294,15 @@ RIGHT COLUMN
   justify-content: space-around;
 }
 
+.right-panel button {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.right-panel button.disabled {
+  opacity: .4;
+  cursor: default;
+}
+
 .property-info li {
   display: flex;
   font-weight: bold;
@@ -269,21 +314,76 @@ RIGHT COLUMN
   width: auto;
 }
 
-.property .property-controls {
+.property-controls {
   visibility: hidden;
+}
+
+td.property-controls {
+  position: sticky;
+  right: 5px;
+  padding: 0;
+}
+
+.type-select {
+  width: 110px;
+}
+
+.confirm-delete {
+  width: 100%;
+  background: rgba(97, 97, 97, 0.8);
+  position: sticky;
+  top: 0;
+  bottom: 0;
+  border-radius: 10px 10px 0 0;
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-delete {
+  height: 200px;
+}
+
+.confirm-delete div {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.confirm-delete button {
+  font-weight: bolder;
+  border-radius: 9px;
+}
+
+.confirm-delete button:hover {
+  background: rgba(162, 162, 162, 0.2);
+}
+
+.confirm-delete button.delete {
+  background: rgba(255, 59, 48, 0.7);
+  margin-bottom: 10px;
+}
+
+.confirm-delete button.delete:hover {
+  background: rgba(195, 53, 42, 0.7);
+}
+
+tr:hover .property-controls,
+.property:hover .property-controls {
+  visibility: visible;
+}
+
+.property-controls button {
+  background: #6F6F6F;
+}
+
+.property-controls button:hover {
+  background: #454545;
 }
 
 .reducer .property:first-of-type {
   width: 346px;
   margin-right: 47px;
-}
-
-.actionItems .property:first-of-type li {
-  /* transform: rotate(-40deg); */
-}
-
-.property:hover .property-controls {
-  visibility: visible;
 }
 
 .info-title {
@@ -293,22 +393,14 @@ RIGHT COLUMN
   text-align: right;
 }
 
-/* .right-panel button {
-  color: rgba(255, 255, 255, 0.7);
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-} */
-
-/*
-.right-panel label,
-.right-panel span,
-.MuiCheckbox-root-477,
-right-panel div:before,
-.MuiInput-underline-351:before
-*/
-
 .right-panel * {
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.form-error-message {
+  color: #F26E27 !important;
+  font-weight: bolder;
+  visibility: hidden;
 }
 
 right-panel div:before,
@@ -429,6 +521,22 @@ div.rst__rowContents {
   width: auto;
 }
 
+.right-panel .new-action-item {
+  flex-flow: column nowrap;
+}
+
+.new-action-item div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+}
+
+.new-action-item button {
+  margin: 15px 0 0;
+}
+
 .right-panel .interface,
 .right-panel .reducer {
   background: #eee;
@@ -447,8 +555,8 @@ div.rst__rowContents {
   background: rgba(255, 255, 255, 0.07);
 }
 
-.newStoreItem,
-.newActionItem {
+.new-store-item,
+.new-action-item {
   flex-wrap: wrap;
 }
 

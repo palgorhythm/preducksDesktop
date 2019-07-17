@@ -1,46 +1,24 @@
-import React, { Component } from 'react';
-import { connect, useSelector } from 'react-redux';
-import { compose } from 'redux';
-import { withStyles } from '@material-ui/core/styles';
-import {
-  Button,
-  FormControl,
-  FormControlLabel,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-  Checkbox,
-} from '@material-ui/core';
+import React from 'react';
 import Interfaces from './Interfaces';
 import Reducers from './Reducers';
 
-const mapDispatchToProps = (dispatch: any) => ({});
+const RightPanel = (props: any) => {
 
-const mapStateToProps = (store: any) => ({});
-
-interface PropsInt {}
-
-class RightPanel extends Component<PropsInt> {
-  constructor(props: PropsInt) {
-    super(props);
-
-    this.state = {
-      interfaces: [],
-    };
+  const handleChange = (event: Event, setter: any, setValidation: any = '') => {
+    const target: HTMLInputElement = event.target;
+    setter((target.type === 'checkbox') ? target.checked : target.value);
+    if (setValidation !== '') {
+      const result = validateInput(target.value);
+      setValidation(result);
+    }
   }
 
-  render() {
-    return (
-      <div className="right-panel">
-        <Interfaces />
-        <Reducers />
-      </div>
-    );
-  }
-}
+  return (
+    <div className="right-panel">
+      <Interfaces />
+      <Reducers />
+    </div>
+  );
+};
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(RightPanel);
+export default RightPanel;
