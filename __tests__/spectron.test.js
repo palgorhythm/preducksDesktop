@@ -1,8 +1,8 @@
-const Application = require('spectron').Application;
-const path = require('path');
+import { Application } from 'spectron';
+import { join } from 'path';
 
-const baseDir = path.join(__dirname, '..');
-const electronPath = path.join(baseDir, 'node_modules', '.bin', 'electron');
+const baseDir = join(__dirname, '..');
+const electronPath = join(baseDir, 'node_modules', '.bin', 'electron');
 let app;
 
 describe('Application launch', () => {
@@ -36,7 +36,7 @@ describe('Application launch', () => {
   it('shows an initial window', async () => {
     await app.client.waitUntilWindowLoaded();
     const appHTML = await app.client.getHTML('#app');
-    console.log(appHTML);
+    // console.log(appHTML);
     // const appElement = await app.client.isExisting('.MuiModal-root-524');
     // console.log(appElement);
     // console.log(appElement.getCSSProperty('aria-hidden'));
