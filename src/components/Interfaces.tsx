@@ -1,16 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {
-  Button,
-  Select,
-  TextField,
-  IconButton,
-  Input,
-} from '@material-ui/core';
-import Icon from '@material-ui/core/Icon';
+import { TextField, IconButton, Icon } from '@material-ui/core';
 import * as actions from '../actions/components';
-import { InterfacesInterface } from '../utils/interfaces';
-import TypeSelect from './TypeSelect';
+import { InterfacesInterface, InputValidation } from '../utils/interfaces';
+import Interface from './Interface';
+import validateInput from '../utils/validateInput.util';
+import ErrorMessage from './ErrorMessage';
 
 const mapDispatchToProps = (dispatch: any) => ({
   setInterface: (myInterface: InterfacesInterface) => dispatch(actions.setInterface(myInterface)),
@@ -21,118 +16,87 @@ const mapStateToProps = (store: any) => ({
   interfaces: store.workspace.storeConfig.interfaces,
 });
 
-interface PropsInt {
-  setInterface?: any;
-  deleteInterface?: any;
-  interfaces?: any;
-  classes?: any;
+interface PropsInterface {
+  setInterface?: any,
+  deleteInterface?: any,
+  interfaces?: any,
+  classes?: any,
+  validateInput?: any,
 }
 
-class Interfaces extends Component<PropsInt> {
-  constructor(props: PropsInt) {
+interface StateInterface {
+  newInterfaceValidation: InputValidation,
+  newInterfaceNameInput: string,
+  isVisible: boolean,
+}
+
+class Interfaces extends Component<PropsInterface, StateInterface> {
+
+  constructor(props: PropsInterface) {
     super(props);
-    this.state = {};
+    this.state = {
+      newInterfaceValidation: { isValid: false, input: '', error: '' },
+      newInterfaceNameInput: '',
+      isVisible: false,
+    };
   }
 
-  createNewInterface = () => {
-    const newInterfaces = this.props.interfaces;
-    const newInterfaceName = document.getElementById('newInterfaceNameInput').value;
-    newInterfaces[newInterfaceName] = {};
-    this.props.setInterface({ [newInterfaceName]: {} });
-    document.getElementById('newInterfaceNameInput').value = '';
+  createInterface = () => {
+    if (this.state.newInterfaceValidation.isValid) {
+      const interfaceName = this.state.newInterfaceValidation.input;
+      this.props.setInterface({ [interfaceName]: {} });
+      this.setState({ newInterfaceNameInput: '' });
+      this.setState({ isVisible: false });
+    } else {
+      this.setState({ isVisible: true });
+    }
   };
 
-  addFieldToInterface = (interfaceName: string) => {
-    const newInterfaces = this.props.interfaces;
-    const interfaceEl = document.getElementById(interfaceName);
-    const interfaceFieldName = interfaceEl.querySelector('#interfaceFieldName').value;
-    const interfaceFieldType = interfaceEl.querySelector(`#interfaceFieldType${interfaceName}`).value;
-    newInterfaces[interfaceName][interfaceFieldName] = interfaceFieldType;
-    this.props.setInterface({ [interfaceName]: newInterfaces[interfaceName] });
-    interfaceEl.querySelector('#interfaceFieldName').value = '';
-    // this.setState({ [`interfaceFieldType${interfaceName}`]: '' });
-  };
-
-  deleteFieldFromInterface = (interfaceName: string, fieldName: string) => {
-    const newInterfaces = this.props.interfaces;
-    delete newInterfaces[interfaceName][fieldName];
-    this.props.setInterface({ [interfaceName]: newInterfaces[interfaceName] });
-  };
+  handleChange = (event: Event) => {
+    const target: HTMLInputElement = event.target;
+    const result: InputValidation = validateInput(target.value);
+    this.setState({ newInterfaceNameInput: target.value, newInterfaceValidation: result });
+  }
 
   render() {
     return (
-      <section id="interfacesOuter">
+      <section>
         <h2>Interfaces</h2>
         <div id="interfaces">
           {this.props.interfaces
-            && Object.keys(this.props.interfaces).map(elInterface => (
-              <div className="interface" id={elInterface} key={`interface${elInterface}`}>
-                <h3>{elInterface}</h3>
-                <div className="interfaceFields">
-                  {this.props.interfaces[elInterface] && Object.keys(this.props.interfaces[elInterface]).map(interfaceField => (
-                      <div className="property" id={interfaceField} key={interfaceField}>
-                        <ul className="property-info">
-                          <li>
-                            <div className="info-title">name</div><div>{interfaceField}</div>
-                          </li>
-                          <li>
-                            <div className="info-title">type</div><div>{this.props.interfaces[elInterface][interfaceField]}</div>
-                          </li>
-                        </ul>
-                        <div className="property-controls">
-                          <IconButton
-                            aria-label={`delete property "${interfaceField}"`}
-                            onClick={() => this.deleteFieldFromInterface(elInterface, interfaceField)}>
-                            <Icon>delete</Icon>
-                          </IconButton>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-                <form className="newInterfaceField">
-                  <TextField
-                    name="interfaceFieldName"
-                    id="interfaceFieldName"
-                    label="property name"
-                    onKeyPress={event => {
-                      if (event.key === 'Enter')
-                        event.preventDefault();
-                    }}
-                    />
-                  <TypeSelect
-                    selectName="interfaceFieldType"
-                    outer={elInterface}
-                    interfaces={this.props.interfaces}
-                  />
-                  <IconButton
-                    aria-label="add property"
-                    onClick={() => this.addFieldToInterface(elInterface)}>
-                    <Icon>add</Icon>
-                  </IconButton>
-                </form>
-              </div>
-            ))}
+            && Object.keys(this.props.interfaces).map(thisInterface => (
+              <Interface
+                thisInterface={thisInterface}
+                interfaces={this.props.interfaces}
+                setInterface={this.props.setInterface}
+                deleteInterface={this.props.deleteInterface}
+                key={'interface' + thisInterface} />
+          ))}
         </div>
-        <form id="newInterface">
+        <ErrorMessage validation={this.state.newInterfaceValidation} visible={this.state.isVisible} />
+        <form id="new-interface">
           <TextField
-            id="newInterfaceNameInput"
             label="new interface"
+            value={this.state.newInterfaceNameInput}
+            onChange={this.handleChange}
             onKeyPress={event => {
               if (event.key === 'Enter') {
-                this.createNewInterface();
+                this.createInterface();
                 event.preventDefault();
               }
             }}
-            />
+            required />
           <IconButton
             aria-label="create interface"
-            onClick={this.createNewInterface}>
+            onClick={this.createInterface}
+            className={(this.state.newInterfaceValidation.isValid) ? '' : 'disabled'}>
             <Icon>add</Icon>
           </IconButton>
         </form>
       </section>
     );
   }
+
 }
 
 export default

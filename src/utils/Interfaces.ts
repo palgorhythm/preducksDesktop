@@ -89,3 +89,9 @@ export interface StoreConfigInterface {
   interfaces: InterfacesInterface;
   reducers: ReducersInterface;
 }
+
+export interface InputValidation {
+  isValid: boolean,
+  input: string,
+  error?: string,
+}
