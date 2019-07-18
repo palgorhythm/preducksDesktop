@@ -25,13 +25,13 @@ import {
   deleteActionFromComponent,
   setReducer,
   deleteReducer,
-  renameReducer,
+  // renameReducer,
   setInterface,
   deleteInterface,
-  renameInterface,
+  // renameInterface,
   setState,
   deleteState,
-  renameState,
+  // renameState,
 } from '../utils/componentReducer.util';
 import cloneDeep from '../utils/cloneDeep';
 
@@ -140,20 +140,18 @@ const componentReducer = (state = initialApplicationState, action: any) => {
       return setReducer(state, action.payload);
     case types.DELETE_REDUCER:
       return deleteReducer(state, action.payload);
-    case types.EDIT_REDUCER:
-      return renameReducer(state, action.payload);
     case types.SET_INTERFACE:
       return setInterface(state, action.payload);
     case types.DELETE_INTERFACE:
       return deleteInterface(state, action.payload);
-    case types.EDIT_INTERFACE:
-      return renameInterface(state, action.payload);
+    // case RENAME_INTERFACE:
+    //   return renameInterface(state, action.payload);
     case types.SET_STATE:
       return setState(state, action.payload);
     case types.DELETE_STATE:
       return deleteState(state, action.payload);
-    case types.EDIT_STATE:
-      return renameState(state, action.payload);
+    // case RENAME_STATE:
+    //   return renameState(state, action.payload);
     default:
       return state;
   }

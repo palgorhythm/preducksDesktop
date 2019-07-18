@@ -646,25 +646,25 @@ export const deleteReducer = (state: ApplicationStateInt, payload: string) => {
   };
 };
 
-export const renameReducer = (
-  state: ApplicationStateInt,
-  payload: { oldName: string; newName: string },
-) => {
-  const storeConfig = {
-    interfaces: {
-      ...state.storeConfig.interfaces,
-    },
-    reducers: {
-      ...state.storeConfig.reducers,
-      [payload.newName]: state.storeConfig.reducers[payload.oldName],
-    },
-  };
-  delete storeConfig.reducers[payload.oldName];
-  return {
-    ...state,
-    storeConfig,
-  };
-};
+// export const renameReducer = (
+//   state: ApplicationStateInt,
+//   payload: { oldName: string; newName: string },
+// ) => {
+//   const storeConfig = {
+//     interfaces: {
+//       ...state.storeConfig.interfaces,
+//     },
+//     reducers: {
+//       ...state.storeConfig.reducers,
+//       [payload.newName]: state.storeConfig.reducers[payload.oldName],
+//     },
+//   };
+//   delete storeConfig.reducers[payload.oldName];
+//   return {
+//     ...state,
+//     storeConfig,
+//   };
+// };
 
 export const setInterface = (state: ApplicationStateInt, payload: InterfacesInterface) => {
   const storeConfig = {
@@ -698,25 +698,25 @@ export const deleteInterface = (state: ApplicationStateInt, payload: string) => 
   };
 };
 
-export const renameInterface = (
-  state: ApplicationStateInt,
-  payload: { oldName: string; newName: string },
-) => {
-  const storeConfig = {
-    interfaces: {
-      ...state.storeConfig.interfaces,
-      [payload.newName]: state.storeConfig.interfaces[payload.oldName],
-    },
-    reducers: {
-      ...state.storeConfig.reducers,
-    },
-  };
-  delete storeConfig.interfaces[payload.oldName];
-  return {
-    ...state,
-    storeConfig,
-  };
-};
+// export const renameInterface = (
+//   state: ApplicationStateInt,
+//   payload: { oldName: string; newName: string },
+// ) => {
+//   const storeConfig = {
+//     interfaces: {
+//       ...state.storeConfig.interfaces,
+//       [payload.newName]: state.storeConfig.interfaces[payload.oldName],
+//     },
+//     reducers: {
+//       ...state.storeConfig.reducers,
+//     },
+//   };
+//   delete storeConfig.interfaces[payload.oldName];
+//   return {
+//     ...state,
+//     storeConfig,
+//   };
+// };
 
 export const setState = (state: ApplicationStateInt, payload: ComponentStateInterface) => {
   const components = [...state.components];
@@ -762,30 +762,30 @@ export const deleteState = (state: ApplicationStateInt, payload: string) => {
   };
 };
 
-export const renameState = (
-  state: ApplicationStateInt,
-  payload: { oldName: string; newName: string },
-) => {
-  const components = [...state.components];
-  const index = components.findIndex(comp => comp.title === state.focusComponent.title);
-  const view = { ...components[index] };
-  const piecesOfState = {
-    ...view.componentState,
-    [payload.newName]: view.componentState[payload.oldName],
-  };
-  delete piecesOfState[payload.oldName];
-  view.componentState = piecesOfState;
-  components.splice(index, 1, view);
-  const focusComponent = { ...state.focusComponent };
-  const pieceOfState = {
-    ...focusComponent.componentState,
-    [payload.newName]: focusComponent.componentState[payload.oldName],
-  };
-  delete pieceOfState[payload.oldName];
-  focusComponent.componentState = pieceOfState;
-  return {
-    ...state,
-    components,
-    focusComponent,
-  };
-};
+// export const renameState = (
+//   state: ApplicationStateInt,
+//   payload: { oldName: string; newName: string },
+// ) => {
+//   const components = [...state.components];
+//   const index = components.findIndex(comp => comp.title === state.focusComponent.title);
+//   const view = { ...components[index] };
+//   const piecesOfState = {
+//     ...view.componentState,
+//     [payload.newName]: view.componentState[payload.oldName],
+//   };
+//   delete piecesOfState[payload.oldName];
+//   view.componentState = piecesOfState;
+//   components.splice(index, 1, view);
+//   const focusComponent = { ...state.focusComponent };
+//   const pieceOfState = {
+//     ...focusComponent.componentState,
+//     [payload.newName]: focusComponent.componentState[payload.oldName],
+//   };
+//   delete pieceOfState[payload.oldName];
+//   focusComponent.componentState = pieceOfState;
+//   return {
+//     ...state,
+//     components,
+//     focusComponent,
+//   };
+// };
