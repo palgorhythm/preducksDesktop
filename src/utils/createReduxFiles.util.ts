@@ -6,7 +6,7 @@ const fs = require('fs');
 function createInterfaces(interfaceObj) {
   let data = '';
 
-  // CREATE INTERFACES
+  // CREATE INTERFACESddddd
   Object.keys(interfaceObj).forEach((interfaceName) => {
     let curInterface = `export interface ${interfaceName} {\n`;
     Object.keys(interfaceObj[interfaceName]).forEach((property) => {
@@ -28,7 +28,7 @@ const createSharedInterfaces = (
   path: string,
   appName: string,
   storeConfig: StoreConfigInterface,
-): void => {
+): any => {
   // create reducers file path, and loop through reducers to create other reducer files
   // then build out index that combines reducers
   const filePath: string = `${path}/${appName}/src/Interfaces.ts`;
@@ -209,7 +209,8 @@ export const createReduxFiles = async (
   path: string,
   appName: string,
   storeConfig: StoreConfigInterface,
-): void => {
+): Promise<string> => {
   await createSharedInterfaces(path, appName, storeConfig);
   await createActionsAndStoresForEachReducer(path, appName, storeConfig);
+  return null;
 };

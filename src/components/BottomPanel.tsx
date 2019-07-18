@@ -19,8 +19,6 @@ interface PropsInt {
   focusChild: ChildInt;
   components: ComponentsInt;
   focusComponent: ComponentInt;
-  deleteProp: any;
-  addProp: any;
 }
 
 class BottomPanel extends Component<PropsInt> {

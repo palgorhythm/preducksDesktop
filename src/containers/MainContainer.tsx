@@ -13,20 +13,10 @@ import { ComponentInt, ComponentsInt } from '../utils/interfaces';
 import TreeDisplay from '../components/NewTreeDisplay';
 
 interface PropsInt {
-  components: ComponentsInt;
-  focusComponent: ComponentInt;
-  selectableChildren: Array<number>;
-  classes: any;
-  addComponent: any;
-  addChild: any;
-  changeFocusComponent: any;
-  changeFocusChild: any;
-  deleteComponent: any;
-  createApp: any;
-  deleteAllData: any;
-  handleTransformation: any;
-  focusChild: any;
-  changeComponentFocusChild: any;
+  components?: ComponentsInt;
+  focusComponent?: ComponentInt;
+  classes?: any;
+  focusChild?: any;
 }
 
 interface StateInt {
@@ -38,8 +28,6 @@ interface StateInt {
   y: number;
   modal: any;
 }
-
-const IPC = require('electron').ipcRenderer;
 
 const mapDispatchToProps = (dispatch: any) => ({
   handleTransformation: (
@@ -58,13 +46,13 @@ const mapDispatchToProps = (dispatch: any) => ({
   ),
   // openPanel: component => dispatch(openExpansionPanel(component)),
   changeFocusChild: ({ childId }: { childId: number }) => dispatch(changeFocusChild({ childId })),
-  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) => dispatch(changeComponentFocusChild({ componentId, childId })),// if u send no prms, function will delete focus child.
+  changeComponentFocusChild: ({ componentId, childId }: { componentId: number; childId: number }) => dispatch(changeComponentFocusChild({ componentId, childId })), // if u send no prms, function will delete focus child.
 });
 
 const mapStateToProps = (store: any) => ({
   focusComponent: store.workspace.focusComponent,
   focusChild: store.workspace.focusChild,
-  stateComponents: store.workspace.components,
+  components: store.workspace.components,
 });
 
 class MainContainer extends Component<PropsInt, StateInt> {
@@ -79,19 +67,11 @@ class MainContainer extends Component<PropsInt, StateInt> {
   };
 
   render() {
+    const { modal } = this.state;
     const {
-      draggable, scaleX, scaleY, modal, toggleClass,
-    } = this.state;
-    const {
-      components,
-      handleTransformation,
-      focusComponent,
-      focusChild,
-      changeFocusChild,
-      changeComponentFocusChild,
-      classes,
+      components, focusComponent, focusChild, classes,
     } = this.props;
-    const { main }: { main: HTMLDivElement } = this;
+    const { main }: any = this;
 
     return (
       <MuiThemeProvider theme={theme}>
@@ -103,8 +83,7 @@ class MainContainer extends Component<PropsInt, StateInt> {
                 focusChild={focusChild}
                 components={components}
                 focusComponent={focusComponent}
-                classes={classes}>
-              </TreeDisplay>
+                classes={classes}></TreeDisplay>
             </div>
             <RightPanel />
           </div>

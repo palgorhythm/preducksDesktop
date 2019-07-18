@@ -17,11 +17,11 @@ const mapStateToProps = (store: any) => ({
 });
 
 interface PropsInterface {
-  setInterface: any,
-  deleteInterface: any,
-  interfaces: any,
-  classes: any,
-  validateInput: any,
+  setInterface?: any,
+  deleteInterface?: any,
+  interfaces?: any,
+  classes?: any,
+  validateInput?: any,
 }
 
 interface StateInterface {

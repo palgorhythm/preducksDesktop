@@ -6,20 +6,12 @@ export interface PropInt {
   type: string;
 }
 
-export interface PositionInt {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
-}
-
 export interface ChildInt {
   childId: number;
   childSort: number;
   childType: string;
   childComponentId: number;
   componentName: string;
-  position: PositionInt;
   color: string | null; // maybe optional instead, look up null vs undefined
   htmlElement: string | null; // maybe should be optional instead
   HTMLInfo: { [index: string]: string }; // replace with HTMLinfo specifics
@@ -41,7 +33,6 @@ export interface ComponentInt {
   color: string;
   props: PropInt[];
   nextPropId: number;
-  position: PositionInt;
   childrenArray: ChildInt[];
   nextChildId: number;
   focusChildId: number;
@@ -60,7 +51,7 @@ export interface ApplicationStateInt {
   selectableChildren: number[];
   ancestors: number[];
   initialApplicationFocusChild: ChildInt;
-  focusChild: ChildInt;
+  focusChild: ChildInt | ChildInt[] | { [key: string]: ChildInt };
   components: ComponentsInt;
   appDir: string;
   loading: boolean;

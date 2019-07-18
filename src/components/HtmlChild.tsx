@@ -7,14 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { deleteChild, changeFocusChild } from '../actions/components';
-import { StoreInterface, StoreConfigInterface, ChildInt } from '../utils/Interfaces';
+import { StoreInterface } from '../utils/Interfaces';
 
 const HtmlChild: React.FC = (props: any): JSX.Element => {
-  const {
-    classes, focusComponentID, components, childId,
-  } = props;
+  const { classes, childId } = props;
   const dispatch = useDispatch();
-  const focusChildId = useSelector(store => store.workspace.focusChild).childId;
+  const focusChildId = useSelector((store: StoreInterface) => store.workspace.focusChild).childId;
   const deleteButton = (
     <Fragment>
       {/* shows the delete button */}
@@ -38,7 +36,6 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
   );
   const compStyle = childId === focusChildId
     ? {
-      textAlign: 'center',
       borderRadius: '10px',
       border: '1px solid white',
       color: 'black',
@@ -47,7 +44,6 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
       width: '80px',
     }
     : {
-      textAlign: 'center',
       borderRadius: '10px',
       border: '1px solid white',
       color: '#FFFFFF',
@@ -56,59 +52,57 @@ const HtmlChild: React.FC = (props: any): JSX.Element => {
 
   return (
     <ListItem button onClick={() => dispatch(changeFocusChild({ childId }))}>
-      <ListItemText
-        disableTypography
-        className={classes.light}
-        primary={
-          <Typography type="body3" style={compStyle}>
-            {props.componentName.toLowerCase()}
-          </Typography>
-        }
-      />
+      <div style={compStyle}>
+        <ListItemText
+          disableTypography
+          className={classes.light}
+          primary={<Typography>{props.componentName.toLowerCase()}</Typography>}
+        />
+      </div>
       {deleteButton}
     </ListItem>
   );
 };
 
-const styles = theme => ({
-  root: {
-    display: 'flex',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  chip: {
-    color: 'white',
-    backgroundColor: 'white',
-  },
-  column: {
-    display: 'inline-flex',
-    alignItems: 'baseline',
-  },
-  icon: {
-    fontSize: '20px',
-    color: 'white',
-    opacity: '0.7',
-    transition: 'all .2s ease',
+// const styles = theme => ({
+//   root: {
+//     display: 'flex',
+//     justifyContent: 'center',
+//     flexWrap: 'wrap',
+//   },
+//   chip: {
+//     color: 'white',
+//     backgroundColor: 'white',
+//   },
+//   column: {
+//     display: 'inline-flex',
+//     alignItems: 'baseline',
+//   },
+//   icon: {
+//     fontSize: '20px',
+//     color: 'white',
+//     opacity: '0.7',
+//     transition: 'all .2s ease',
 
-    '&:hover': {
-      color: 'red',
-    },
-  },
-  cssLabel: {
-    color: 'white',
+//     '&:hover': {
+//       color: 'red',
+//     },
+//   },
+//   cssLabel: {
+//     color: 'white',
 
-    '&$cssFocused': {
-      color: 'green',
-    },
-  },
-  cssFocused: {},
-  light: {
-    color: '#eee',
-  },
-  avatar: {
-    color: '#eee',
-    fontSize: '10px',
-  },
-});
+//     '&$cssFocused': {
+//       color: 'green',
+//     },
+//   },
+//   cssFocused: {},
+//   light: {
+//     color: '#eee',
+//   },
+//   avatar: {
+//     color: '#eee',
+//     fontSize: '10px',
+//   },
+// });
 
-export default withStyles(styles)(HtmlChild);
+export default withStyles({})(HtmlChild);

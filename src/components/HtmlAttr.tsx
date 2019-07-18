@@ -10,12 +10,12 @@ import { HTMLelements } from '../utils/htmlElements.util';
 import { ComponentInt, ChildInt } from '../utils/interfaces';
 
 interface PropsInt {
-  updateHtmlAttr: any;
-  focusComponent: ComponentInt;
-  classes: any;
-  deleteProp: any;
-  addProp: any;
-  focusChild: ChildInt;
+  updateHtmlAttr?: any;
+  focusComponent?: ComponentInt;
+  classes?: any;
+  deleteProp?: any;
+  addProp?: any;
+  focusChild?: ChildInt;
 }
 
 interface StateInt {}
