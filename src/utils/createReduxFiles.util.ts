@@ -33,11 +33,21 @@ const createSharedInterfaces = (
   // then build out index that combines reducers
   const filePath: string = `${path}/${appName}/src/Interfaces.ts`;
   const data = createInterfaces(storeConfig.interfaces);
-  fs.writeFileSync(
+  fs.writeFile(
     filePath,
-    format(data, {
-      parser: 'typescript',
-    }),
+    format(
+      data,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('interfaces written successfully');
+        }
+      },
+    ),
   );
 };
 
@@ -104,11 +114,21 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   const typeGuardText = `export type ${reducerName}ActionInterfaceUnion = ${actionInterfaceNames.join(
     '|',
   )};\n\n`;
-  fs.writeFileSync(
+  fs.writeFile(
     actionTypesFile,
-    format(interfacesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText, {
-      parser: 'typescript',
-    }),
+    format(
+      interfacesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('action types written successfully');
+        }
+      },
+    ),
   );
 
   // ///// ACTIONS STUFF /////////////////////////////
@@ -118,11 +138,21 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   const actionsImportText = `import {Dispatch} from 'redux';
   import {${reducerName}ActionTypes, ${actionInterfaceNames.join(',')}} 
   from './${reducerName}ActionTypes'\n`;
-  fs.writeFileSync(
+  fs.writeFile(
     actionsFile,
-    format(actionsImportText + interfacesImportText + actionCreatorsText, {
-      parser: 'typescript',
-    }),
+    format(
+      actionsImportText + interfacesImportText + actionCreatorsText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('actions written successfully');
+        }
+      },
+    ),
   );
 }
 
@@ -163,11 +193,21 @@ function createReducerFiles(path, appName, storeConfig, reducerName) {
     }
   };`;
 
-  fs.writeFileSync(
+  fs.writeFile(
     reducerFile,
-    format(importText + storeSliceInterfaceText + initialStateText + reducerText, {
-      parser: 'typescript',
-    }),
+    format(
+      importText + storeSliceInterfaceText + initialStateText + reducerText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('reducer files written successfully');
+        }
+      },
+    ),
   );
 }
 
@@ -195,11 +235,21 @@ const createActionsAndStoresForEachReducer = (
   storeInterfaceText += '}\n\n';
   combineReducersText += '});\n';
 
-  fs.writeFileSync(
+  fs.writeFile(
     rootReducerFile,
-    format(rootReducerImportsText + storeInterfaceText + combineReducersText, {
-      parser: 'typescript',
-    }),
+    format(
+      rootReducerImportsText + storeInterfaceText + combineReducersText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('root reducer file written successfully');
+        }
+      },
+    ),
   );
 };
 
@@ -210,7 +260,7 @@ export const createReduxFiles = async (
   appName: string,
   storeConfig: StoreConfigInterface,
 ): Promise<string> => {
-  await createSharedInterfaces(path, appName, storeConfig);
-  await createActionsAndStoresForEachReducer(path, appName, storeConfig);
+  createSharedInterfaces(path, appName, storeConfig);
+  createActionsAndStoresForEachReducer(path, appName, storeConfig);
   return null;
 };

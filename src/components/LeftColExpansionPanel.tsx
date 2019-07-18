@@ -16,7 +16,7 @@ import Collapse from '@material-ui/core/Collapse';
 import HtmlChild from './HtmlChild';
 // import { ComponentInt, ComponentsInt, ChildInt } from '../utils/interfaces';
 
-const LeftColExpansionPanel = (props: any) => {
+export const LeftColExpansionPanel = (props: any) => {
   const {
     classes,
     focusComponent,
