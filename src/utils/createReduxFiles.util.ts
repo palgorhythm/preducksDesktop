@@ -1,4 +1,6 @@
 import { format } from 'prettier';
+import { number } from 'prop-types';
+import { createCipher } from 'crypto';
 import { StoreConfigInterface } from './Interfaces';
 
 const fs = require('fs');
@@ -32,12 +34,41 @@ const createSharedInterfaces = (
   // create reducers file path, and loop through reducers to create other reducer files
   // then build out index that combines reducers
   const filePath: string = `${path}/${appName}/src/Interfaces.ts`;
-  const data = createInterfaces(storeConfig.interfaces);
+  const interfaceObj = storeConfig.interfaces;
+  const interfaceObjKeys = Object.keys(interfaceObj);
+  if (interfaceObjKeys.length === 0) return;
+
+  let data = '';
+  // CREATE INTERFACES
+  interfaceObjKeys.forEach((interfaceName) => {
+    let curInterface = `export interface ${interfaceName} {\n`;
+    Object.keys(interfaceObj[interfaceName]).forEach((property) => {
+      // loop thru all properties of the current interface
+      const curType = interfaceObj[interfaceName][property];
+      curInterface += `${property}: ${curType};\n`;
+      // because curType needs to be flexible (can be an interface that was previously defined)
+      // we need to add this UI to the frontend so that each interface that is created is now
+      // an available type that can be applied when building subsequent interfaces.
+    });
+    curInterface += '}\n\n';
+    data += curInterface;
+  });
+
   fs.writeFileSync(
     filePath,
-    format(data, {
-      parser: 'typescript',
-    }),
+    format(
+      data,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('interfaces written successfully');
+        }
+      },
+    ),
   );
 };
 
@@ -50,6 +81,7 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   let actionInterfacesText = '';
   let actionCreatorsText = '';
   const actionInterfaceNames = [];
+  if (actions.length === 0) return;
   actions.forEach((actionName, i) => {
     // loop through all actions and generate all text in actionTypes
     // and actions that depends on it.
@@ -96,9 +128,10 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   });
 
   // import all shared interfaces
-  const interfacesImportText = `import {${Object.keys(
-    storeConfig.interfaces,
-  ).toString()}} from '../Interfaces';\n\n`;
+  const interfaceNameArray = Object.keys(storeConfig.interfaces);
+  const interfacesImportText = interfaceNameArray.length
+    ? `import {${interfaceNameArray.toString()}} from '../Interfaces';\n\n`
+    : '';
   // exoirt an enum with all actions
   const actionTypesEnumText = `export enum ${reducerName}ActionTypes{${actions.toString()}};\n\n`;
   const typeGuardText = `export type ${reducerName}ActionInterfaceUnion = ${actionInterfaceNames.join(
@@ -106,9 +139,19 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   )};\n\n`;
   fs.writeFileSync(
     actionTypesFile,
-    format(interfacesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText, {
-      parser: 'typescript',
-    }),
+    format(
+      interfacesImportText + actionInterfacesText + actionTypesEnumText + typeGuardText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('action types written successfully');
+        }
+      },
+    ),
   );
 
   // ///// ACTIONS STUFF /////////////////////////////
@@ -120,28 +163,51 @@ function createActionFiles(path, appName, storeConfig, reducerName) {
   from './${reducerName}ActionTypes'\n`;
   fs.writeFileSync(
     actionsFile,
-    format(actionsImportText + interfacesImportText + actionCreatorsText, {
-      parser: 'typescript',
-    }),
+    format(
+      actionsImportText + interfacesImportText + actionCreatorsText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('actions written successfully');
+        }
+      },
+    ),
   );
 }
 
 function createReducerFiles(path, appName, storeConfig, reducerName) {
   const reducerFile: string = `${path}/${appName}/src/reducers/${reducerName}Reducer.ts`;
   const currentReducerStoreSlice = storeConfig.reducers[reducerName].store;
-  let importText = `import {${reducerName}ActionInterfaceUnion, ${reducerName}ActionTypes} from '../actions/${reducerName}ActionTypes'\n`;
-  importText += `import {${Object.keys(
-    storeConfig.interfaces,
-  ).toString()}} from '../Interfaces';\n\n`;
+  const currentReducerStoreSliceKeys = Object.keys(currentReducerStoreSlice);
+  const numberOfActions = Object.keys(storeConfig.reducers[reducerName].actions).length;
+  let importText = numberOfActions
+    ? `import {${reducerName}ActionInterfaceUnion, ${reducerName}ActionTypes} from '../actions/${reducerName}ActionTypes'\n`
+    : '';
+  const interfaceNameArray = Object.keys(storeConfig.interfaces);
+  importText += interfaceNameArray.length
+    ? `import {${interfaceNameArray.toString()}} from '../Interfaces';\n\n`
+    : '';
 
   let storeSliceInterfaceText = `export interface ${reducerName}StoreSliceInterface {`;
   const initialState = {};
-  Object.keys(currentReducerStoreSlice).forEach((storeSlicePropertyName) => {
+  currentReducerStoreSliceKeys.forEach((storeSlicePropertyName) => {
     // build out interfaces for this reducer's store slices first!
     const storeSlicePropObj = currentReducerStoreSlice[storeSlicePropertyName];
     const bracketsIfPropIsAnArray = storeSlicePropObj.array ? '[]' : '';
     storeSliceInterfaceText += `${storeSlicePropertyName}: ${storeSlicePropObj.type}${bracketsIfPropIsAnArray};\n`;
-    initialState[storeSlicePropertyName] = storeSlicePropObj.initialValue;
+    try {
+      const replacedStr = storeSlicePropObj.initialValue
+        .replace(/(\w+) ?(:)/g, (wholeMatch, groupOne, groupTwo) => `"${groupOne}"${groupTwo}`)
+        .replace(/'/g, '"');
+      console.log('wizardry', replacedStr);
+      initialState[storeSlicePropertyName] = JSON.parse(replacedStr);
+    } catch (e) {
+      initialState[storeSlicePropertyName] = storeSlicePropObj.initialValue;
+    }
   });
   storeSliceInterfaceText += '};\n\n';
   const initialStateText = `const initialState: ${reducerName}StoreSliceInterface = ${JSON.stringify(
@@ -149,7 +215,9 @@ function createReducerFiles(path, appName, storeConfig, reducerName) {
   )}\n\n`;
 
   let reducerText = `export const ${reducerName}Reducer = 
-  (state: ${reducerName}StoreSliceInterface = initialState, action: ${reducerName}ActionInterfaceUnion) => {
+  (state: ${reducerName}StoreSliceInterface = initialState, action: ${
+  numberOfActions ? `${reducerName}ActionInterfaceUnion` : 'any'
+}) => {
     switch(action.type){\n`;
 
   Object.keys(storeConfig.reducers[reducerName].actions).forEach((actionTypeName) => {
@@ -165,9 +233,19 @@ function createReducerFiles(path, appName, storeConfig, reducerName) {
 
   fs.writeFileSync(
     reducerFile,
-    format(importText + storeSliceInterfaceText + initialStateText + reducerText, {
-      parser: 'typescript',
-    }),
+    format(
+      importText + storeSliceInterfaceText + initialStateText + reducerText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('reducer files written successfully');
+        }
+      },
+    ),
   );
 }
 
@@ -183,6 +261,7 @@ const createActionsAndStoresForEachReducer = (
   let combineReducersText = 'export const reducers = combineReducers<StoreInterface>({\n';
 
   const reducerNamesArray = Object.keys(storeConfig.reducers);
+  if (reducerNamesArray.length === 0) return;
   reducerNamesArray.forEach((reducerName) => {
     rootReducerImportsText += `import {${reducerName}Reducer, ${reducerName}StoreSliceInterface } from './${reducerName}Reducer';\n`;
     storeInterfaceText += `${reducerName}: ${reducerName}StoreSliceInterface;\n`;
@@ -197,9 +276,19 @@ const createActionsAndStoresForEachReducer = (
 
   fs.writeFileSync(
     rootReducerFile,
-    format(rootReducerImportsText + storeInterfaceText + combineReducersText, {
-      parser: 'typescript',
-    }),
+    format(
+      rootReducerImportsText + storeInterfaceText + combineReducersText,
+      {
+        parser: 'typescript',
+      },
+      (err) => {
+        if (err) {
+          throw new Error(err.message);
+        } else {
+          console.log('root reducer file written successfully');
+        }
+      },
+    ),
   );
 };
 
@@ -210,7 +299,7 @@ export const createReduxFiles = async (
   appName: string,
   storeConfig: StoreConfigInterface,
 ): Promise<string> => {
-  await createSharedInterfaces(path, appName, storeConfig);
-  await createActionsAndStoresForEachReducer(path, appName, storeConfig);
+  createSharedInterfaces(path, appName, storeConfig);
+  createActionsAndStoresForEachReducer(path, appName, storeConfig);
   return null;
 };

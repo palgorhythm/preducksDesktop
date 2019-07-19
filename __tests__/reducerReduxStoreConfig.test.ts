@@ -1,6 +1,7 @@
 import componentReducer from '../src/reducers/componentReducer';
 import { initialAppStateMock, initialAppStateMock2 } from '../__mocks__/appStateMocks';
 import * as types from '../src/actionTypes';
+import { renameReducer } from '../src/utils/componentReducer.util';
 import {ReducersInterface, InterfacesInterface, ComponentStateInterface} from '../src/utils/Interfaces';
 
 // REDUX STORE CONFIG STUFF

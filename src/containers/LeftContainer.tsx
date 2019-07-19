@@ -126,7 +126,7 @@ export class LeftContainer extends Component<PropsInt, StateInt> {
     IPC.on('app_dir_selected', (event: any, path: string) => {
       const { components, storeConfig } = this.props;
       const { genOption } = this.state;
-      const appName = 'dope_exported_preducks_app';
+      const appName = 'exported_preducks_app';
       const exportAppBool = true;
       this.props.createApp({
         path,

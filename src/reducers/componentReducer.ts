@@ -1,42 +1,6 @@
 import { ComponentInt, ChildInt, ApplicationStateInt } from '../utils/interfaces';
 
-import {
-  LOAD_INIT_DATA,
-  ADD_COMPONENT,
-  ADD_CHILD,
-  DELETE_CHILD,
-  DELETE_COMPONENT,
-  CHANGE_FOCUS_COMPONENT,
-  CHANGE_FOCUS_CHILD,
-  CHANGE_COMPONENT_FOCUS_CHILD,
-  EXPORT_FILES,
-  CREATE_APPLICATION,
-  EXPORT_FILES_SUCCESS,
-  EXPORT_FILES_ERROR,
-  CREATE_APPLICATION_ERROR,
-  HANDLE_CLOSE,
-  HANDLE_TRANSFORM,
-  OPEN_EXPANSION_PANEL,
-  DELETE_ALL_DATA,
-  CHANGE_IMAGE_PATH,
-  ADD_PROP,
-  DELETE_PROP,
-  UPDATE_HTML_ATTR,
-  UPDATE_CHILDREN_SORT,
-  ADD_SELECTOR,
-  DELETE_SELECTOR,
-  ADD_ACTION_TO_COMPONENT,
-  DELETE_ACTION_FROM_COMPONENT,
-  SET_REDUCER,
-  DELETE_REDUCER,
-  // RENAME_REDUCER,
-  SET_INTERFACE,
-  DELETE_INTERFACE,
-  // RENAME_INTERFACE,
-  SET_STATE,
-  DELETE_STATE,
-  // RENAME_STATE,
-} from '../actionTypes';
+import * as types from '../actionTypes';
 
 import {
   addComponent,
@@ -114,8 +78,9 @@ const initialApplicationState: ApplicationStateInt = {
 };
 
 const componentReducer = (state = initialApplicationState, action: any) => {
+  // console.log(action.type);
   switch (action.type) {
-    case LOAD_INIT_DATA:
+    case types.LOAD_INIT_DATA:
       // return { ...state };
       return {
         ...state,
@@ -125,67 +90,65 @@ const componentReducer = (state = initialApplicationState, action: any) => {
         successOpen: false,
         errorOpen: false,
       };
-    case ADD_COMPONENT:
+    case types.ADD_COMPONENT:
       return addComponent(state, action.payload);
-    case ADD_CHILD:
+    case types.ADD_CHILD:
       return addChild(state, action.payload);
-    case DELETE_CHILD:
+    case types.DELETE_CHILD:
       return deleteChild(state, action.payload);
-    case DELETE_COMPONENT:
+    case types.DELETE_COMPONENT:
       return deleteComponent(state, action.payload);
-    case CHANGE_FOCUS_COMPONENT:
+    case types.CHANGE_FOCUS_COMPONENT:
       return changeFocusComponent(state, action.payload);
-    case CHANGE_FOCUS_CHILD:
+    case types.CHANGE_FOCUS_CHILD:
       return changeFocusChild(state, action.payload);
-    case CHANGE_COMPONENT_FOCUS_CHILD:
+    case types.CHANGE_COMPONENT_FOCUS_CHILD:
       return changeComponentFocusChild(state, action.payload);
-    case CREATE_APPLICATION:
-    case EXPORT_FILES:
+    case types.CREATE_APPLICATION:
+    case types.EXPORT_FILES:
       return { ...state, loading: true };
-    case EXPORT_FILES_SUCCESS:
+    case types.EXPORT_FILES_SUCCESS:
       return exportFilesSuccess(state, action.payload);
-    case CREATE_APPLICATION_ERROR:
-    case EXPORT_FILES_ERROR:
+    case types.CREATE_APPLICATION_ERROR:
+    case types.EXPORT_FILES_ERROR:
       return exportFilesError(state, action.payload);
-    case HANDLE_CLOSE:
+    case types.HANDLE_CLOSE:
       return handleClose(state, action.payload);
-    case HANDLE_TRANSFORM:
+    case types.HANDLE_TRANSFORM:
       return handleTransform(state, action.payload);
-    case OPEN_EXPANSION_PANEL:
+    case types.OPEN_EXPANSION_PANEL:
       return openExpansionPanel(state, action.payload);
-    case DELETE_ALL_DATA:
+    case types.DELETE_ALL_DATA:
       return initialApplicationState;
-    case ADD_PROP:
+    case types.ADD_PROP:
       return addProp(state, action.payload);
-    case DELETE_PROP:
+    case types.DELETE_PROP:
       return deleteProp(state, action.payload);
-    case UPDATE_HTML_ATTR:
+    case types.UPDATE_HTML_ATTR:
       return updateHtmlAttr(state, action.payload);
-    case UPDATE_CHILDREN_SORT:
+    case types.UPDATE_CHILDREN_SORT:
       return updateChildrenSort(state, action.payload);
-    case ADD_SELECTOR:
+    case types.ADD_SELECTOR:
       return addSelector(state, action.payload);
-    case DELETE_SELECTOR:
+    case types.DELETE_SELECTOR:
       return deleteSelector(state, action.payload);
-    case ADD_ACTION_TO_COMPONENT:
+    case types.ADD_ACTION_TO_COMPONENT:
       return addActionToComponent(state, action.payload);
-    case DELETE_ACTION_FROM_COMPONENT:
+    case types.DELETE_ACTION_FROM_COMPONENT:
       return deleteActionFromComponent(state, action.payload);
-    case SET_REDUCER:
+    case types.SET_REDUCER:
       return setReducer(state, action.payload);
-    case DELETE_REDUCER:
+    case types.DELETE_REDUCER:
       return deleteReducer(state, action.payload);
-    // case RENAME_REDUCER:
-    //   return renameReducer(state, action.payload);
-    case SET_INTERFACE:
+    case types.SET_INTERFACE:
       return setInterface(state, action.payload);
-    case DELETE_INTERFACE:
+    case types.DELETE_INTERFACE:
       return deleteInterface(state, action.payload);
     // case RENAME_INTERFACE:
     //   return renameInterface(state, action.payload);
-    case SET_STATE:
+    case types.SET_STATE:
       return setState(state, action.payload);
-    case DELETE_STATE:
+    case types.DELETE_STATE:
       return deleteState(state, action.payload);
     // case RENAME_STATE:
     //   return renameState(state, action.payload);
