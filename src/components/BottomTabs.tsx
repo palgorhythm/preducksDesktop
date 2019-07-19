@@ -130,7 +130,7 @@ class BottomTabs extends Component<PropsInt> {
           <Tab
             disableRipple
             classes={{ root: classes.tabRoot, selected: classes.tabSelected }}
-            label={`component state & actions ${propCount ? `(${propCount})` : ''} `}
+            label={`local state & redux connection ${propCount ? `(${propCount})` : ''} `}
           />
           <Tab
             disableRipple
