@@ -60,14 +60,19 @@ const createWindow = () => {
   // eslint-disable-next-line
   const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width,
-    height,
+    width: width - 600,
+    height: height - 300,
+    minWidth: 790,
+    minHeight: 420,
     webPreferences: {
       zoomFactor: 0.7,
       nodeIntegration: true,
       webSecurity: true,
+      scrollBounce: true,
     },
     show: false,
+    backgroundColor: '#333',
+    titleBarStyle: 'hidden',
     icon: path.join(__dirname, '/src/public/icons/mac/icon.icns'),
     win: {
       icon: path.join(__dirname, '/src/public/icons/win/icon.ico'),
