@@ -91,7 +91,7 @@ export interface StoreConfigInterface {
 }
 
 export interface InputValidation {
-  isValid: boolean,
-  input: string,
-  error?: string,
+  isValid: boolean;
+  input: string;
+  error?: string;
 }

@@ -1,6 +1,7 @@
+import { format } from 'prettier';
 import { createReduxFiles } from './createReduxFiles.util';
-import { StoreConfigInterface, ReducersInterface } from './Interfaces';
-import {format} from 'prettier';
+import { StoreConfigInterface, ReducersInterface } from './InterfaceDefinitions';
+
 const fs = require('fs');
 
 function createFolders(path, appName, hasRedux) {
