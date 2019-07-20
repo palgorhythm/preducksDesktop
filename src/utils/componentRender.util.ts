@@ -8,6 +8,7 @@ import {
 } from './Interfaces';
 import cloneDeep from './cloneDeep';
 import store from '../store';
+import preducksDefaultDisplay from './preducksDefaultDisplay';
 
 // testing stuff
 // import { format } from 'prettier'; // also for testing
@@ -203,14 +204,15 @@ const componentRender = (component: ComponentInt, components: ComponentsInt) => 
   //   ${props.map(prop => `${prop.key}: ${typeSwitcher(prop.type)}`).join('\n')}
   // }\n\n`;
 
-  const childrenToRender = `<div>
-    ${cloneDeep(childrenArray)
+  const childrenToRender = `<div id='${title}'>
+    ${cloneDeep<any>(childrenArray)
     .sort((a: ChildInt, b: ChildInt) => a.childSort - b.childSort)
     .map(
       (child: ChildInt) => `<${componentNameGenerator(child)} ${propDrillTextGenerator(child)}/>`,
     )
-    .join('\n')}
-    </div>`;
+    .join('\n')}`
+    + `${title === 'App' ? preducksDefaultDisplay : ''}`
+    + '</div>';
 
   const useStateCalls = componentState.length
     ? componentState

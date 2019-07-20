@@ -1,6 +1,6 @@
 import { createReduxFiles } from './createReduxFiles.util';
 import { StoreConfigInterface, ReducersInterface } from './Interfaces';
-
+import {format} from 'prettier';
 const fs = require('fs');
 
 function createFolders(path, appName, hasRedux) {
@@ -70,25 +70,36 @@ export const createIndexTsx = (
 
   let reduxAndOrRemainingText;
   if (hasRedux) {
-    reduxAndOrRemainingText = `
-    import { reducers } from './reducers';${hasAsync}`
-      ? `import { createStore, applyMiddleware } from 'redux';
-    import { Provider } from 'react-redux';
-    import thunk from 'redux-thunk';
-    const store = createStore(reducers, applyMiddleware(thunk));`
-      : `import { createStore } from 'redux';
-    const store = createStore(reducers);`
-        + "ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));";
+    if (hasAsync) {
+      reduxAndOrRemainingText = `import { reducers } from './reducers';
+        import { createStore, applyMiddleware } from 'redux';
+        import { Provider } from 'react-redux';
+        import thunk from 'redux-thunk';\n
+        const store = createStore(reducers, applyMiddleware(thunk));\n
+        ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));`;
+    } else {
+      reduxAndOrRemainingText = `import { reducers } from './reducers';
+        import { createStore} from 'redux';
+        import { Provider } from 'react-redux';\n
+        const store = createStore(reducers);\n
+        ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));`;
+    }
   } else {
     reduxAndOrRemainingText = "ReactDOM.render(<App />, document.getElementById('root'));";
   }
-  fs.writeFile(filePath, reactText + reduxAndOrRemainingText, (err) => {
-    if (err) {
-      console.log('index.tsx error:', err.message);
-    } else {
-      console.log('index.tsx written successfully');
-    }
-  });
+  fs.writeFile(
+    filePath,
+    format(reactText + reduxAndOrRemainingText, {
+      parser: 'typescript',
+    }),
+    (err) => {
+      if (err) {
+        console.log('index.tsx error:', err.message);
+      } else {
+        console.log('index.tsx written successfully');
+      }
+    },
+  );
 };
 
 const createPackage = (path: string, appName: string, hasRedux: boolean, hasAsync: boolean) => {
@@ -100,9 +111,10 @@ const createPackage = (path: string, appName: string, hasRedux: boolean, hasAsyn
       "description": "",
       "main": "index.js",
       "scripts": {
+        "begin": "npm i && cross-env NODE_ENV=development webpack-dev-server",
         "start": "node server/server.js",
         "build": "cross-env NODE_ENV=production webpack",
-        "dev": "cross-env NODE_ENV=development webpack-dev-server"
+        "dev": "cross-env NODE_ENV=development webpack-dev-server --open"
       },
       "nodemonConfig": {
         "ignore": [
