@@ -60,8 +60,8 @@ const createWindow = () => {
   // eslint-disable-next-line
   const { width, height } = require('electron').screen.getPrimaryDisplay().size;
   mainWindow = new BrowserWindow({
-    width: width - 600,
-    height: height - 300,
+    width,
+    height,
     minWidth: 790,
     minHeight: 420,
     webPreferences: {
