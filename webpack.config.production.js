@@ -15,6 +15,9 @@ module.exports = {
     app: ['babel-polyfill', './index.js'],
     vendor: ['@material-ui/core'],
   },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx'],
+  },
   output: {
     filename: 'js/bundle.js',
     path: BUILD_DIR,
@@ -22,6 +25,7 @@ module.exports = {
   module: {
     rules: [
       { test: /\.ts?$/, exclude: /node-modules/, loader: 'babel-loader' },
+      { test: /\.tsx?$/, exclude: /node-modules/, loader: 'babel-loader' },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
